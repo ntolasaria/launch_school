@@ -1,4 +1,4 @@
-#README 
+# README 
 
 ## Launch School - Core Curriculum
 
