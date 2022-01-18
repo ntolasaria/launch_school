@@ -7,7 +7,6 @@ def fibonacci_last(n)
     idx += 1
   end
   num2 % 10
-
 end
 
 
