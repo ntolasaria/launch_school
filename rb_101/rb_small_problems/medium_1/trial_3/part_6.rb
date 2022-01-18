@@ -16,7 +16,6 @@ def minilang(cmd_line)
     else               register = cmd.to_i
     end
   end
-    
 end
 
 
