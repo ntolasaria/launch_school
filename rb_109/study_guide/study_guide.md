@@ -248,7 +248,7 @@ The above code doesn't generate a `ZeroDivisionError` because `||` didn't evalua
 **In Ruby everything is considered "truthy" except for `false` and `nil`.**
 
 
-7. method definition and method invocation
+7. **method definition and method invocation**
 
 - Often there is a piece of code that needs to e executed many times in a program. Instead of writing that piece of code over and over, the piece of code can be extracted to one place. In Ruby, it is called a method. 
 - First we use it, a method must be defined with the reserved word `def`, after which we give the method name. At the end of the method definition, the word `end` must be used to denote its completion. Example :
@@ -290,9 +290,38 @@ end
 - The term method invocation is also used to refer to calling a method.
 
 
-8. implicit return value of method invocations and blocks
+8. **implicit return value of method invocations and blocks**
+
+Some observations - 
+- `break` returns `nil` when executed. Example :
+
+```ruby
+loop do 
+  p "something"
+  break
+end
+
+```
+
+The above code returns outputs `"something"` and returns `nil`, because the last line is executed is `break` which returns `nil`.
+
+- In a method if the `if` statement is not truthy for all the conditions therein, it returns `nil`, else the return value of the method is the return value of the last line of the branch of `if` statement that is truthy and is executed. Example :
+
+```ruby
+def some_method(val)
+  if val
+    p "executed"
+  end
+end
+
+some_method(false)
+
+```
+The above code returns `nil` and outputs nothing. Since the `if` statement evaluates to false and is not executed it returns `nil` and hence the method returns `nil`. 
+
+- method returns the return value of the last statement executed if there is not explicit `return`. In case the keyword `return` is used, the method returns the expression following `return`, the lines after that are ignored.
   
-9.  how the Array#sort method works
+1.  how the Array#sort method works
 
 **Lesson 5 - Part 2. Sorting**
 
