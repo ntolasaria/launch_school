@@ -5,6 +5,7 @@ Assessment RB109 will test your knowledge of courses LS100 and RB101, which has 
 ## Specific Topics of Interest
 
 You should be able to clearly explain the following topics:
+
 1. **local variable scope, especially how local variables interact with method invocations with blocks and method definitions**
 
 Points to note :
@@ -15,16 +16,15 @@ Points to note :
 - nested blocks follow the same rules of inner and outer scoped variables based on the level of the nested block.
 - variable shadowing 
   example -
-  ```ruby
-  n = 10
 
-  [1, 2, 3].each do |n|
-    puts n
-  end
-
-  ```
-  Since, the block parameter has the same name as a local variable outside the block, being variable `n`, variable shadowing takes place and prevents access to the local variable within the block. 
-  The `puts n` will use the block parameter and disregard the outer scoped local variable. Variable shadowing also prevents changes from being made to the outer scoped variable `n`.
+```ruby
+n = 10
+[1, 2, 3].each do |n|
+  puts n
+end
+```
+Since, the block parameter has the same name as a localvariable outside the block, being variable `n`,variable shadowing takes place and prevents access tothe local variable within the block. 
+The `puts n` will use the block parameter and disregardthe outer scoped local variable. Variable shadowingalso prevents changes from being made to the outerscoped variable `n`.
 
 - a method definition can't access local variables in another scope.
 - a method definition can access objects passed in as an argument. The object passed in gets assigned to the method parameter and is thus made available to the method body as a local variable.
@@ -34,67 +34,222 @@ Ruby first searches for the local variable and if it is not found then Ruby trie
 - CONSTANTS have different scoping rules. They behave like globals. CONSTANTS initialized within a block will be avaiable outside the scope of the block.
 
 
-
 2. **mutating vs non-mutating methods, pass-by-reference vs pass-by-value**
    
-  Points to note
+Points to note
   
 ***pass-by-reference vs pass-by-value :***
-  - Ruby behaves like pass-by-value at times, like re-assigning the object within the method doesn't affect the object outside the method. Example :
-    ```ruby
-    def change_name(name)
-      name = 'bob'      # does this reassignment change the   object outside the method?
-    end
+- Ruby behaves like pass-by-value at times, likere-assigning the object within the method doesn'taffect the object outside the method. Example :
 
-    name = 'jim'
-    change_name(name)
-    puts name           # => jim
-
-    ```
-
-   - Ruby behaves like pass-by-reference at times. Example :
-   ```ruby
-    def cap(str)
-      str.capitalize!   # does this affect the object outside the method?
-    end
+```ruby
+def change_name(name)
+  name = 'bob'      # does this reassignment changethe   object outside the method?
+end
+name = 'jim'
+change_name(name)
+puts name           # => jim
+```
+ - Ruby behaves like pass-by-reference at times. Example :
     
-    name = "jim"
-    cap(name)
-    puts name           # => Jim
+```ruby
+def cap(str)
+  str.capitalize!   # does this affect theobjecoutsidethe method?
+end
 
-  ```
+name = "jim"
+cap(name)
+puts name           # => Jim
+```
 
 
-  The above code implies that Ruby is "pass byreference" as operations wthin the method affectedthe original object. This would not happen if themethod `capitalize` was used instead of`capitalize!`. 
+The above code implies that Ruby is "pass byreference"as operations wthin the method affectedthe originalobject. This would not happen if themethod `capitalize`was used instead of`capitalize!`. 
+
 - Basically, Ruby exhibits a combination of both. **"When an operation within the method mutates the caller, it will, it will affect the original object"** 
   
 ***mutating vs non-mutating methods***
 
-  ```ruby
-  a = [1, 2, 3]
-
-  # Example of a method definition that mutates its   argument permanently
-  def mutate(array)
-    array.pop
-  end
-
-  p "Before mutate method: #{a}" # => [1, 2, 3] 
-  mutate(a)
-  p "After mutate method: #{a}" # => [1, 2]
-  ```
+```ruby
+a = [1, 2, 3]
+# Example of a method definition that mutates its argument permanently
+def mutate(array)
+  array.pop
+end
+p "Before mutate method: #{a}" # => [1, 2, 3] 
+mutate(a)
+p "After mutate method: #{a}" # => [1, 2]
+```
 
 The above code permanently modified the array that local variable `a` references by passing it to the mutate method, even though `a` is outside the method definition's scope. This is because the `pop` method mutates the caller (the array referenced by `array`). `a` is still pointing to the same array, but in this case, the array has changed, more precisely the number of elements in the array has chnaged. 
 
 The same code with a non-mutating method like `last` would not mutate the caller and hence would not change the array being referenced by `a`.
 
 
-3. working with collections (Array, Hash, String), and popular collection methods (each, map, select, etc). Review the two lessons on these topics thoroughly.
+3. **working with collections (Array, Hash, String), and popular collection methods (each, map, select, etc).** Review the two lessons on these topics thoroughly.
   **study RB 101 - lesson_4 part 2, 7, 8, 9.**
+
+Points to note -
+
+Collections - String, Array, Hash
+
+- Collections are made up of individual elements. To work with them, its need to be known how they are structured and how to reference and assign the individual elements within them.
+
+**String**
+- Strings are not true collections. Collections contain multiple objects, while strings contain only a single object. The individual characters are not objects, nut are just part of the object that contains the string value.
+- Strings act like collections since you can access and assign each character individually. However, when you access a single character of the string with something like `str[2]`, the return value is a brand new string - each time you call `str[2], it returns a new string. Example :
+```ruby
+char1 = str[2]                     # => "c"
+char2 = str[2]                     # => "c"
+char1.object_id == char2.object_id # => false
+
+```
+If `str` were a real collection, the `char1` and `char2` objects would have the same `object_id`.
+
+- Refencing an out-of-bound index returns `nil`. Example :
+```ruby
+str = 'abcde'
+str[5] # => nil
+
+```
+
+**Array**
+
+- Arrays are ordered, zero indexed collections.
+- Arrays are lists of elements that are ordered by index, where each element can be any abject. Arrays use an integer based index to maintain the order of its elements. A specific element cab be referenced using its index.
+- Referencing an out of bound index, returns `nil` just like in strings. `#fetch` method can be used which returns an error if the index is out of bounds.
+- Arrays can be refenced using negative indices as well. `-1` represents the last value of an array and goes left ways from there.
+
+**Hash**
+
+- Hashes are collections that instead of using an integer based index, uses key-value pairs, where the key or the value can be any type or Ruby object.
+- The keys must always be unique, the values however can be duplicated. If there are same named keys during initiliazation , the value coming later in the intialization is overwritten to the respective key value.
+- `#keys`, `#values` are methods which can access just the keys and values of a hash respectively. These methods return an array of the keys, values respectively.
+- Similar to Strings and Arrays, `#[]` for hash also returns `nil` when the key specified is invalid. `#fetch` method can be used to distinguish which returns an error if the key is invalid.
+
+**Collection Methods (each, map, select)**
+
+`each`
+
+- For Arrays - `each` is a method called on an array that takes a block, either `do..end` or `{..}`, the code within the block is executed for each iteration. On every iteration the corresponding element of the array is assigned to the block parameter. Hence, it has only one parameter. The `each` method returns the original array. 
+- For Hash - `each` works in a similar way to Arrays, however two arguments are sent to the block representing the key and the value per iteration. The original collection / hash is returned by the method.
+
+`select`
+
+-For Array - `select` method evaluates the return value of the block. The block returns a value on each iteration, which then gets evaluated by `select`. Similar to a real method, the return value of the block is the return value of the last expression within the block. When evaluating the block's return value, `select` only looks at its truthiness. Everything in Ruby is considered truthy expect for `false` and `nil`. If the return value of the block is truthy, then the element during that iteration will be selected. If the return value is `false` or `nil` then the element will not be selected. When an element is selected, its places in a new collection. When the `select` method is done iterating, it returns a new collection containing all of the selected elements. If the block returns falsey for every iteration, an empty array is returned.  
+
+`map`
+
+- For Array - `map` method is used for transformation. `map` uses the return value of the block to perform transformation. It returns a new collection made up of elements which are the return value of the block for every iteration. 
+
+`Array` and `Hash` both have an `each` method which is specific to them.
+
+The `select` and `map` methods are defined in the module **Enumerable** and are made available to `Array` and `Hash` classes.
+
+**Do practice problems - lesson 4 -> part 10**
+
+
+4. **variables as pointers**
+
+- Variables don't actually contain a value, instead they contain a pointer to a specific area in memory that contains the value. 
+- Some operations mutate the address space, while others simply make the variable point to a different address space.
+- If a method is called that mutates the caller, it will change the value in that object's address space. In case of reassignment, the variable will point to a different address space.
+
+Examples :
+
+```ruby
+a = "hi there"
+b = a
+a  "not here"
+
+```
+
+`b` points to the string `"hi there"` in the above code. The line `a = "not here"` reassigned the variable `a` to a completely different address in memory, its not pointing to an entirely new string. This is what the `=` operator does. Infact, different spaces can in hold the same value but they are still different places in memory, that is they are different objects. Even, if the last line was `a = "hi there"`, the result would be the same, `a` and `b` in that case would still point to different addresses in memory, they would just happen to have the same value.
+
+```ruby
+a = "hi there"
+b = a
+a << ", Bob"
+
+```
+Variables `a` and `b` both point to the string `"hi there, Bob"`.
+
+Here, the line `a << ", Bob"` did not result in reassigning `a` to a new string. Rather, it mutated the caller and modified the existing string, which is also pointed to by the variable `b`. This explains why `b` reflects the changes to `a` - they're both pointing to the same thing.
+
+
+5. **puts vs return**
+
+- An **expression** is anything that can be evaluated, pretty much everything written in Ruby is an expression. An expression in Ruby always returns something, even if that's an error message or `nil`. 
+- `puts` method prints something on the screen, However, `puts` does not return what is printed to the screen. Expressions do something, but they also return something. the value rerurned is not necessarily the action that was performed. `puts` method always returns `nil`.
+- Every method in Ruby returns the last evaluated result of the last line that is executed.
+- To explicitly return a value,the `return` keyword can be used. When `return` is added in a method, it just returns the return value of the expression following it without executing the next lines. Example :
+
+```ruby
+def add_three(number)
+  return number + 3
+  number + 4
+end
+
+returned_value = add_three(4)
+puts returned_value 
+
+```
+The above code outputs `7` and returns `nil`. When `return` is used, it just returns the result of `number + 3`, which is 7 without executing the next line. `return` is not required, it is just used to explicitly return something from a method.
+
+
+
+6. **false vs nil and the idea of "truthiness"**
+
+- In Ruby, booleans are represented by `true` and `false` objects. Boolean objects, like everything else in Ruby has real classes behind them and methods can be called on `true` and `false`. `true` belongs to `TrueClass` and `false` belongs to `FalseClass`.
   
-4. variables as pointers
-5. puts vs return
-6. false vs nil and the idea of "truthiness"
+- Truthiness differs from `true` in that Ruby considers more than the `true` object to be truthy. In fact, Ruby considers everything to be truthy other than `false` and `nil`.
+  
+- This means that we can use any expression in a conditional, or with logical operators, and as longs as it doesn't evaluate to `false` or `nil`, it is considered truthy. Examples :
+
+```ruby
+num = 5
+if num
+  puts "valid number"
+else
+  puts "error!"
+end
+
+```
+The code outputs `"valid number"`. The reason is because Ruby considers `num` which points to an integer to be truthy because it is neither `false` or `nil`. It does not howver mean that the `num` variable from above is equal to `true`. Explained as follows :
+
+```ruby
+num = 5
+num == true   # => false
+
+```
+- `&&` - and operator - will return `true` only if both expressions being evaluated are true. Any number of expressions can be chained with `&&`, and it will be evaluated left to right. If any expression is `false`, the entire `&&` chain will return `false`. 
+- `||` - or operator - will return `true` if either one of the evaluated objects is `true`. Only way to return `false` is if all expressions are `false`.
+- Short Circuiting : the `&&` and `||` operators exhibit a behaviour called short circuiting, which means it will stop evaluating expressions once it can guarantee the return value. Explained as follows :
+
+```ruby
+irb:001> false && 3/0 
+=> false
+```
+The above code doesn't generate a `ZeroDivisionError` because the `&&` operator didn't even evaluate the second expression, since the first expression is `false`, it can short circuit and return `false`.
+
+```ruby
+irb:001> false || 3/0
+ZeroDivisionError: divided by 0
+```
+Here the error is generated.
+
+The `||` will short circuit when it encounters the first `true` expression.
+
+```ruby
+irb:001> true || 3/0
+=> true
+```
+
+The above code doesn't generate a `ZeroDivisionError` because `||` didn't evaluate the second expression, it short circuited after encountering `true`.
+
+**In Ruby everything is considered "truthy" except for `false` and `nil`.**
+
+
 7. method definition and method invocation
+   
 8. implicit return value of method invocations and blocks
 9.  how the Array#sort method works
 
