@@ -249,9 +249,52 @@ The above code doesn't generate a `ZeroDivisionError` because `||` didn't evalua
 
 
 7. method definition and method invocation
-   
+
+- Often there is a piece of code that needs to e executed many times in a program. Instead of writing that piece of code over and over, the piece of code can be extracted to one place. In Ruby, it is called a method. 
+- First we use it, a method must be defined with the reserved word `def`, after which we give the method name. At the end of the method definition, the word `end` must be used to denote its completion. Example :
+
+```ruby
+def say
+  # method body goes here
+end
+
+```
+- A method is called (or invoked) by typing its name and passing in arguments. Example :
+
+```ruby
+def say(words)
+  puts words
+end
+
+say("hello")
+say("hi")
+say("how are you")
+say("I'm fine")
+
+```
+- The method `say` is called by typing it's name and passing in arguments. In the method definition `(words)` after `say` is the parameter. Parameters are used when there is data outside of a method definition's scope but needs to be accessed within the method definition. If the method definition does not need access to any outside data, parameters need not be defined.
+- Arguments are pieces of information that are sent to a method invocation to be modified or used to return a specific result. When arguments are passed to a method, for instance in the above example the method `say`, they are assigned to the method parameter `words` and are available as a local variable in the scope of the method definition. That is, this local variable in the method definition scope cannot be referenced outside the method definition. 
+- When `say("hello")` is evaluated, the string `"hello"` is passed as argument in place of the `words` parameter. The code within the method definition is executed with `words` local variable pointing to the string object `"hello"`.
+- method invocation `say("hello")` can also be written as `say "hello"`.
+- Methods can be invoked with a block. Example of method invocation with a block :
+
+```ruby
+[1, 2, 3].each do |num|
+  puts num
+end
+
+```
+
+- methods can be called in two ways. `some_method(obj)` is one way. `obj` is the argument being passed to the method `some_method`. Sometimes, methods are called with an explicit caller like `a_caller.some_method(obj)` which is basically `some_method` modifying `a_caller`.
+
+- The term method invocation is also used to refer to calling a method.
+
+
 8. implicit return value of method invocations and blocks
+  
 9.  how the Array#sort method works
+
+**Lesson 5 - Part 2. Sorting**
 
 
 ##How to Answer the Assessment Questions
