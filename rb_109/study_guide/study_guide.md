@@ -321,9 +321,125 @@ The above code returns `nil` and outputs nothing. Since the `if` statement evalu
 
 - method returns the return value of the last statement executed if there is not explicit `return`. In case the keyword `return` is used, the method returns the expression following `return`, the lines after that are ignored.
   
-1.  how the Array#sort method works
+9. **how the Array#sort method works**
 
-**Lesson 5 - Part 2. Sorting**
+- Sorting - Sorting is setting the order of the items in a collection according to a certain criterion. 
+- Ruby provides `sort` and `sort_by` methods to achieve this.
+- Example of implementation of `sort` method :
+
+```ruby
+[2, 5, 3, 4, 1.sort]  # => [1, 2, 3, 4, 5]
+
+```
+The return value is a **new array** with the integers ordered sequentially according to their value.
+
+- Sorting is carried out by comparing the items in a collection with each other and ordering them based on the result of that comparison. For strings it works as follows :
+
+```ruby
+['c', 'a', 'e', 'b', 'd']sort # => ['a', 'b', 'c', 'd', 'e']
+```
+
+`sort` method above returns a new array of characters ordered alphabetically.
+
+- `sort` method uses the `<=>` method (also referred to as the 'spaceship' operator) to determine the order of elements.
+- `<=>` method performs comparison between two objects of the same type and returns `-1` , `0`, or `1` depending on whether the first object is less than, equal to or greater than the second object. If the two objects cannot be compared then `nil` is returned. Examples :
+
+```ruby
+2 <=> 1 # => 1
+1 <=> 2 # => -1
+2 <=> 2 # => 0
+'b' <=> 'a' # => 1
+'a' <=> 'b' # => -1
+'b' <=> 'b' # => 0
+1 <=> 'a' # => nil
+```
+- Its important to understand how comparison is implemented for different objects types like `String` and `Integer`. For `String` order is determined by a character's position in the ASCII table. For instance :
+
+```ruby
+'A' <=> 'a' # => -1 
+'!' <=> 'A' # => -1 
+# ASCII value can be determined as follows :
+'b'.ord # => 98
+'}'.ord # => 125
+# Hence
+'b' <=> '}' # => -1
+```
+
+Some basic rules to remember 
+  - Uppercase letters come before lowercase letters
+  - Digits and most punctuation come before letters
+  - There is an extended ASCII table containing accented and other characters - this comes after the main ASCII table.
+
+- `sort` method can be called with a block. The block needs two arguments passed to it which are the two items to be compared and the return value of the block has to be `-1`, `0`, `1` or `nil`. Examples of usage :
+
+```ruby
+[2, 5, 3, 4, 1].sort do |a, b|
+  a <=> b
+end
+# => [1, 2, 3, 4, 5]
+
+# This can be reversed as well 
+
+[2, 5, 3, 4, 1].sort do |a, b|
+  b <=> a
+end
+# => [5, 4, 3, 2, 1]
+```
+
+Additional code can be written in the block, as long as the block returns `-1`, `0`, `1` or `nil`.
+
+```ruby
+[2, 5, 3, 4, 1].sort do |a, b|
+  puts "a is #{a} and b is #{b}"
+  a <=> b
+end
+# a is 2 and b is 5
+# a is 5 and b is 3
+# a is 2 and b is 3
+# a is 5 and b is 4
+# a is 3 and b is 4
+# a is 5 and b is 1
+# a is 4 and b is 1
+# a is 3 and b is 1
+# a is 2 and b is 1
+# => [1, 2, 3, 4, 5]
+```
+
+- When two objects cant be compared `nil` is returned and an error is thrown.
+
+- `sort_by` method is similar to `sort` but is usually called with a block. The code in the block determines how the items are compared. Example :
+
+```ruby
+['cot', 'bed', 'mat'].sort_by do |word|
+  word[1]
+end
+# => ["mat", "bed", "cot"]
+```
+
+Here the elements are being sorted based on the character at index `1`, that is the second character of each string. Basically, the characters `o`, `e` and `a` are compared and the strings are ordered according to the result of the comparison of those characters. The other characters in the string are ignored entirely.
+
+- Usually `Hash` doesn't need to be sorted, however if required `sort_by` can be called on it to do so. When calling `sort_by` on a hash, two arguments need to be passed - the key and the value. The last argument evaluated in the block should be the thing by which the sorting will take place. Example :
+
+```ruby
+people = { Kate: 27, john: 25, Mike: 18 }
+
+people.sort_by do |_, age|
+  age
+end
+# => [[:Mike, 18], [:john, 25], [:Kate, 27]]
+```
+
+`sort_by` always returns an array, even when called on a hash, so as seen above the result is a new array with the key-value pairs as objects in the nested arrays. It can be converted back to a hash by calling `Array#to_h` on it.
+
+It can also be sorted by name. In this case the names are symbols. In Ruby symbols are compared using the method `Symbol#<=>` after `to_s` is called on them, so effectively it is comparing strings. However in this case one of the names, `:john` is not capitalized which will make the comparison incorrect. So in order to deal with the problem the method `Symbol#capitalize` can be used on each name within the block so when the keys are compared they are all capitalized. 
+
+```ruby
+people.sort_by do |name, _|
+  name.capitalize
+end
+# => [[:john, 25], [:Kate, 27], [:Mike, 18]]
+```
+`Array#sort` and `Array#sort_by` have equivalent destructive methods `Array#sort!` and `Array#sort_by!`. With these methods the same collection is sorted and a new collection is not returned.
 
 
 ##How to Answer the Assessment Questions
