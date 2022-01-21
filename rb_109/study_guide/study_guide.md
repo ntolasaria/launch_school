@@ -23,6 +23,7 @@ n = 10
   puts n
 end
 ```
+
 Since, the block parameter has the same name as a localvariable outside the block, being variable `n`,variable shadowing takes place and prevents access tothe local variable within the block. 
 The `puts n` will use the block parameter and disregardthe outer scoped local variable. Variable shadowingalso prevents changes from being made to the outerscoped variable `n`.
 
