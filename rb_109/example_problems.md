@@ -453,5 +453,29 @@ On `lines 8 and 9` the method is `puts` is being called and the local variables 
 
 The concept of variables as pointers is being demonstrated here.
 
+## Example 8
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+def increment(x)
+  x << 'b'
+end
+
+y = 'a'
+increment(y) 
+
+puts y
+```
+The above code returns `nil` and outputs `'ab'`.
+
+On `lines 1 - 3` a method `increment` is being defined with one parameter `x`. 
+
+On `line 5` local variable `y` is initialized to the string object `'a'`. On `line 6` the method `increment` is being invoked and `y` is passed as an argument. After the method invocation local variable `x` within the method definition points to the string object being referenced by local variable `y`. Within the method on `line 2` the method `<<` is being invoked. This is a destructive method and modifies the string being referenced by the local variable `x`. The string that local variable `x` points is now changed to the value `ab`. 
+
+On `line 8` the method `puts` is being called and local variable `y` is passed as an argument. The string object referenced by local variable `y` has the value `'ab'` so that is what is output and `nil` is returned.
+
+The concept of variables as pointers is being demonstarted here.
+
+
 
 
