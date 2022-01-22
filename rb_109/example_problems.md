@@ -373,3 +373,85 @@ On `line 5` a local variable `a` is initialised to the array `['a', 'b', 'c']`. 
 As a result the local variable `a` points to the array `['a', 'b', 'c']`. 
 
 If the method `map!` was called, this would mutate the caller. Since, the local variable `b` within the method definition points to the object being referenced by local variable `a` the method call would modify the array object being passed to it. As a result the array object being referenced by the local variable `a` would be modified to the value `['I like the letter: a', 'I like the letter: b', 'I like the letter: c']`. 
+
+## Example 5
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby
+a = 5.2
+b = 7.3
+
+a = b
+
+b += 1.1
+```
+What is `a` and `b`? Why? 
+
+Answer :
+
+On `line 1` local variable `a` is initialized to float object with value 5.2. On `line 2` local variable `b` is initialized to float object with value 7.3. 
+
+On `line 3` local variable `a` is reassigned to point to the object local variable `b` is referencing. Now, local variables `a` and `b` point to the same float object with value 7.3.
+
+On `line 5`, `b` is reassigned using `b += 1.1` which is Ruby's syntactical sugar for the code `b = b + 1.1`. Here the local variable `b` is reassigned to the return value of the method `+` being called on `b` with `1.1` as the argument. After this reassignment local variable `b` points to a float object with value 8.4 and local variable `a` continues to point to the float object with value 7.3.
+
+
+## Example 6 
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+def test(str)
+  str  += '!'
+  str.downcase!
+end
+
+test_str = 'Written Assessment'
+test(test_str)
+
+puts test_str
+```
+
+The code outputs `"Written Assessment"` and returns `nil`.
+
+On `lines 1 - 4` a method named `test` is being defined with one parameter `str`.
+
+On `line 6` local variable `test_str` is initialized to the string object `'Written Assessment'`. 
+
+On `line 7` the method `test` is being invoked and the local variable `test_str` is passed as an argument. The method parameter `str` now points to the object being referenced by `test_str` and is available for use inside the method definition as a local variable. Inside the method definition on `line 2` the local variable `str` is reassigned using `str += '!'` which is Ruby's syntactical sugar for the `str = str + '!'`. After this reassignment local variable `str` now points to a new string with value `Written Assessment!` and local variable `test_str` outside the method definition continues to point to the string object `'Written Assessment`. On `line 3` the method `downcase!` is called on the local variable `str` which is a destructive method and changes the string that `str` references to `'written assessment!`. Since, this is the last line of the method, the method returns a new string object with value `'written assessment!'`. 
+
+On `line 9` the methods `puts` is invoked and local variable `test_str` is passed as an argument. Since the local variable `test_str` continues to point to the string `'Written Assessment'` that is what is output and `nil` is returned.
+
+The concept of varibles as pointers is being demonstrated here in the sense that variables in Ruby act as pointers to objects. 
+
+## Example 7
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby
+def plus(x, y)
+  x = x + y
+end
+
+a = 3
+b = plus(a, 2)
+
+puts a
+puts b
+
+```
+
+On `lines 1 - 3` a method `plus` is defined with 2 parameters `x` and `y`. 
+
+On `line 5` local variable `a` is initialized to an integer with value `3`. On `line 6` local variable `b` is initialized to the return value of the invocation of method `plus` with local variable `a` and integer `2` as arguments. The method parameters `x` and `y` now reference the object referenced by local variable `a` and integer `2` respectively and are available for use inside the method definition as local variables in that scope. 
+
+On `line 2` local variable x is being reassigned using `x = x + y` and after this reassignment `x` now points to a different integer with the return value of method `+` being called on `x` with `y` as an argument. After this reassigment `x` points to an intger with value `5`. Since, this is the last line of the method, an integer `5` is returned. 
+
+So now, local variable `b` points to integer `5`.
+
+On `lines 8 and 9` the method is `puts` is being called and the local variables `a` and `b` respectively are passed as arguments. This outputs the object being refernced by the respetive variables in the order - `3`, `5` and returns `nil`.
+
+The concept of variables as pointers is being demonstrated here.
+
+
+
