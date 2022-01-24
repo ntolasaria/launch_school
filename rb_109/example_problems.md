@@ -476,6 +476,158 @@ On `line 8` the method `puts` is being called and local variable `y` is passed a
 
 The concept of variables as pointers is being demonstarted here.
 
+## Example 9
 
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+def change_name(name)
+  name = 'bob'      # does this reassignment change the object outside the method?
+end
 
+name = 'jim'
+change_name(name)
+puts name 
+```
 
+Answer :
+
+The above code outputs `"jim"` and returns `nil`. 
+
+On `lines 1 - 4` a method `change_name` is defined with one parameter `name`.
+
+On `line 6` local variable `name` is initialized to string object `'jim'`. On `line 7` the method `change_name` is invoked and the local variable is `name` is passed as argument. After the invocation the method parameter `name` references the string object that local variable `name` in the main scope is pointing to and is available to use within the method definition as a local variable within the scope of the method definition.
+
+On `line 2` local variable `name` is reassigned to point to the string object `'bob'`. After this reasignmnent the local variable `name` within the method the definition points to the string object `'bob'` whereas the local variable `name` outside the method definition continues to point to the string object `'jim'`. 
+
+On `line 8` the `puts` method is invoked and the local variable `name` is passed as an argument. This outputs the string object that local variable `name` is pointing to and returns `nil`. So in this case, `'jim'` is output and `nil` is returned.
+
+The concept of variables as pointers is demonstrated in this example.
+
+## Example 10
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby
+def cap(str)
+  str.capitalize!   # does this affect the object outside the method?
+end
+
+name = "jim"
+cap(name)
+puts name 
+```
+
+The above code outputs `'Jim'` and returns `nil`. 
+
+On `lines 1 - 3` a method `cap` is defined with one parameter `str`. 
+
+On `line 5` local variable `name` is initialized to string object `'jim'`. On `line 6` the method `cap` is invoked and local variable `name` is passed as an argument. 
+
+After the method invocation, the method parameter `str` points to the string object being referenced by the local variable `name`. On `line 2` the method `capitalize!` is called on the local variable `str` which is a destructive method. It mutates the string that the local variable `str` points to, in this case the string that is being referenced by local variable `name` as well. The effect of this is that the string object being referenced by both `str` and `name` is modified to `'Jim'`. Since, this is the last line of the method `cap`, the string `'Jim'` is returned.
+
+On `line 7` the method `puts` is called and local variable `name` is passed as an argument. Since, the value of the string object being referenced by local variable `name` is now `'Jim'`, that is what is output and `nil` is returned.
+
+The concept of variable as pointers is demonstarted in this problem.
+
+## Example 11
+
+What is `arr`? Why? What concept does it demonstrate?
+```ruby
+a = [1, 3]
+b = [2]
+arr = [a, b]
+arr
+
+a[1] = 5
+arr
+```
+
+In the above code, the local variable `arr` points to an array object with value `[[1, 5], [2]]`.
+
+On `line 1`, local variable `a` is initialized to an array of integers `[1, 3]`. On `line 2` local variable `b` is initialized to an array of integer `[2]`. On `line 3` local variable `arr` is initialized to an array object with local variables `a` and `b` as elements. So the array object that the local variable `arr` points to now has the value of `[[1, 3], [2]]` which is an array made up of the arrays that local variables `a` and `b` point to.
+
+On `line 6` the method `[]=` is invoked using `a[1] = 5`. Here the integer at index `1` of the array being referenced by `a` is reasignned and the array object that `a` points to is changed to `[1, 5]` since this is a destructive method. 
+
+Now, the local variable `arr` points to a an array made up of the local variables `a` and `b`, and since the array that local variable `a` has been chaneged, the array that the local variable `arr` is also changed to `[[1, 5], [2]]`.
+
+The concept of variables as pointers is demonstrated in this example.
+
+## Example 12
+[Link to example](https://launchschool.com/lessons/c53f2250/assignments/1a6a2665)
+
+```ruby
+arr1 = ["a", "b", "c"]
+arr2 = arr1.dup
+arr2.map! do |char|
+  char.upcase
+end
+
+puts arr1 
+puts arr2
+```
+
+On `line 1` local variable `arr1` is initialized to an array of strings with value `["a", "b", "c"]`.
+
+On `line 2` local variable `arr2` is initialized to the return value of the method `dup` invoked with `arr1` as argument. The return value of which is a new array object being refernced with the same value as the array object being referenced by `arr1`.
+
+On `line 3` the methood `map!` is called on `arr2` and the `do..end` block is passed as an argument with one parameter `char`. Within the block the the method `upcase` is called on the local variable `char`. Since,this is the last line executed within the block, the return value of this line is the return value of the block. On every iteration, the respective element of the array being referenced by `arr2` is passed in the block and the return value of the block is the upcased value of the string object. Since `map!` is a destructive method, and returns an array with the elements being the return value of the block for each element, the array that `arr2` points to, now has the value `["A", "B", "C"]`. 
+
+On `line 5` the method `puts` is called and local variable `arr1` is passed as an argument. This outputs the elements of the array object being referenced by `arr1` which is `["a", "b", "c"]` and returns `nil`. On `line 6` the `puts` method is called and local variable `arr2` is passed as an argument. This outputs the elements of the array being referenced by `arr2` which is `["A", "B", "C"]` and returns `nil`.
+
+The concept of variables as pointers is being demonstrated here.
+
+## Object Mutability/Mutating Methods
+
+## Example 1
+
+What does the following code return? What does it output? Why? What concept does it demonstrate? 
+```ruby
+def fix(value)
+  value.upcase!
+  value.concat('!')
+  value
+end
+
+s = 'hello'
+t = fix(s)
+```
+What values do `s` and `t` have? Why?
+
+Answer :
+
+The local variables `s` and `t` both point to a string object with value `'HELLO!'`.
+
+On `lines 1 to 4` a method `fix` is defined with one parameter `value`.
+
+On `line 6` local varaiable `s` is initialized to a string object `'hello'`. On `line 7` a local variable `t` is initialized to the return value of the method `fix` being called with local variable `s` as the argument. After the method invocation the method parameter `value` points to the string object being referenced by local variable `s` and is available within the method definition as a local variable. On `line 2` within the mehtod definition the method `upcase!` is called on the local variable `value`. Since, this is a destructive method the value of the string object referenced by the local variable `value` is now changed to `'HELLO'` which is also the string object being refernced by the local variable `s` outside the scope of the method definition. On `line 3` the method `concat` is called on the string object being referenced by `value` and the string `'!'` is passed as an argument. Being a destructive method, the string being referenced by local variable `value` as well as local variable `s` outside the method definition is now changed to `'HELLO!'`. On `line 4` the string object being referenced by the local variable `value` is returned and that is the return value of the method `fix`.
+
+So, now after `line 6` local variables `t` and `s` point to the same same string object value `'HELLO!'`.
+
+## Example 2
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+def fix(value)
+  value = value.upcase
+  value.concat('!')
+end
+
+s = 'hello'
+t = fix(s)
+```
+
+What values do `s` and `t` have? Why?
+
+Answer :
+
+The local variable `s` points to string object with value `hello` and local variable `t` points to string object with value `HELLO!`.
+
+On `lines 1 - 4` a method `fix` is defined with one parameter `value`. 
+
+On `line 6` local variable `s` is initialized to string object `'hello'`. On `line 7` local variable `t` is initialized to the return value of the method `fix` being called with local variable `s` as the argument. 
+
+After the method invocation the method parameter `value` points to the string object being referenced by the local variable `s` and is available within the method definition as a local variable. Within the method definition on `line 2` the local variable `value` is reasignned to the return value of the mehthod call `upcase` with local variable `value` as the argument. The return value of which is a new string with value `'HELLO'`. After this reassignment, the local variable `value` points a string object `'HELLO'` whereas the local variable `s` outside the mthod definition continues to point to the string object `'hello'`. On `line 3` the method `concat` is called on the string referenced by `value` and string `'!'` is passed as an argument. Since, this a destructive method, the value of the string object referenced by local variable `value` is modified to `HELLO!` and since this is the last line of the method, this is the return value of the method. 
+
+So, now local variable `t` references a string object with value `'HELLO!'` and local variable `s` references a string object with value `'hello'`.
+
+The concept of variables as pointers and object mutabiliy is demonstrated here. 
