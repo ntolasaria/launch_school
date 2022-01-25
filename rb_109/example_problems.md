@@ -814,3 +814,85 @@ After the method invocation, the method parameters `arr` and `name` point to the
 
 On `line 7` method `puts` is invoked and local variable `names` is passed as an argument. This outputs the elements of the array being referenced by the local variable `names` being `['bob', 'kim', 'jim']` and returns `nil`.
 
+## Each, Map and Select
+
+## Example 1
+What does the following code return? What does it output? Why? What concept does it 	demonstrate?
+```ruby
+array = [1, 2, 3, 4, 5]
+
+array.select do |num|
+   puts num if num.odd?
+end
+```
+
+Answer :
+
+The code outputs `1`, `3`, `5` and returns an empty array `[]`.
+
+On `line 1` a local variable `array` is initialized to an array with integer elements `[1, 2, 3, 4, 5]`. 
+
+On `line 3` the `select` method is called on the array being referenced by the local variable `array` and the `do..end` block with one parameter `n` is passed as an argument. The `select` method returns a new collection based on the truthiness of the block. If the return value of the block on any iteration is anything other than `false` or `nil` then the element in that iteration is selected and placed in the new collection. In this case the block executes `puts num` whenver the return value of the of the method call `odd?` on the local variable returns true, that is for every odd element. Hence, the elements `1`, `3` and `5` are output. However, the `select` method returns a new collection based on the truthiness of the block. For the iterations where `puts num` is executed, `nil` is returned and also for the rest of the iterations since none of the if statements are executed the return value `nil`. Since, the block returns `nil` for every iteration. An empty array is returned.
+
+## Example 2
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+arr.select { |n| n.odd? }
+```
+
+Answer :
+
+The code returns an array `[1, 3, 5, 7, 9]`.
+
+On `line 1` local variable `arr` is initialized to an array of integers from 1 to 10.
+
+On `line 3` the `select` method is called on the array being referenced by the local variable `arr` and the block within `{..}` with one parameter `n` is passed as an argument. The `select` method returns a new collection based on the truthiness of the block. For every iteration, if the return value of the block is anything apart from `false` or `nil` the element of that iteration is selected and placed in a new collection. Here the code within the block `n.odd?` returns `true` for every odd element and `false` every even element. Thus, the `select` method here returns a new array `[1, 3, 5, 7, 9]`.
+
+## Example 3
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+new_array = arr.select do |n| 
+  n + 1
+end
+p new_array
+```
+
+Answer :
+
+The code returns outputs an array `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` and returns the same array.
+
+On `line 1` local variable `arr` is initialized to an array of integers 1 to 10. 
+
+On `line 3` local variable `new_array` is initialized to the return value of the method `select` being called on the array being referenced by `arr` with the `do..end` block with one parameter `n` passed as argument. The `select` method returns a new collection based on the truthiness of the block. For every iteration, if the return value of the block is anything apart from `false` or `nil` the element in that iteration is selected and placed in a new collection. Here the code within the block `n + 1` returns an integer for every iteration and thus all the elements are selected and placed in a new collection. 
+
+So, now local variable `new_array` points to the array returned by the `select` method being `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`. 
+
+On `line 6` the method `p` is called and the local variable `new_array` is passed as argument. This outputs and returns the array being referenced by the local variable `new_array` which is `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`.  
+
+## Example 4
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+new_array = arr.select do |n| 
+  n + 1
+  puts n
+end
+p new_array
+```
+
+Answer :
+
+The code outputs and returns an empty array `[]`.
+
+On `line 1` local variable `arr` is initialized to an array of integers from 1 to 10. 
+
+On `line 3` local variable `new_array` is initialized to the return value of the method `select` called on the array being referenced by local variable `arr` with the `do..end` block with one parameter `n` passed as argument. The `select` method returns a new collection based on the truthiness of the block. For every iteration, if the return value of the block is anything apart from `false` or `nil` the element for that iteration is selected and placed in a new collection. Here, the return value of the block is determined by the last line of the block which is `puts n`. Since the `puts` method always returns `nil` the return value of the block is `nil` for every iteration and thus none of the elements are selected and an empty array is returned which is being referenced by local variable new_array.
+
+On `line 7` the method `p` is called and the local variable `new_array` is passed as argument which outputs and returns the object being referenced by the local variable `new_array` which is an empty array `[]`.
+
+
