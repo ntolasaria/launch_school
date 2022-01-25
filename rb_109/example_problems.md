@@ -631,3 +631,186 @@ After the method invocation the method parameter `value` points to the string ob
 So, now local variable `t` references a string object with value `'HELLO!'` and local variable `s` references a string object with value `'hello'`.
 
 The concept of variables as pointers and object mutabiliy is demonstrated here. 
+
+## Example 3
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+def fix(value)
+  value << 'xyz'
+  value = value.upcase
+  value.concat('!')
+end
+
+s = 'hello'
+t = fix(s)
+```
+
+What values do `s` and `t` have? Why?
+
+Answer :
+
+The local variables `s` and `t` point to string objects `"helloxyz"` and `"HELLOXYZ!"` respectively.
+
+On `lines 1 - 5` a method `fix` is defined with one parameter `value`.
+
+On `line 7` local variable `s` is initialized to a string object `"hello"`. On `line 8` local variable `t` is initialized to the return value of the method call `fix` with local variable `s` passed as an agrument. 
+
+After the method invocation, the method parameter `value` points to to the string object being referenced by local variable `s` and is available for use within the method definition as a local variable in that scope. On `line 2` the method `#<<` is called and `value` is passed as an argument. `#<<` being a destructive method, modifies the string being referenced by `value` to `"helloxyz"` which is also the string that local variable `s` in the main scope points to. On `line 3` the local variable `value` is reassigned to the return value of the method `upcase` call with local variable `value` as the argument. After this reasignmemnt, local variable `value` now points to a new string object `"HELLOXYZ"`. On `line 4` the method `concat` is called on the string being referenced by local variable `value` and the string `"!"` is passed as an argument. The `concat` method is a destructive method which modifies the string that local variable `value` references. The string that local variable `value` references now has the value `"HELLOXYZ!"`. Since this is the last line of the method, the string object `"HELLOXYZ!"` is returned.
+
+Now, local variable `s` points to string object `"helloxyz"` and local variable `t` points to string object `"HELLOXYZ!"`.
+
+##  Example 4
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby
+def fix(value)
+  value = value.upcase!
+  value.concat('!')
+end
+
+s = 'hello'
+t = fix(s)
+```
+
+What values do `s` and `t` have? Why?
+
+Answer :
+
+The local variables `s` and `t` point a string object with value `"HELLO!"`. 
+
+On `lines 1 - 4` a method `fix` is defined with one parameter `value`. 
+
+On `line 6` local variable `s` is initialized to a string object `'hello'`. On `line 7` local variable `t` is initialized to the return value of the method `fix` called with local variable `s` as the argument. 
+
+After the method invocation, the method parameter `value` points to the string objecy being referenced by the local variable and `s` and is available for use within the method definition as a local variable in that scope. On `line 2` the local variable `value` is reassigned to the the return value of the of the method `upcase!` with local variable `value` as the parameter. The method `upcase!` is a destructive method and modifies the string that the local variable `value` points to. The result is that the modified string with value `'HELLO'` is returned and local variable `value` as well local variable `s` in the main scope continue to point to it. On `line 3` the method `concat` is called on the string being referenced by `value` and the string `'!'` is passed as an argument. `concat` being a destructive method modifies the string being referenced by the local variable `value` to `'HELLO!'` and since this is the last line of the method this the what is returned. 
+
+Now, since the string returned by the method `fix` was the string being referenced by local variable `s`, the local variables `s` and `t` both point to the string `'HELLO!'`.
+
+## Example 5
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+def fix(value)
+ value[1] = 'x'
+ value 
+end
+
+s = 'abc'
+t = fix(s)
+```
+
+What values do `s` and `t` have? Why?
+
+Answer :
+
+The local variable `s` and `t` both point to a string object with value `'axc'`. 
+
+On `lines 1 - 4` a method `fix` is defined with one parameter `value`.
+
+On `line 6` local variable `s` is initialized to a string object `'abc'`. On `line 7` local variable `t` is initialized to the return value of the method `fix` with local variable `s` as as the argument.
+
+After the method call, the method parameter `value` points to the string object being referenced by local variable `s` and is available for use within the method definition as a local variable within that scope. On `line 2` the `#[]=` is called using `value[1] = 'x'`, this method reassgins the element in the index `1` of the string and thereby modifies the existing string to the value `'axc'`. Now, the local variable `value` in the scope of the method definition as well as the local variable `s` in the main scope point to the string object with value `'axc'`. On `line 3` the string being referenced by local variable `value` is returned.
+
+The local variables `s` and `t` point to the same string object with value `'axc'`.
+
+## Example 6
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+def a_method(string)
+  string << ' world'
+end
+
+a = 'hello'
+a_method(a)
+
+p a
+```
+Answer :
+
+The code outputs `'hello world'` and returns `'hello world'`.
+
+On `lines 1 - 3` a method named `a_method` is defined with one parameter `string`. 
+
+On `line 5` local variable `a` is initialized to a string object `'hello'`. On `line 6` the method `a_method` is invoked and local variable `a` is passed as an argument. The method parameter `string` now points to the string beinf referenced by local variable `a` and is available for use within the method definition as a local variable in that scope. 
+
+On `line 2` the method `#<<` is called on the string being referenced by the local variable `string` and the string `' world'` is passed as an argument. The `#<<` method is a destructive method which modifies the string being referenced by the local variable `string` to `'hello world'` and since this is the last line of the method this is what is rerturned. The string being referenced by local variable `string` is the same string which is being referenced by local variable `a` in the main scope. 
+
+On `line 8` the method `p` is called and local variable `a` is passed as an argument. The `p` method outputs the string object being refernced by the local variable `a` which is the string `'hello world'` and returns the string object `'hello world'`.
+
+The concept of object mutability is being demonstrated here.
+
+## Example 7
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+num = 3
+
+num = 2 * num
+```
+
+Answer :
+
+The concept of variable as pointers is being demonstrated here.
+
+On `line 1` local variable `num` is initialized to an interger with value `3`. On `line 3` local variable `num` is reassigned using `num = 2 * num`. Here the method `*` is called on the integer `2` and local variable `num` is passed as an argument. The return value of the method call is assigned to the local variable `num`. The return value is integer `6` and local variable `num` now points to integer `6`.
+
+## Example 8
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+a = %w(a b c)
+a[1] = '-'
+p a
+```
+
+Answer :
+
+The code outputs `["a", "_", "c"]` and returns `["a", "_", "c"]`.
+
+On `line 1` local variable `a` is initialized to array of strings `['a', 'b', 'c']`. 
+
+On `line 2` the method `#[]=` is called on the array referenced by the local variable `a` using `a[1] = '_'`. This reasigns the elements at index `1` of the array and modifies the array to `['a', '_', 'c']`. On `line 3` the method `p` is called and local variable `a` is passed as an argument which outputs the array `['a', '_', 'c']` and returns the same array.
+
+## Example 9
+[Link to page with #9 & #10](https://launchschool.com/lessons/a0f3cd44/assignments/4b1ad598)
+```ruby
+def add_name(arr, name)
+  arr = arr + [name]
+end
+
+names = ['bob', 'kim']
+add_name(names, 'jim')
+puts names
+```
+
+Answer :
+
+On `lines 1 - 3` a method named `add_name` is defined with two parameters `arr` and `name`.
+
+On `line 5` local variable `names` is initialized to an array of string elements with value `['bob', 'kim']`. On `line 6` the method `add_name` is invoked and local variable `names` and string `'jim'` are passed as arguments. 
+
+After the method invocation the method parameters `arr` and `name` point to the array being referenced by the local variable `names` and the string object `'jim'` respectively and are available for use within the method definition as local variables in that scope. On `line 2` the local variable `arr` is reassigned using `arr = arr + [name]` after which the local variable `arr` points to a new array which is returned by the expression `arr + [name]` which is `['bob', 'kim', 'jim']` whereas the local variable `names` continues to point to the array `['bob', 'kim']`. 
+
+On `line 7` the method `puts` is invoked and local variable `names` is passed as an argument. This outputs the elements of the array being referenced by the local variable `names` which is `['bob', 'kim']` and returns `nil`.
+
+## Example 10
+```ruby
+def add_name(arr, name)
+  arr = arr << name
+end
+
+names = ['bob', 'kim']
+add_name(names, 'jim')
+puts names
+```
+
+Answer :
+
+On `lines 1 to 3` a method named `add_name` is defined with two parameters `arr` and `name`. 
+
+On `line 5` local variable `names` is initialized to an array `['bob', 'kim']`. On `line 6` the method `add_name` is invoked and the local variable `names` and string object `jim` are passed as arguments.
+
+After the method invocation, the method parameters `arr` and `name` point to the array being referenced by local variable `names` and the string object `jim` respectively and are available as local variables within the method definition. On `line 2` the local variable `arr` is reassigned using `arr = arr << name`. Here local variable `arr` is reassigned to the return value of the method call `#<<` which is a destructive method. This modifies the array being referenced by the local variable `arr` to `['bob', 'kim', 'jim']` and returns the modified array. Thus, the array being referened by the local variable `names` in the main scope is also modified. 
+
+On `line 7` method `puts` is invoked and local variable `names` is passed as an argument. This outputs the elements of the array being referenced by the local variable `names` being `['bob', 'kim', 'jim']` and returns `nil`.
+
