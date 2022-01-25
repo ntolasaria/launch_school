@@ -895,4 +895,27 @@ On `line 3` local variable `new_array` is initialized to the return value of the
 
 On `line 7` the method `p` is called and the local variable `new_array` is passed as argument which outputs and returns the object being referenced by the local variable `new_array` which is an empty array `[]`.
 
+## Example 5
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+words = %w(jump trip laugh run talk)
+
+new_array = words.map do |word|
+  word.start_with?("t")
+end
+
+p new_array
+```
+
+Answer :
+
+The code outputs and returns the array `[false, true, false, false, true]`. 
+
+On `line 1` local variable `words` is initialized to an array of strings `['jump', 'trip', 'laugh', 'run', 'talk']`. 
+
+On `line 3` local variable `new_array` is initialized to the return value of the method `map` called on the array being referenced by the local variable `words` with the `do..end` block passed as an argument with one parameter `word`. The method `map` returns a new collection with the return value of the block for every iteration as the elements. Within the block the local variable `word` references the element of the array for each iteration. Within the block the method `start_with?` is called on the object referenced by the local variable `word` and string `'t'` is passed as argument. The method calls returns `true` if the respective string objects starts with "t", otherwise it returns `false`. Here the block returns `true` for elements at index `1` and `4` and `false` for all other elements. The new array returned by the method is an array of booleans `[false, true, false, false, true]` which the local variable `new_array` now points to.
+
+On `line 7` the method `p` is invoked and the local variable `new_array` is passed as an argument. This outputs and returns the array being referenced by the local variable `new_array` which is `[false, true, false, false, true]`.
+
 
