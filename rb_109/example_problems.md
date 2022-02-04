@@ -971,6 +971,113 @@ On `line 1` local variable `arr` is initialized to an array with integer element
 
 On `line 3` local variable `new_array` is initialized to the return value of the method `map` called on the array being referenced by the local variable `arr` and the `do..end` block with one parameter `n` is passed as argument. The `map` method returns a new collection with the return value of the block for every iteration as the elements. Here the code within the block `n > 1` returns either the `true` or `false` based on the corresponding element meeting the condition on every iteration. In this case the block returns `false` for the first element which `1` and `true` for all other elements as they are all greater than `1`. Hence, the `map` method returns the array `[false, true, true, true, true, true, true, true, true, true]` and this array is now being refernced by local variable `new_array`.
 
-On `line 6` the method `p` is called and local variable `new_array` is passed as argument. This outputs and returns the array being referenced local variable `new_array` which is `[false, true, true, true, true, true, true, true, true, true]`. 
+On `line 6` the method `p` is called and local variable `new_array` is passed as argument. This outputs and returns the array being referenced local variable `new_array` which is `[false, true, true, true, true, true, true, true, true, true]`.
+
+## Example 9
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+new_array = arr.map do |n| 
+  n > 1
+  puts n
+end
+p new_array
+
+```
+Answer :
+
+The code outputs the elements of the array `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` first and then outputs and returns an array with value `[nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]`.
+
+On `line 1` local variable `arr` is initialized to an array of integer elements `[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`.
+
+On `line 3` local variable `new_array` is initialized to the return value of the method `map` called on local variable `arr` with `do..end` block passed as an argumnent with one parameter `n`. The method `map` transforms the array based on the return value of the block. A new collection is returned which is made up of elements that are the return value of the block for every iteration. The code within the block is executed for every iteration. In this case the last line of the block `puts n` outputs the element for every iteration and always returns `nil`. Hence, the array returned will be `[nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]` and this array is being referenced by the local variable `new_array`.
+
+On `line 7` method `p` is called and local variable `new_array` is passed as an argument. This outputs and returns the object being referenced by the local variable which is the array `[nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]`.
+
+## Example 10
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+a = "hello"
+
+[1, 2, 3].map { |num| a }
+
+```
+Answer :
+
+The code outputs nothing and returns the array `['hello', 'hello', 'hello']`. 
+
+On `line 1` local variable `a` is initialised to a string object with value `'hello'`. 
+
+On `line 3`, method `map` is called on the array `[1, 2, 3]` and the the block `{..}` is passed as an argument with one parameter `num`. The method `map` returns a new array made up of the return value of the block for every iteration as the elements. In this case the return value of the block with expression `a` is the object the local variable `a` points to which is `'hello'` for every iteration. Hence, the array returned is `['hello', 'hello', 'hello']`.
+
+## Example 11
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+[1, 2, 3].each do |num|
+  puts num
+end
+
+```
+
+Answer :
+
+The code outputs `1`, `2`, `3` in that order and returns the array `[1, 2, 3]`.
+
+On `line 1` the method `each` is called on the array `[1, 2, 3]` and the `do..end` block is passed as argument with one parameter `num`. The `each` method executes the code within the block for every iteration and returns the original array that it is called on. Here, for every iteration, the corresponding element of the array is assigned to the block parameter `num` and is available within the block as a local variable. The line `puts num` outputs the object being referenced by local variable `num` which is the corresponding array element for every iteration. The `puts` method returns `nil`. Thus, the elements of the array is output, that is the integer objects `1`, `2` and `3`. The `each` method returns the array that it is being called on and thus the array `[1, 2, 3]` is returned.
+
+## Other Collection Methods
+
+[Link to all examples below](https://launchschool.com/lessons/85376b6d/assignments/d86be6b5)
+
+## Example 1
+
+```ruby
+[1, 2, 3].any? do |num|
+  num > 2
+end
+
+```
+
+On `line 1` the method `any?` is called on the array `[1, 2, 3]` and the `do..end` block is passed as argument with one parameter `num`. The method `any?` looks at the truthiness of the block for every iteration. If the block returns a truthy value of even one of the iteration, the method returns `true`, otherwise the method returns `false`. In this case the last expression in the block `num > 2` returns true for the the integer element `3` in the array and hence the method `any?` returns `true`.
+
+## Example 2
+```ruby
+{ a: "ant", b: "bear", c: "cat" }.any? do |key, value|
+  value.size > 4
+end
+
+```
+
+Answer : 
+
+On `line 1` the method `any?` is called on the hash and the `do..end` block is passed as argument with two parameters `key` and `value`. The `any?` method looks at the truthiness of the return value of the block for every iteration. If the block returns truthy for atleast 1 of the iterations, the method `any?` returns `true` otherwise it returns `false`. 
+
+Here, the block parameters `key` and `value` reference the corresponding key, value for every iteration and are available within the block as local variables. Within the block the method `size` called on the local variable `value` which returns the the size of the string object it references as an integer. The expression `value.size > 4` carries out a comparison on every iteration and returns `true` or `false` based on the result of the comparison. In this case, the size of none of the values of the hash is greater than `4` and hence the block returns `false` for every iteration and thus the method `any?` returns `false`.
+
+## Example 3
+```ruby
+[1, 2, 3].all? do |num|
+   num > 2
+end
+
+```
+
+Answer :
+
+On `line 1` the method `all?` is called on the array `[1, 2, 3]` and the `do..end` block is passed as argument with one parameter `num`. The method `all?` looks at the truthiness of the return value of the block for every iteration. If the block returns a truthy value, that is anything apart from `false` or `nil` for every iteration, then the return value of the method is `true` otherwise it is `false`.
+
+Here, on every iteration the corresponding element of the array is referenced by the block parameter `num` and is available within the block as a local variable. Within the block the expression `num > 2` carries out comparison and returns `true` or `false` based on the comparison. In this case the block returns `false` for the first two elements and `true` for the third element. Hence, the method `all?` returns `false`.
+
+## Example 4
+
+```ruby
+{ a: "ant", b: "bear", c: "cat" }.all? do |key, value|
+  value.length >= 3
+end
+
+```
+
+Answer :
 
 
