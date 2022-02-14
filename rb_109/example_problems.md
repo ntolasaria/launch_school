@@ -1080,19 +1080,129 @@ end
 
 Answer :
 
+The above code returns `true`.
+
+On `line 1` method `all?` is called on the hash `{ a: "ant", b: "bear", c: "cat" }` and the `do..end` block is passed as argument with two parameters `key` and `value`. The method `all?` evaluates the truthiness of the return value of the block for every iteration. If the return value of the block is truthy for all the iterations, then the method returns `true` else it returns `false`. 
+
+In this case, the last expression of the block `value.length >= 3` returns `true` for all the iterations and hence, the method `all?` returns `true`.
+
+## Example 5
+```ruby
+[1, 2, 3].each_with_index do |num, index|
+  puts "The index of #{num} is #{index}."
+end
+```
+
+Answer :
+
+The above code outputs `'The index of 1 is 0.'`, `'The index of 2 is 1.'` and `'The index of 3 is 2'` in the same order and returns the array `[1, 2, 3]`.
+
+On `line 1` the method `each_with_index` is called on the array `[1, 2, 3]` and the `do..end` block is passed as argument with two parameters `num` and `index`. The method `each_with_index` iterates over the elements of the array and executes the block for every iteration. It takes in two parameters the first representing the element in the array and the second one represents the index of the element. 
+
+Within the block the expression `puts "The index of #{num} is #{index}."` uses string extrapolation and references the objects that the local variables `num` and `index` is pointing to. This outputs the string with the respective values for each iteration. After the method is done iterating it returns the original array on which it was called being `[1, 2, 3]`.
+
+## Example 6
+```ruby
+{ a: "ant", b: "bear", c: "cat" }.each_with_object([]) do |pair, array|
+  array << pair.last
+end
+```
+
+Answer : 
+
+The code returns an array with value `['ant', 'bear', 'cat']`.
+
+On `line 1` the method `each_with_object` is invoked on the hash `{ a: "ant", b: "bear", c: "cat" }` and the `do..end` block is passed as argument. Along with this, the method `each_with_object` also takes a method argument which is a collection object that will be returned by the method. On top of that the block takes two arguments `pair` and `array` where `pair` represents an array containing the key and value for every iteration and `array` the collection object that was passed as an argument to the method. On every iteration the object referened by `array` is updated based on the code within the block. 
+
+Within the block the method `<<` is invoked on the object being referenced by `array` and the return value of the method `last` called on the local variable `pair` is passed as an argument. Here the last value of the array being referced by `pair` is appended to the array being referenced `array`. On every iteration the value of the key-value is appended to the array. When the method `each_with_object` is  done iterating, the updated array is returned with value `['ant', 'bear', 'cat']`.
 
 
+## Example 7
+```ruby
+{ a: "ant", b: "bear", c: "cat" }.each_with_object({}) do |(key, value), hash|
+  hash[value] = key
+end
+```
+
+Answer : 
+
+The above code returns a hash with value `{ "ant" => :a, "bear" => :b, "cat" => :c }`.
+
+On `line 1` the method `each_with_object` is invoked on the hash `{ a: "ant", b: "bear", c: "cat" }` and the `do..end` block is passed as argument. Also, the method takes a collection object as a method argument which in this case is an empty hash `{}`. The block has three parameters, two within parantheses `key` and `value` and another one `hash`. The parameters `key` and `value` represent the key and value for every iteration and the parameter `hash` represents the collection object that was passed as an argument to the method. On every iteration the collection object being referenced by `hash` is updated based on the code within the block.
+
+Within the block the statement `hash[value] = key` creates key-value pairs in the hash being referenced by `hash`. Here the value of the key-value pair of the hash object on which the method was called becomes the key and the key becomes the value in the hash being referenced by `hash`. 
+
+After, the method `each_with_object` is done iterating, a hash with value `{ "ant" => :a, "bear" => :b, "cat" => :c }` is returned.
 
 
+## Example 8
+```ruby
+odd, even = [1, 2, 3].partition do |num|
+  num.odd?
+end
+
+p odd 
+p even
+```
+
+Answer :
+
+On `line 1` the local variables `odd` and `even` are parallely intialized to the two sub arrays of the array returned by the method `partition` called on the array `[1, 2, 3]` with the `do..end` block passed as argument with one parameter `num`. The method `partition` returns a nested array where the inner arrays are seperated based on the return value of the block. The first nested array containing elements for which the return value of the block evaluates to `true` and the second one containing elements for which the return value of the `block` evaluates to `false`.
+
+In this case, within the block the method `odd?` called on the local variable `num` returns `true` for odd elements and `false` otherwise. Thus, the array returned has two nested arays, the first one with all the odd elements and the second one with the rest of the elements. Hence, the local variables `odd` and `even` now refernce the arrays `[1, 3]` and `[2]` respectively.
+
+On `line 5` the method `p` is called and the local variable `odd` is passed as argument. This outputs and returns the array being referenced by `odd` which is `[1, 3]`. On `line 6` the method `p` is called and the local variable `even` is passed as argument which outputs and returns the array referenced by `even` which is `[2]`. 
 
 
+## Truthiness
 
+## Example 1
 
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+a = "Hello"
 
+if a
+  puts "Hello is truthy"
+else
+  puts "Hello is falsey"
+end
+```
 
+Answer : 
 
+The code outputs `'Hello is truthy'` and returns `nil`.
 
+On `line 1` local variable `a` is intialised to the string `'Hello'`. On `line 3` `if` statement is used and `a` is given as a condition. The local variable `a` points to the string object `'Hello'` and is considered truthy and hence the code `puts "Hello is truthy"` is executed which outputs the string passed as an argument to the puts method and returns `nil`.
 
+The concept of truthiness is demonstrated here. The string object `'Hello'` is considered to be truthy. Everything in Ruby is considered to be truthy apart from `false` or `nil`. 
+
+Example 2
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby
+def test
+  puts "written assessment"
+end
+
+var = test
+
+if var
+  puts "written assessment"
+else
+  puts "interview"
+end
+```
+
+Answer :
+
+The above code outputs `'written assessment'` and `'interview'` and returns `nil`.
+
+On `line 1 to 3` a method `test` is defined. 
+
+On `line 5` local variable `var` is initialised to the return value of the method call `test`. The method `test` outputs the string `'written assessment'` and returns `nil`. Now, the local variable `var` references `nil`. 
+
+On `line 7` the `if` statement is used with the condition being `var`. Since `var` points `nil` it evaluates to `false` and hence the `else` branch is executed which outputs `interview` and returns `nil`.
 
 
 
@@ -1296,5 +1406,5 @@ Answer :
 
 The return value of the given code is an array `[1, nil, nil]`. 
 
-On `line 1` the method `map` is called on the array `[1, 2, 3]` and the `do..end` block is passed as argument with one parameter `num`. The `map` method returns a new array made of the return values of the block for every iteration. In this case the the `if` statement evaluates to `false` for the 1st element and as a result the `else` branch is executed thereby returning the integer `1` for that iteration. For the 2nd and 3rd iteration the `if` statement returns `true` and hence the expression `puts num` is executed. Since the `puts` method always returns `nil`, the block returns `nil` for the 2nd and 3rd iterations. Thus the `map` method returns an array with value `[1, nil, nil]`.
+On `line 1` the method `map` is called on the array `[1, 2, 3]` and the `do..end` block is passed as argument with one parameter `num`. The `map` method returns a new array made up of the return values of the block for every iteration. In this case the the `if` statement evaluates as `false` for the 1st element and as a result the `else` branch is executed thereby returning the integer `1` for that iteration. For the 2nd and 3rd iteration the `if` statement evaluates as `true` and hence the expression `puts num` is executed. Since the `puts` method always returns `nil`, the block returns `nil` for the 2nd and 3rd iterations. Thus the `map` method returns an array with value `[1, nil, nil]`.
 
