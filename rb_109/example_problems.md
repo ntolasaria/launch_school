@@ -1081,3 +1081,220 @@ end
 Answer :
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Trial 
+
+Object Mutability 
+
+## Example 1
+
+```ruby
+def fix(value)
+  value.upcase!
+  value.concat('!')
+  value
+end
+
+s = 'hello'
+t = fix(s)
+
+```
+What values do `s` and `t` have? Why?
+
+Answer :
+
+On lines 1 - 5 a method `fix` is defined with one parameter `value`.
+
+On line 7 local variable `s` is initialised to the string object `'hello'`. 
+
+On line 8 local variable `t` is initialised to the return value of the method `fix` being called with local variable `s` as the argument. The method paramater `value` now refernces the string object being referenced by the local variable `s` and is available within the method definition as local variable in that scope. On line 2 the method `upcase!` is called on the string object being referenced by local variable `value`. Since, the method `upcase!` is a destructive method, the string object being referenced by the local variable `value` is changed to `'HELLO'`. On line 3 the method `concat` is called on the string object being referenced by the local variable `value` and the string `'!'` is passed as an argument. Since, the method `concat` is a destructive method, the string object being referenced by the local variable `value` which is also the string object being referenced by the local variable `s` in the outer scope is now changed to `'HELLO!'`. On line 4 the string object being referenced by local variable `value` is returned and that is the return value of the method `fix`. 
+
+Now, the local variables `s` and `t` point to the same string object with value `'HELLO!'`.
+
+
+
+## Lesson 4 -> practice problems
+
+## Practice Problem 1
+
+What is the return value of the select method below? Why?
+
+```ruby
+[1, 2, 3].select do |num|
+  num > 5
+  'hi'
+end
+```
+
+Answer :
+
+The return value of the `select` method in the code is an array `[1, 2, 3]`.
+
+On `line 1` the `select` method is invoked on the array `[1, 2, 3]` and the `do..end` block is passed as an argument with one parameter `num`. The `select` method evaluates the return value of the block for every iteration. If the block returns a truthy value, the element for that iteration is selected and placed in a new collection. In this case the last line of the block is `'hi'` and thus the block returns `'hi'` for every iteration, which is truthy as it is neither `false` nor `nil`. Hence, all the items in the array that `select` method is called on are selected and placed in a new array which is returned by the method.
+
+## Practice Problem 2
+
+How does count treat the block's return value? How can we find out?
+
+```ruby
+['ant', 'bat', 'caterpillar'].count do |str|
+  str.length < 4
+end
+```
+
+Answer :
+
+The method evaluates the block's return value. It returns an integer is equal to the number of times the block returns a truthy value while iterating through the elements of the array. 
+
+In this case the method `count` is called on the array `['ant', 'bat', 'caterpillar']` and the `do..end` block is passed as an argument with one parameter `str`. Within the block, the statement `str.length < 4` returns true for two elements of the array `'ant'` and `'bat'` and hence the method returns the integer `2`.
+
+## Practice Problem 3
+
+What is the return value of reject in the following code? Why?
+
+```ruby
+[1, 2, 3].reject do |num|
+  puts num
+end
+```
+
+Answer : 
+
+The return value of the `reject` method in the code is an array with value `[1, 2, 3]`. 
+
+The `reject` method evaluates the truthiness of the return value of the block on every iteration. If the block returns a falsey value, that is `false` or `nil`, the element for that iteration is selected and placed in a new collection. When the `reject` method is done iterating, it returns a new array containing all the selected elements. 
+
+In this case the last line of the block is `puts num` which returns `nil` for every iteration and hence all the elements of the array are selected. It returns a new array with all the elements of the original array on which it was called.
+
+
+## Practice Problem 4
+
+What is the return value of each_with_object in the following code? Why?
+
+```ruby
+['ant', 'bear', 'cat'].each_with_object({}) do |value, hash|
+  hash[value[0]] = value
+end
+```
+
+The return value of the `each_with_object` method in the code is hash with value `{ 'a' => 'ant', 'b' => 'bear', 'c' => 'cat' }`.
+
+The method `each_with_object` is called on the array `['ant', 'bear', 'cat']` with the `do..end` block and the object `{}` which is an empty hash are passed as arguments with two parameters `value` and `hash`. The object `{}` is passed in the block and its updated value is returned at the end of every iteration. Once, the method is done iterating it returns the object with all the updates. 
+
+In this case, on iteration 1 a key value pair `'a' => 'ant'` is added to the hash, on iteration 2 `'b' => 'bear'` is added and on iteration 3 `'c' => 'cat'` is added and a hash with all those key value pairs is returned at the end.
+
+## Practice Problem 5
+
+What does shift do in the following code? How can we find out?
+
+```ruby
+hash = { a: 'ant', b: 'bear' }
+hash.shift
+```
+
+Answer :
+
+The method `shift` destructively removes the first key-value pair in the hash and returns it as a two item array. In this case the method `shift` called on the local variable `hash` returns the array `[:a, 'ant']`.
+
+## Practice Problem 6
+
+What is the return value of the following statement? Why?
+
+```ruby
+['ant', 'bear', 'caterpillar'].pop.size
+```
+
+Answer : 
+
+The method `pop` destructively removes the last element of the array which is the string element `caterpillar` and returns it on which the method `size` is called which returns the length of the string as an integer. Here the value returned is the size of string `'caterpillar'` which is the integer `11`.
+
+## Practice Problem 7
+
+What is the block's return value in the following code? How is it determined? Also, what is the return value of any? in this code and what does it output?
+
+```ruby
+[1, 2, 3].any? do |num|
+  puts num
+  num.odd?
+end
+```
+
+Answer :
+
+The return value of the `do..end` block in the code is the return value of the last expression within the block which is `num.odd?`. 
+
+The method `any?` evaluates the truthiness of the block. If the block ever returns a truthy value, the method returns `true`. 
+
+In this case, the block returns `true` for the first iteration as the element `1` is odd and hence the method `any?` returns `true`. After the first iteration, the method stops iterating and thus the `puts num` is only executed for the first element of the array `1`. 
+
+So, the code outputs `1` and returns `true`.
+
+## Practice Problem 8
+
+How does take work? Is it destructive? How can we find out?
+
+```ruby
+arr = [1, 2, 3, 4, 5]
+arr.take(2)
+```
+
+Answer :
+
+The method `take` is called on an array with an integer as the argument. It returns a new array with the specified number of elements starting from the first element. The method `take` is not destructive.
+
+The method `take` in the code above returns an array with value `[1, 2]`.
+
+## Practice Problem 9 
+
+What is the return value of map in the following code? Why?
+
+```ruby
+{ a: 'ant', b: 'bear' }.map do |key, value|
+  if value.size > 3
+    value
+  end
+end
+```
+
+Answer :
+
+The return value of the `map` method in the given code is an array with value `[nil, 'bear']`. 
+
+On `line 1` the method `map` is called on the hash `{ a: 'ant', b: 'bear' }` and the `do..end` block is passed as argument with two parameters `key` and `value`. The `map` method evaluates the return value of the block for every iteration. The method returns a new array made up of the return values of the block for every iteration.
+
+In this case the for the 1st key-value pair, the return value of the block is `nil` as none of the `if` statements returns `true` and for the 2nd key-value pair the return value of the block is the string `bear`. Hence, the method returns an array with value `[nil, 'bear']`.
+
+## Practice Problem 10
+
+What is the return value of the following code? Why?
+
+```ruby
+[1, 2, 3].map do |num|
+  if num > 1
+    puts num
+  else
+    num
+  end
+end
+```
+
+Answer :
+
+The return value of the given code is an array `[1, nil, nil]`. 
+
+On `line 1` the method `map` is called on the array `[1, 2, 3]` and the `do..end` block is passed as argument with one parameter `num`. The `map` method returns a new array made of the return values of the block for every iteration. In this case the the `if` statement evaluates to `false` for the 1st element and as a result the `else` branch is executed thereby returning the integer `1` for that iteration. For the 2nd and 3rd iteration the `if` statement returns `true` and hence the expression `puts num` is executed. Since the `puts` method always returns `nil`, the block returns `nil` for the 2nd and 3rd iterations. Thus the `map` method returns an array with value `[1, nil, nil]`.
+
