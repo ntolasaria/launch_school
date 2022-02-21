@@ -1206,37 +1206,6 @@ On `line 7` the `if` statement is used with the condition being `var`. Since `va
 
 
 
-## Trial 
-
-Object Mutability 
-
-## Example 1
-
-```ruby
-def fix(value)
-  value.upcase!
-  value.concat('!')
-  value
-end
-
-s = 'hello'
-t = fix(s)
-
-```
-What values do `s` and `t` have? Why?
-
-Answer :
-
-On lines 1 - 5 a method `fix` is defined with one parameter `value`.
-
-On line 7 local variable `s` is initialised to the string object `'hello'`. 
-
-On line 8 local variable `t` is initialised to the return value of the method `fix` being called with local variable `s` as the argument. The method paramater `value` now refernces the string object being referenced by the local variable `s` and is available within the method definition as local variable in that scope. On line 2 the method `upcase!` is called on the string object being referenced by local variable `value`. Since, the method `upcase!` is a destructive method, the string object being referenced by the local variable `value` is changed to `'HELLO'`. On line 3 the method `concat` is called on the string object being referenced by the local variable `value` and the string `'!'` is passed as an argument. Since, the method `concat` is a destructive method, the string object being referenced by the local variable `value` which is also the string object being referenced by the local variable `s` in the outer scope is now changed to `'HELLO!'`. On line 4 the string object being referenced by local variable `value` is returned and that is the return value of the method `fix`. 
-
-Now, the local variables `s` and `t` point to the same string object with value `'HELLO!'`.
-
-
-
 ## Lesson 4 -> practice problems
 
 ## Practice Problem 1
@@ -1407,4 +1376,91 @@ Answer :
 The return value of the given code is an array `[1, nil, nil]`. 
 
 On `line 1` the method `map` is called on the array `[1, 2, 3]` and the `do..end` block is passed as argument with one parameter `num`. The `map` method returns a new array made up of the return values of the block for every iteration. In this case the the `if` statement evaluates as `false` for the 1st element and as a result the `else` branch is executed thereby returning the integer `1` for that iteration. For the 2nd and 3rd iteration the `if` statement evaluates as `true` and hence the expression `puts num` is executed. Since the `puts` method always returns `nil`, the block returns `nil` for the 2nd and 3rd iterations. Thus the `map` method returns an array with value `[1, nil, nil]`.
+
+# Trial 
+
+## Object Mutability 
+
+## Example 1
+
+```ruby
+def fix(value)
+  value.upcase!
+  value.concat('!')
+  value
+end
+
+s = 'hello'
+t = fix(s)
+
+```
+What values do `s` and `t` have? Why?
+
+Answer :
+
+On lines 1 - 5 a method `fix` is defined with one parameter `value`.
+
+On line 7 local variable `s` is initialised to the string object `'hello'`. 
+
+On line 8 local variable `t` is initialised to the return value of the method `fix` being called with local variable `s` as the argument. The method paramater `value` now refernces the string object being referenced by the local variable `s` and is available within the method definition as local variable in that scope. On line 2 the method `upcase!` is called on the string object being referenced by local variable `value`. Since, the method `upcase!` is a destructive method, the string object being referenced by the local variable `value` is changed to `'HELLO'`. On line 3 the method `concat` is called on the string object being referenced by the local variable `value` and the string `'!'` is passed as an argument. Since, the method `concat` is a destructive method, the string object being referenced by the local variable `value` which is also the string object being referenced by the local variable `s` in the outer scope is now changed to `'HELLO!'`. On line 4 the string object being referenced by local variable `value` is returned and that is the return value of the method `fix`. 
+
+Now, the local variables `s` and `t` point to the same string object with value `'HELLO!'`.
+
+
+## Object Mutability / Mutating Methods
+## Example 4
+
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+```ruby
+def fix(value)
+  value = value.upcase!
+  value.concat('!')
+end
+
+s = 'hello'
+t = fix(s)
+```
+
+What values do `s` and `t` have? Why?
+
+Answer :
+
+The local variables `s` and `t` point to the same string object with value `'HELLO!'`.
+
+On `lines 1 to 4` a method `fix` is defined with one parameter `value`.
+
+On `line 6` local variable `s` is initialized to a string object `'hello'`. On `line 7` local variable `t` is initialized to the return value of the method `fix` being called with local variable `s` as argument.
+
+After the method invocation, the method parameter `value` references the object being referenced by the local variable `s` and is avaiable as a local variable within the method body in that scope. On `line 2` the local variable `value` is reasignned to the return value of the method `upcase!` called on the object being referenced by the local variable `value`. The method `upcase!` is a destructive method and modifies the string being referenced by the local variable `value`. The string is now, modified to `'HELLO'` and this modifie string is returned which is now being referenced by the local variable `value`. Now, the local variable `value` and the local variable `s` in the outer scope point to the same string object with value `'HELLO'`. On `line 3` the method `concat` is called on the string being referenced by the local variable `value` and the string `'!'` is passed as an argument. The method `concat` is a destructive method, and thus modifies the string being referenced by `value` to `'HELLO!'` and since this is the last line of the method `fix` this is what is returned. 
+
+Now, local variable `s` and `t` point to the same string `'HELLO!'`.
+
+## Each, Map, Select
+
+## Example 5
+What does the following code return? What does it output? Why? What concept does it demonstrate?
+
+```ruby
+words = %w(jump trip laugh run talk)
+
+new_array = words.map do |word|
+  word.start_with?("t")
+end
+
+p new_array
+```
+
+Answer :
+
+The code outputs and returns an array `[false, true, false, false, true]`.
+
+On `line 1` local variable `words` is intialized to an array which has all string elements. 
+
+On `line 3` local variable `new_array` is initialized to the return value of the method `map` being called on the array being referenced by the local variable `words` with the `do..end` block passed as argument with one parameter `word`.
+
+The method `map` evaluates the return value of the block for every iteration and returns a new array made up of elements which are the return value of the block for every iteration. In this case, within the block the method `start_with?` is called on the object being refereneced by the local variable `word` and the string `'t'` is passed as argument. This method call returns `true` or `false` depending on whether the first character of the string object that the method is being called on is `'t'`. Here, the method returns `true` for the 2nd and 5th elements of the array and `false` for all other elements. After the `map` method is done iterating, an array `[false, true, false, false, true]` is returned and the local variable `new_array` now points to it.
+
+On `line 7` the method `p` is invoked and local variable `new_array` is passed as argument. This outputs and returns the array being referenced by the local variable `new_array` which is `[false, true, false, false, true]`.
+
+
 
