@@ -1,17 +1,23 @@
 LOWERCASE = ('a'..'z').to_a
 UPPERCASE = ('A'..'Z').to_a
   
+# def kebabize(str)
+#   kebabcase = ''
+#   str.chars.each do |char|
+#     if LOWERCASE.include?(char)
+#       kebabcase << char.downcase
+#     elsif UPPERCASE.include?(char)
+#       kebabcase << '-' << char.downcase if kebabcase.size > 0
+#       kebabcase << char.downcase if kebabcase.size == 0
+#     end
+#   end
+#   kebabcase
+# end
+
 def kebabize(str)
-  kebabcase = ''
-  str.chars.each do |char|
-    if LOWERCASE.include?(char)
-      kebabcase << char.downcase
-    elsif UPPERCASE.include?(char)
-      kebabcase << '-' << char.downcase if kebabcase.size > 0
-      kebabcase << char.downcase if kebabcase.size == 0
-    end
-  end
-  kebabcase
+  str = str.delete('^a-zA-Z')
+  kebab = str.chars.slice_when { |a, b| b =~ /[A-Z]/ }.to_a
+  kebab.map { |word_arr| word_arr.join.downcase }.join('-')
 end
 
 p kebabize('myCamelCasedString') == 'my-camel-cased-string'
