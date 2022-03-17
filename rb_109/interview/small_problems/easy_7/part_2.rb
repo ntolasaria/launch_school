@@ -22,8 +22,6 @@ def letter_case_count(str)
   hash[:uppercase] = characters.count { |char| char =~ /[A-Z]/ }
   hash[:neither] = characters.count { |char| char =~ /[^a-zA-Z]/ }
   hash
-
-
 end
 
 

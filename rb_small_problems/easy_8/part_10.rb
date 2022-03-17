@@ -5,7 +5,6 @@ def center_of(str)
   else
     str[size/2 - 1, 2]
   end
-
 end
 
 

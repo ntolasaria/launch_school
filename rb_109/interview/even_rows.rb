@@ -13,9 +13,7 @@ def row_sum(n)
     num = row.last + 2
     rows << row
   end
-  p rows
   rows.last.sum
-
 end
 
 def create_row(first_number, row_length)

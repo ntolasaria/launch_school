@@ -12,6 +12,5 @@ def vowel_recognition(input)
   vowel_count
 end
 
-str = 'aeiou'
 
 p vowel_recognition(str)

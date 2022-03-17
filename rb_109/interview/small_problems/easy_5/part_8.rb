@@ -3,8 +3,6 @@ NUM_STR = %w(zero one two three four five six seven eight nine ten
 
 def alphabetic_number_sort(arr)
   arr.sort { |a, b| NUM_STR[a] <=> NUM_STR[b] }
-
-
 end
 
 

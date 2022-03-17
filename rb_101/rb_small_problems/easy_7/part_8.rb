@@ -4,7 +4,6 @@ def multiply_list(arr1, arr2)
     result << el * arr2[idx]
   end
   result
-
 end
 
 
