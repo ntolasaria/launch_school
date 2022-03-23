@@ -17,45 +17,39 @@
 # - sort the string (alphabetically - case insensitively - order of appearance)
 # - 
 
-
-# def alphabetized(string)
-#   clean_string = string.delete('^a-zA-Z')
-#   characters = clean_string.split('')
-#   characters.sort_by! do |char|
-#     p char
-#     char.downcase
-#   end
-#   characters.join
-# end
+def alphabetized(string)
+  clean_string = string.delete('^a-zA-Z')
+  characters = clean_string.split('')
+  characters.sort_by! do |char|
+    char.downcase
+  end
+  characters.join
+end
 
 # no methods
 
-def alphabetized(string)
-  clean = string.delete('^a-zA-Z')
-  arr = clean.chars
-  sorted = []
-  loop do 
-    idx = 0
-    sort = false
-    while idx < arr.size - 1
-      if arr[idx].downcase > arr[idx + 1].downcase
-        arr[idx], arr[idx + 1] = arr[idx + 1], arr[idx]
-        sort = true
-      end
-      idx += 1
-    end
-    break if !sort
-  end
-  
-  arr.join
-end
-
+# def alphabetized(string)
+#   clean = string.delete('^a-zA-Z')
+#   arr = clean.chars
+#   sorted = []
+#   loop do 
+#     idx = 0
+#     sort = false
+#     while idx < arr.size - 1
+#       if arr[idx].downcase > arr[idx + 1].downcase
+#         arr[idx], arr[idx + 1] = arr[idx + 1], arr[idx]
+#         sort = true
+#       end
+#       idx += 1
+#     end
+#     break if !sort
+#   end
+#   arr.join
+# end
 
 p alphabetized("The Holy Bible") == "BbeehHilloTy"
 p alphabetized("!@$%^&*()_+=-`,") == ""
 p alphabetized("CodeWars can't Load Today") == "aaaaCcdddeLnooorstTWy"
-
-
 
 # For "x", determine how many positive integers less than or equal to "x" are odd but not prime. 
 # Assume "x" is an integer between 1 and 10000.
