@@ -15,45 +15,45 @@
 # - end loop
 
 
+def bubble_sort!(array)
+  counter = 0
+  loop do
+    p array
+    swap_status = false
+    0.upto(array.size - 2) do |index|
+      counter += 1
+      if array[index] > array[index + 1]
+        swap_status = true
+        array[index], array[index + 1] = array[index + 1], array[index]
+      end
+    end
+    break unless swap_status
+  end
+  puts "number of iterations: #{counter}"
+end
+
+# Optimised
+
+
 # def bubble_sort!(array)
+#   last_index = array.size - 2
 #   counter = 0
 #   loop do
 #     p array
 #     swap_status = false
-#     0.upto(array.size - 2) do |index|
+#     0.upto(last_index) do |index|
 #       counter += 1
 #       if array[index] > array[index + 1]
 #         swap_status = true
 #         array[index], array[index + 1] = array[index + 1], array[index]
 #       end
 #     end
+#     last_index -= 1
 #     break unless swap_status
 #   end
 #   puts "number of iterations: #{counter}"
+
 # end
-
-# Optimised
-
-
-def bubble_sort!(array)
-  last_index = array.size - 2
-  counter = 0
-  loop do
-    p array
-    swap_status = false
-    0.upto(last_index) do |index|
-      counter += 1
-      if array[index] > array[index + 1]
-        swap_status = true
-        array[index], array[index + 1] = array[index + 1], array[index]
-        p array 
-      end
-    end
-    last_index -= 1
-    break unless swap_status
-  end
-  puts "number of iterations: #{counter}"
-end
 
 
 
