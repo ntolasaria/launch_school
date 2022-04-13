@@ -36,33 +36,28 @@
 #   words.join(' ')
 # end
 
+def capitalize_letters(word)
+    idx = 1
+    while idx < word.size
+      word[idx] = word[idx].upcase
+      idx += 2
+    end
+    word
+end
+
 # Refactored
 
 def to_weird_case(string)
   words = string.split(' ')
   words = words.map.with_index do |word, index|
     if (index + 1) % 3 == 0
-      word = word.chars.map.with_index do |char, idx|
-        if (idx + 1) % 2 == 0
-          char = char.upcase
-        else
-          char
-        end
-      end
-      word.join
+      capitalize_letters(word)
     else
       word
     end
   end
   words.join(' ')
 end
-
-
-
-
-
-
-
 
 p to_weird_case('Lorem Ipsum is simply dummy text of the printing') == 'Lorem Ipsum iS simply dummy tExT of the pRiNtInG'
 p to_weird_case(
