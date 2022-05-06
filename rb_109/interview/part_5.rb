@@ -39,9 +39,6 @@ def longest_palindrome(string)
     end
   end
   0 
-
-
-
 end
 
 def palindrome?(string)

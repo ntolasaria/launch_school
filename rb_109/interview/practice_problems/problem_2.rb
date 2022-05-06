@@ -17,7 +17,6 @@
 #   - add the sum of array[index, 5] to `sums`
 # - return the minimum value from `sums`
 
-
 def minimum_sum(array)
   size = array.size
   sums = []
@@ -26,7 +25,6 @@ def minimum_sum(array)
   end
   sums.min
 end
-
 
 p minimum_sum([1, 2, 3, 4]) == nil
 p minimum_sum([1, 2, 3, 4, 5, 6]) == 15
