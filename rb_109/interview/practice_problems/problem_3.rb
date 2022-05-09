@@ -37,12 +37,12 @@
 # end
 
 def capitalize_letters(word)
-    idx = 1
-    while idx < word.size
-      word[idx] = word[idx].upcase
-      idx += 2
-    end
-    word
+  idx = 1
+  while idx < word.size
+    word[idx] = word[idx].upcase
+    idx += 2
+  end
+  word
 end
 
 # Refactored
@@ -69,3 +69,4 @@ p to_weird_case(
   'Miss Mary POpPiNs word is sUpErCaLiFrAgIlIsTiCeXpIaLiDoCiOuS'
 
 # The tests above should print "true".
+

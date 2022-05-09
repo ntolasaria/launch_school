@@ -40,12 +40,6 @@ def minSubLength(array, sum)
     end
   end
   0
-
-
-
-
-
-
 end
 
 

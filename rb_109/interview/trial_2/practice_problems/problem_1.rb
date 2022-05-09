@@ -28,7 +28,6 @@ def smaller_numbers_than_current(array)
 end
 
 
-
 p smaller_numbers_than_current([8,1,2,2,3]) == [3, 0, 1, 1, 2]
 p smaller_numbers_than_current([1,4,6,8,13,2,4,5,4]) == [0, 2, 4, 5, 6, 1, 2, 3, 2]
 p smaller_numbers_than_current([7,7,7,7]) == [0,0,0,0]

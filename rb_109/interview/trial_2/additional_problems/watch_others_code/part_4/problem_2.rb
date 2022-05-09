@@ -22,17 +22,10 @@ portion of str1 characters can be rearranged to match str2, otherwise, return fa
 
 
 def scramble(str1, str2)
-  
   str2.chars.uniq.all? do |char|
     str1.count(char) >= str2.count(char)
   end
-
-
-
-
 end
-
-
 
 p scramble('javaass', 'jjss') == false
 p scramble('rkqodlw', 'world') == true

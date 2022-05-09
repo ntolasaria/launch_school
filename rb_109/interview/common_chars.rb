@@ -27,10 +27,8 @@ def common_chars(array)
   # result
 end
 
-arr =  ["bella", "label", "roller"]
-p common_chars(arr)
-p arr
-# p common_chars(["bella", "label", "roller"]) == ["e", "l", "l"]
+
+p common_chars(["bella", "label", "roller"]) == ["e", "l", "l"]
 p common_chars(["cool", "lock", "cook"]) == ["c", "o"]
 p common_chars(["hello", "goodbye", "booya", "random"]) == ["o"]
 p common_chars(["aabbaaaa", "ccdddddd", "eeffee", "ggrrrr", "yyyzzz"]) == []

@@ -33,9 +33,6 @@ def next_bigger_num(num)
     end
   end
   -1 
-
-
-
 end
 
 

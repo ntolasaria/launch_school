@@ -30,8 +30,6 @@ def find_even_index(array)
   -1
 end
 
-
-
 p find_even_index([]) == 0
 p find_even_index([1, 2, 3, 4, 3, 2, 1]) == 3
 p find_even_index([1, 100, 50, -51, 1, 1]) == 1

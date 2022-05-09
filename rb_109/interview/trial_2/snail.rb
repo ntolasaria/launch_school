@@ -36,8 +36,6 @@ def snail(array)
     end
     x_axis = !x_axis
     break if array.all? { |arr| arr.all? { |n| n == nil} }
-    p snail_arr
-    p array
   end
 
     

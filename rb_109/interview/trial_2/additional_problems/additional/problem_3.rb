@@ -2,7 +2,6 @@
 # Write a method that will return all palindromes within a string.
 def longest_palindrome(string)
   palindromes(string).max_by(&:size)
-
 end
 
 

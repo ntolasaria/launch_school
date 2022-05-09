@@ -60,5 +60,4 @@ def on_lights(switches)
   lights
 end
 
-
 p lights_1000(1000)

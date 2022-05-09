@@ -213,10 +213,63 @@ Here word boundaries occur before the `E`, `s` and `f` at the start of the three
 Non-word boundaries occur elsewhere, such as between `o` and `m` in `some`, and following the `.` at the end of the sentence etc.
 
 
+Note:
+`\b` and `\B` do not work as word boundaries inside of character classes (between square brackets). In fact, `\b` means something else entirely when inside square brackets: it matches a backspace character.
+
+## Quantifiers
+
+Regex engines provide a variety of quantifiers that can be used to match occurrences of sequences.
+
+### `*`
+
+`*` - zero or more
+    - it matches zero or more occurences of the pattern to its left
+
+Zero or more, truly means zero or more as in `/x*/` matches every string, even an empty string, or a string that contains no `x`s anywhere. In Rubular it matches between every character. Between every character beacuse it is free to say that there zero `x`s between every character, so it's a match.
+
+The quantifier always applies to one pattern (to the left of the quantifier). Grouping parentheses can be used to define a pattern to which you want to apply `*`. For instance in `/1(234)*5/`, the regex engine treats `(234)` as a single pattern, so the regex matches anywhere zero or more occurences of `234` separate `1` and `5`.
 
 
+### `+`
+
+`+` - one or more
+    - similar to the `*` quantifier but instead of matching zero or more occurences of something, it matches one or more occurences of that thing.
+
+For example, `/x+/` matches any sequence of one or more `x`s, it never matches the empty string between characters like `*`. 
+
+### `?`
+
+`?` - zero or one
+    - matches either one occurence or none at all
+    - applies to pattern to its left
+
+Example, you need to test whether whether a string contains the words `cot` or `coot`, but don't want to match against `ct` or `cooot`. In such case use :
+
+  `/coo?t/` -> matches a `c` followed by an `o` followed by an optional `o` followed y a `t`.
+
+`?` has the same behaviour subtlety as `*`, it matches zero occurences. Thus, `/h?/` matches each of these strings :
+
+`his`, `is` and `ish`.
 
 
+### `{}` Ranges
 
+The quantifiers `*`, `+` and `?` match repeated sequences. However sometimes you need to specify the repeat count more precisely. It's possible to do this with the other quantifiers but it's very tedious and messy. The range quantifier `{}` helps in this regard. 
 
+The range quantifier consists of a pair of curly braces `{}` with one or two numbers and an optional comma between the braces:
 
+- `p{m}` matches precisely `m` occurences of the pattern `p`
+- `p{m,}` matches `m` or more occurences of `p`
+- `p{m,n}` matches `m` or occurences of `p`, but not more than `n`
+
+For example, to match an exact 10 digit number for say a phone number, the regex `/\b\d{10}\b/` can be used.
+
+To match numbers that atleast three digits in length, the regex `/\b\d{3,}\b/` can be used.
+
+To match words of 5-8 letters, the regex `/\b[a-z]{5,8}\b/i` can be used.
+
+## Greediness
+
+The quanitifiers dicussed above are greedy in the sense they match the longest possible string they can. 
+
+`/a[abc]*c/` against `xabcbcbacy` matches `abcbcbac`. However if shorter matches than the final match string are required, we can request a lazy match by adding a `?` after the main quantifier. For example in this case `/a[abc]*?c/` matches `abc` and `ac` in `xabcbcbacy`
