@@ -67,7 +67,7 @@ end
 
 class Bear < Animal
   def initialize(color)
-    super(1)
+    super()
     @color = color
   end
 end

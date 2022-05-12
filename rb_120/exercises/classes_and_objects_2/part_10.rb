@@ -2,8 +2,6 @@ class Person
   attr_writer :secret
 
   def compare_secret(other_person)
-    p secret
-    p other_person.secret
     secret == other_person.secret
   end
 
