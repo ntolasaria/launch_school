@@ -172,8 +172,7 @@ class Game
       deal_cards_and_show_flop
       player_turn
       dealer_turn
-      show_result
-      update_scores
+      show_result_and_update_score
       break unless play_again?
       reset_game
     end
@@ -244,10 +243,11 @@ class Game
     player.busted? || dealer.busted?
   end
 
-  def show_result
+  def show_result_and_update_score
     if !(winner.nil?)
       print "#{busted_player.name} busted! " if busted?
       print "#{winner.name} wins!\n"
+      winner.increment_score
     else
       puts "It's a tie!"
     end
@@ -271,10 +271,6 @@ class Game
     elsif dealer.total > player.total
       dealer
     end
-  end
-
-  def update_scores
-    winner.increment_score if !winner.nil?
   end
 
   def grand_winner
