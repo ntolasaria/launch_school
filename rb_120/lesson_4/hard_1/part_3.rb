@@ -53,7 +53,8 @@ class Seacraft
 
   def range
     super + 10
-  end
+  endls
+  ltou
 end
 
 class Catamaran

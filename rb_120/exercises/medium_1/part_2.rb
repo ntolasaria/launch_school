@@ -21,7 +21,6 @@ class FixedArray
   end
 end
 
-
 fixed_array = FixedArray.new(5)
 array = fixed_array.to_a
 array.delete_at(0)

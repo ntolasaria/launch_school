@@ -4,7 +4,7 @@ module Promptable
     name = nil
     loop do
       name = gets.chomp
-      break if !name.empty?
+      break if !name.delete(' ').empty?
       puts "Please enter a valid name!"
     end
     name
@@ -227,9 +227,11 @@ class Game
 
     while dealer.total < 17
       break if dealer.total > player.total
+      sleep(0.5)
       dealer_hits
     end
 
+    sleep(0.5)
     puts "#{dealer.name} stays!" if dealer.total <= 21
     dealer.show_cards
   end

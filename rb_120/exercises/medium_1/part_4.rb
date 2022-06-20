@@ -48,8 +48,6 @@ end
 
 
 
-
-
 queue = CircularQueue.new(3)
 puts queue.dequeue == nil
 

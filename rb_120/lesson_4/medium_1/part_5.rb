@@ -9,7 +9,6 @@ class KrispyKreme
     glazing_string = @glazing ? " with #{@glazing}" : ''
     filling_string + glazing_string
   end
-
 end
 
 donut1 = KrispyKreme.new(nil, nil)

@@ -91,7 +91,7 @@ end
 
 WHEELS = 6
 
-class Car# < Vehicle
+class Car < Vehicle
   def wheels
     WHEELS
   end

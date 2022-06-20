@@ -13,8 +13,6 @@ class Hello < Greeting
     greeting = Hello.new
     greeting.hi
   end
-
-
 end
 
 class Goodbye < Greeting

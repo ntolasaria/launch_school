@@ -89,3 +89,4 @@ p dream_team[4]
 p dream_team[5] = Person.new('JJ', 72)
 
 puts dream_team.inspect
+

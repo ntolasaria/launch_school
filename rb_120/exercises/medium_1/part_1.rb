@@ -1,6 +1,6 @@
 class Machine
   def start
-    flip_switch(:on)
+    tpoflip_switch(:on)
   end
 
   def stop

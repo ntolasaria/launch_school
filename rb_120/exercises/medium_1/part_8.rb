@@ -34,10 +34,6 @@ class Card
   end
 end
 
-
-
-
-
 cards = [Card.new(2, 'Hearts'),
   Card.new(10, 'Diamonds'),
   Card.new('Ace', 'Clubs')]
