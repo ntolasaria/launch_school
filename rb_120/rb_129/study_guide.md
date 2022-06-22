@@ -102,7 +102,7 @@ Every object will output their respective names, because of the string interpola
 
 
 
-- Use `attr_*` to create setter and getter methods
+## Use `attr_*` to create setter and getter methods
 
 If we want to access the instance variables of a class, we have to define a method which returns the object stored in the instance variable. We can modify the above code as follows with a method `get_name`, the job of this method is to return the value of the variable `@name`.
 
@@ -413,7 +413,94 @@ For `Fish` object, we call `move` method from the `Fish` class which enables a f
 
 *Polymorphism through duck typing*
 
+Duck typing occurs when objects of different unrelated types both respond to the same method name. The class or type of object is not important, what is important is that if an object has a particular behaviour. "If an object quacks like duck, then we can treat it as a duck". Duck typing is a form of polymorphism. As long as the objects involved use the same method name and take the same number of arguments, we can treat the object as belonging to a specific category of objects. 
 
+Example: (needs to be verified)
+
+```ruby
+class Batsman
+  def play
+    "Bat"
+  end
+end
+
+class Bowler
+  def play
+    "Bowl"
+  end
+end
+
+class Fielder
+  def play
+    "Field"
+  end
+end
+
+class CricketGame
+  def start_game(players)
+    players.each { |player| player.play}
+  end
+end
+
+game = CricketGame.new
+
+game.start_game([Batsman.new, Bowler.new, Fielder.new])
+```
+
+One important note - *polymorphic methods are intentionally designed to be polymorphic, if there's no intention, you probably shouldn't use them polymorphically*.
+
+Example:
+
+```ruby
+class Circle
+  def draw; end
+end
+
+class Blinds
+  def draw; end
+end
+```
+
+In theory the methods above can be used polymorphically as they are both named `draw` and take no arguments. However, for a circle it probably means to draw a circle and for blinds it means to open or close blinds. So even, though they can be used polymorphically, this is not polymorphism as it is unlikely to make sense or help in the code. Unless you are calling the methods in a polymorphic manner (with intent), you don't have polymorphism.
+
+
+### Encapsulation
+
+Encapsulation lets us hide the internal representation of an object from the outside and only expose methods and properties that users of the object need. Method access control can be used to expose those properties and methods through the public interface of a class: it's public methods.
+
+Example:
+
+```ruby
+class Dog
+  attr_reader :nickname
+
+  def initialize(n)
+    @nickname = n
+  end
+
+  def change_nickname(n)
+    self.nickname = n
+  end
+
+  def greeting
+    "#{nickname.capitalize} says Woof Woof!"
+  end
+
+  private
+
+  attr_writer :nickname
+end
+
+dog = Dog.new("rex")
+dog.change_nickname("barny")  # changed nickname to "barny"
+puts dog.greeting             # => Barny says Woof Woof!
+```
+
+In the example we change the nickname of the dog by calling the `change_nickname` method without needing to know how the `Dog` class and this method are implemented.
+
+Similary, when `greeting` is called on a `Dog` object. The greeting is output with the name capitalized. Again, the method implementation is hidden. Its important to note that `setter` method for `nickname` is private. If we try to call it like `dog.nickname = "barny"` it would raise an error.
+
+***One important distinction to note here is that even though the `setter` method for `nickname` is private, it is being called with `self` prepended within the `change_nickname` method. This is an exception in Ruby, `self` must be used to call private `setter` methods, if not used Ruby would think a new local variable is being created.***
 
 ## Modules
 
@@ -638,7 +725,40 @@ Therefore, `self` is a way of being explicit about what our program is referenci
 
 
 
-- Reading OO code
-- Fake operators and equality
-- Working with collaborator objects
+## Reading OO code
+## Fake operators and equality
+
+### Equivalence
+
+Equivalence in Ruby can be summarized as follows:
+
+`==`
+- for most objects `==` compares the values of the objects
+- `==` operator is actually a method. Most built-in classes in Ruby like `Array`, `String`, `Integer` etc. provide their own `==` method, and this defines how the objects of those classes are compared.
+- `BasicObject#==` does not perform an equality check, instead it returns true if two objects are the same object. Hence, classes must provide their own behaviour for the method `==`.
+- In order to compare custom objects, the `==` method must be defined.
+
+`equal?`
+- `equal?` method does not only determine if two variables have the same value, but also whether they point to the same object.
+- `equal?` should not be defined.
+- it's not often used
+- comparing the `object_id` of two objects has the same effect as comparing them with `equal?`.
+  
+`===`
+- used implicitly in `case` statements.
+- like `==`, the `===` operator is actually a method
+- this method is rarely called explicitly. And it is defined very rarely, in case you anticipate your objects will be used in `case` statements.
+
+`eql?`
+- `eql?` method determines if two objects contain the same value and if they're of the same class. Used by `Hash` to determine equality among its members.
+- used implicitly by `Hash`.
+- very rarely used explicitly
+
+
+### Fake Operators
+
+
+
+
+## Working with collaborator objects
 
