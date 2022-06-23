@@ -724,10 +724,16 @@ To be clear :
 
 Therefore, `self` is a way of being explicit about what our program is referencing and what our intentions are as far as behaviour. `self` changes depenidng on the scope it is used in. 
 
-
-
-
 ## Reading OO code
+
+
+
+
+
+
+
+
+
 ## Fake operators and equality
 
 ### Equivalence
@@ -966,9 +972,109 @@ In the code above the age of the two objects of class `Person` is being compared
 
 Defining `>` doesn't automatically give us `<`. We need to define it separately.
 
+`<<` method
+
+Fake operator can also be used for the `<<` which is actually a method. It's best used when working with a class that represents a collection.
+
+`+` method
+
+Even `+` is a method. so `1 + 1` is actually `1.+(1)` which returns `2`.
+
+We can write a `+` method for our own objects. The way Ruby's standard library implements is as follows :
+
+- `Integer#+`: increments the value by value of the argument, returning a new integer
+- `String#+`: concatenates with argument, returning a new string
+- `Array#+`: concatenates with argument, returning  a new array
+- `Date#+`: increments the date in days by value of the argument, returning a new date
+
+It's generally a good idea to follow the general usage of a method as in the standard libraries.
+
+Element setter and getter methods - `[]`, `[]=`
+
+Element setter and getter methods `[]=` and `[]` are most commonly used for arrays. These are also methods. The syntactical sugar is a little too extreme though :
+
+```ruby
+array = ['a', 'b', 'c', 'd']
+
+# element refernce
+array[2]          # => 'c'
+
+# it's actually a method call
+array.[](2)       # => 'c'
+
+# element assignment
+array[4] = 'e'
+p array           # => ['a', 'b', 'c', 'd', 'e']
+
+# it's also a method call
+array.[]=(5, 'f')
+p array           # => ['a', 'b', 'c', 'd', 'e', 'f']
+```
+
+When defining `[]` and `[]=` methods for our own classes we must keep in mind the way it's used in the standard library. It's usually good for classes that represent a collection. However, being instance methods they can be defined to bo whatever we want, but it is not a good idea generally.
+
+Sample code showing all the fake operators in action:
+
+```ruby
+class Person
+  attr_accessor :name, :age
+
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+
+  def >(other_person)
+    age > other_person.age
+  end
+end
+
+class Team
+  attr_accessor :name, :members
+
+  def initialize(name)
+    @name = name
+    @members = []
+  end
+
+  def <<(person)
+    members.push(person)
+  end
+
+  def +(other_team)
+    temp_team = Team.new("Temporary Team")
+    temp_team.members = members + other_team.members
+    temp_team
+  end
+
+  def [](idx)
+    members[idx]
+  end
+
+  def []=(idx, obj)
+    members[idx] = obj
+  end
+end
+
+cowboys = Team.new("Dallas Cowboys")
+cowboys << Person.new("Troy Aikman", 48)
+cowboys << Person.new("Emmitt Smith", 46)
+cowboys << Person.new("Michael Irvin", 49)
 
 
+niners = Team.new("San Francisco 49ers")
+niners << Person.new("Joe Montana", 59)
+niners << Person.new("Jerry Rice", 52)
+niners << Person.new("Deion Sanders", 47)
 
+dream_team = cowboys + niners
+dream_team.name = "Dream Team"
+
+dream_team[4]
+dream_team[5] = Person.new("JJ", 72)
+
+puts dream_team.inspect
+```
 
 ## Working with collaborator objects
 
