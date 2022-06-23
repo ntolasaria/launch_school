@@ -29,6 +29,8 @@ irb :002 > "world".class
 => String
 ```
 
+*Important Note: The phrase "everything is an object" is not strictly true. There are a few things in Ruby that are not objects, like methods, blocks, `if` statements, arguments lists etc.* 
+
 The `class` instance method can be used to determine what class an object belongs to. Objects are intantiated from a class. 
 
 Ruby defines the attributes and behaviours of its objects in classes. Classes are a basic outline of what an object should be made of and what it should be able to do.
@@ -755,7 +757,215 @@ Equivalence in Ruby can be summarized as follows:
 - very rarely used explicitly
 
 
+Equivalence though seemingly simple is a actually a little complicated.
+
+A string, integer, symbol is equal to another string, integer, symbol of the same value respectively.
+
+When compared using the operator `==` they should return true if the value is the same.
+
+```ruby
+str1 = "something"
+str2 = "something"
+str1 == str2            # => true
+
+int1 = 1
+int2 = 1
+int1 == int2            # => true
+
+sym1 = :something
+sym2 = :something
+sym1 == sym2            # => true
+```
+
+When we are comparing `str1` and `str2` using `==` we are comparing the values not that are the two objects the same. Here the method `equal?` comes in use. The method `equal?` checks whether the two objects are the same only.
+
+Example:
+```ruby
+str1 = "something"
+str2 = "something"
+str1_copy = str1
+
+str1 == str2            # => true
+str1 == str1_copy       # => true
+str2 == str1_copy       # => true
+
+str1.equal?(str2)       # => false
+str1.equal?(str1_copy)  # => true
+str2.equal?(str1_copy)  # => false
+```
+
+It can be clearly seen above that `str1` and `str1_copy` point to the same object and hence the method `equal?` returns true when comparing them.
+
+Basically the method `==` compares the two variables' values wheras the method `equal?` determines whether the two variables point to the same object.
+
+The `==` method:
+
+The original `==` method is defined in the `BasicObject` class, which is the parent class for all classes in Ruby. This implies that every object in Ruby has `==` method. However each class should define the method `==` to specify the value to compare.
+
+`==` though looks like an operator is actually a method. `str1 == str2` is actually a method call `str1.==(str2)`.
+
+We can define the `==` method for classes which helps to specify the value to compare.
+
+Example:
+
+```ruby
+class Person
+  attr_accessor :name
+end
+
+bob = Person.new
+bob.name = "bob"
+
+bob2 = Person.new
+bob2.name = "bob"
+
+bob == bob2     # false, this is the `BasicObject#==` method, which sees if both are pointing to the same object (same as equal?)
+
+bob_copy = bob
+bob == bob_copy  # true, they both are pointing to the same object
+```
+
+Hoever, we can define the `==` in our `Person` class to tell Ruby what `the same` means for a `Person` object.
+
+```ruby
+class Person
+  attr_accessor :name
+
+  def ==(other)
+    name == other.name
+  end
+end
+
+bob = Person.new
+bob.name = "bob"
+
+bob2 = Person.new
+bob2.name = "bob"
+
+bob == bob2           # => true, the names of the two objects are compared
+```
+
+In this case by defining the `==` method we are overriding the default `BasicObject#==` method and providing a more suitable way to compare two `Person` objects.
+
+Important Note: The `Person#==` method is actually using the `String#==` method for comparison. Every core library class will have its own `==` method which can be used to compare `Array`, `Hash`, `Integer`, `String` and other objects.
+
+Comparing object_ids of two objects (which we can get from the method `object_id`) have the same effect as the method `equal?`.
+
+Example:
+```ruby
+str = "something"
+str_copy = str
+
+str.object_id == str_copy.object_id     # => true
+str.equal?(str_copy)                    # => true
+```
+
+The `===` method
+
+`===` is also an instance method like `==`. It's actually used implicitly in the `case` statement.
+
+Example:
+```ruby
+num = 25
+
+case num
+when 1..50
+  puts "small number"
+when 51..100
+  puts "large number"
+else
+  puts "not in range"
+end
+```
+
+Since all comparisons above are with ranges, here the `Range#===` method is being used. Whats actually happening is as follows:
+
+```ruby
+num = 25
+
+if (1..50) === num
+  puts "small number"
+elsif (51..100) === num
+  puts "large number"
+else
+  puts "not in range"
+end
+```
+
+Basically the way `===` works, is like it's asking "if `(1..50)` is a group, would `25` belong in that group?"
+
+Example:
+
+```ruby
+String === "hello"  # => true, "hello" is an instance of String
+String === 15       # => false, 15 is not an instance of String
+Integer === 15      # => true, 15 is an instance of Integer
+```
+
 ### Fake Operators
+
+Many methods in Ruby look like operators like `==`, `<`, `>` etc. Below is a table that shows which operators are real operators and which ones are methods disguised as operators (listed by order of precedence, highest first) :
+
+
+| Method | Operator                                                                              | Description                                                                         |
+| ------ | ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| no     | `.`, `::`                                                                             | Method/constant resolution operators                                                |
+| yes    | `[]`, `[]=`                                                                           | Collection element getter and setter.                                               |
+| yes    | `**`                                                                                  | Exponential operator                                                                |
+| yes    | `!`, `~`, `+`, `-`                                                                    | Not, complement, unary plus and minus (method names for the last two are +@ and -@) |
+| yes    | `*`, `/`, `%`                                                                         | Multiply, divide, and modulo                                                        |
+| yes    | `+`, `-`                                                                              | Plus, minus                                                                         |
+| yes    | `>>`, `<<`                                                                            | Right and left shift                                                                |
+| yes    | `&`                                                                                   | Bitwise "and"                                                                       |
+| yes    | `^`, `|`                                                                              | Bitwise exclusive "or" and regular "or" (inclusive "or")                            |
+| yes    | `<=`, `<`, `>`, `>=`                                                                  | Less than/equal to, less than, greater than, greater than/equal to                  |
+| yes    | `<=>`, `==`, `===`, `!=`, `=~`, `!~`                                                  | Equality and pattern matching (`!=` and `!~` cannot be directly defined)            |
+| no     | `&&`                                                                                  | Logical "and"                                                                       |
+| no     | `||`                                                                                  | Logical "or"                                                                        |
+| no     | `..`, `...`                                                                           | Inclusive range, exclusive range                                                    |
+| no     | `? :`                                                                                 | Ternary if-then-else                                                                |
+| no     | `=`, `%=`, `/=`, `-=`, `+=`, `|=`, `&=`, `>>=`, `<<=`, `*=`, `&&=`, `||=`, `**=`, `{` | Assignment (and shortcuts) and block delimiter                                      |
+
+Hence, we can see that many operators which are actually methods and can be defined in our classes to change their default behaviors. Such fake operators can be defined and made to work the way we intend to.
+
+Many operators (methods) are overridden to provide fake operators. 
+
+**Equality methods**
+
+- One of the most common fake operators is `==`. Defining `==` method also gives us `!=` method automatically.
+
+**Comparison methods**
+
+Defining a comparison method, give us really nice syntax for comparing objects.
+
+```ruby
+class Person
+  attr_accessor :name, :age
+
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+
+  def >(other_person)
+    age > other_person.age
+  end
+end
+
+bob = Person.new("Bob", 49)
+kim = Person.new("Kim", 33)
+
+
+puts "bob is older" if bob > kim    # => "bob is older"
+
+# alternate syntax
+
+puts "bob is older" if bob.>(kim)   # => "bob is older"
+```
+In the code above the age of the two objects of class `Person` is being compared. The comparison functionality is being pushed to the `Integer#>` method. The method `Person#>` can be used in conditionals.
+
+Defining `>` doesn't automatically give us `<`. We need to define it separately.
+
 
 
 
