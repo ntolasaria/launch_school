@@ -1078,3 +1078,45 @@ puts dream_team.inspect
 
 ## Working with collaborator objects
 
+Classes group common behaviour and objects encapsulate state. Object's states are saved in an object's instance variables. Instance methods operate on those instance variables. The instance variables can hold objects belonging to classes such as `String`, `Integer` etc., also collections like `Array`, `Hash`, etc. or even an object of a custom class we've created. Objects that are stored as state within another object are called "collaborator objects". 
+
+They are called collaborators because they work in conjunction (or in collaboration) with the class they are associated with. 
+
+Example:
+
+```ruby
+class Person
+  attr_accessor :name, :pet
+
+  def initialize(name)
+    @name = name
+  end
+end
+
+class Bulldog
+  def speak
+    puts "bark!"
+  end
+
+  def fetch
+    puts "fetching!"
+  end
+end
+
+bob = Person.new("Robert")
+bud = Bulldog.new
+
+bob.pet = bud                 # `bob`'s `@pet` now points to `bud` which is a `Bulldog` object.
+
+bob.pet                       # => #<Bulldog:0x007fd8399eb920>
+bob.pet.class                 # => Bulldog
+
+bob.pet.speak                 # => "bark!"
+bob.pet.fetch                 # => "fetching!"
+```
+
+Here, for `bob` we have a collaborator object stored in `@pet` variable. When we need that `Bulldog` object to perform some action, we can go through `bob` and call the method on the object stored in `@pet` such `speak` or `fetch`. 
+
+When we work with collaborator objects, they are usually custom objects of user defined classes. However, collaborator objects aren't strictly custom objects. Even the string object stored in `@name` within `bob` in the code above is technically a collaborator object.
+
+Collaborator objects play an important role in OO design. They also represent the connection between various classes in your program. They allow you to chop up and modularize the problem domain into cohesive pieces; they are at the core of OO programming and play an important role in modelling complicated problem domains.
