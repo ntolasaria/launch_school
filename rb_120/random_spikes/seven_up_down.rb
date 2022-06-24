@@ -3,8 +3,13 @@ class Dice
     @values = (1..6).to_a
   end
 
-  def roll
-    @values.sample
+  def roll(bias=nil)
+    if !bias
+      @values.sample
+    else
+      @biased_values = (@values * 10) + [bias] * 6
+      @biased_values.sample
+    end
   end
 end
 
@@ -223,6 +228,26 @@ class SevenUpDownGame
     animate_repetitive_char('-', string_size + coins.size, 0.03)
   end
 end
+
+class DiceTest
+  def initialize
+    @dice = Dice.new
+    @roll_results = Hash.new(0)
+  end
+
+  def start(n)
+    n.times do
+      @roll_results[@dice.roll()] += 1
+    end
+    
+    @roll_results.sort.each do |val, times|
+      puts "#{val}    => #{times}"
+    end
+  end
+end
   
-SevenUpDownGame.new.play
+# SevenUpDownGame.new.play
+
+DiceTest.new.start(1000000)
+
 

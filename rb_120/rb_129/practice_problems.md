@@ -98,3 +98,243 @@ In the third call to method `p`, `Square.new.describe_shape` is passed as an arg
 
 Here, we can see that a constant initialized in a class is available in the scope of that class as well as it's subclasses. Howver, the constant is not available in the scope of its superclass as well as in the scope of any modules mixed in to the class or its superclass.
 
+4.
+```ruby
+class AnimalClass
+  attr_accessor :name, :animals
+  
+  def initialize(name)
+    @name = name
+    @animals = []
+  end
+  
+  def <<(animal)
+    animals << animal
+  end
+  
+  def +(other_class)
+    animals + other_class.animals
+  end 
+end
+
+class Animal
+  attr_reader :name
+  
+  def initialize(name)
+    @name = name
+  end
+end
+
+mammals = AnimalClass.new('Mammals')
+mammals << Animal.new('Human')
+mammals << Animal.new('Dog')
+mammals << Animal.new('Cat')
+
+birds = AnimalClass.new('Birds')
+birds << Animal.new('Eagle')
+birds << Animal.new('Blue Jay')
+birds << Animal.new('Penguin')
+
+some_animal_classes = mammals + birds
+
+p some_animal_classes
+```
+What is output? Is this what we would expect when using `AnimalClass#+`? If not, how could we adjust the implementation of `AnimalClass#+` to be more in line with what we'd expect the method to return?
+
+**Answer:**
+
+The above code outputs and returns an array made up of objects of the class `Animal`. A more appropriate output would have been a new object of the `AnimalClass` class containing all the `Animal` objects from both the objects of `AnimalClass` in the method `AnimalClass#+`. 
+
+The implementation could of the method could be changed as follows:
+
+```ruby
+class AnimalClass
+  ...
+  def +(other_class)
+    temp_object = AnimalClass.new("Temporary")
+    temp_object << (animals + other_class.animals)
+    temp_object
+  end
+end
+```
+
+Here we instantiate an object of the class `AnimalClass` with the string `'Temporary'` passed in as argument and assign it to the local variable `temp_object`. We then call the `<<` method on this objects and pass in the animals of both the objects to the object referenced by `temp_object`. This adds all the animals to the instance variable `@animals` of the object referenced by `temp_object`. We then, return `temp_object`. What this does is return a new object of the class `AnimalClass` with all the animals stored in the instance variable `@animals` and the `@name` as `'Temporary'` which can be changed to more appropriate name later.
+
+5.
+```ruby
+class GoodDog
+  attr_accessor :name, :height, :weight
+  
+  def initialize(n, h, w)
+    @name = n
+    @height = h
+    @weight = w
+  end
+  
+  def change_info(n, h, w)
+    name = n
+    height = h
+    weight = w
+  end
+  
+  def info
+    "#{name} weighs #{weight} and is #{height} tall."
+  end
+end
+
+sparky = GoodDog.new('Spartacus', '12 inches', '10 lbs')
+sparky.change_info('Spartacus', '24 inches', '45 lbs')
+puts sparky.info
+# => Spartacus weighs 10 lbs and is 12 inches tall.
+```
+We expect the code above to output `”Spartacus weighs 45 lbs and is 24 inches tall.”` Why does our `change_info` method not work as expected?
+
+**Answer:**
+
+In the above code the `change_info` method does not actually change the values of the instance variables `@name`, `@height` and `@weight`. What it does is intialize three local variables by the name of `name`, `height` and `weight` and assign them the arguments `n`, `h` and `w` respectively which were passed to the method. To make it work as expected we must add `self` to the variable names, so that the setter method is called and the values of the respective instance variables are changed. It can be does as follows:
+
+```ruby
+class GoodDog
+  ...
+
+  def change_info(n, h, w)
+    self.name = n
+    self.height = h
+    self.weight = w
+  end
+end
+```
+
+6.
+```ruby
+class Person
+  attr_accessor :name
+  
+  def initialize(name)
+    @name = name
+  end
+  
+  def change_name
+    name = name.upcase
+  end
+end
+
+bob = Person.new('Bob')
+p bob.name
+bob.change_name
+p bob.name
+```
+In the code above, we hope to output `'BOB'` on `line 16`. Instead, we raise an error. Why? How could we adjust this code to output `'BOB'`?
+
+**Answer:** (Needs to be verified)
+
+When the method `change_name` is called the code `name = name.upcase` is exeecuted. What this does is initialize a local variable `name` and try to assign it to the return value of the method `upcase` called on itself. Since the initialized local variable is `nil`, this raises an error as the method `upcase` does not exist for it. This could be made fine by prepending `name` with `self.`. This would make sure to reference the setter method for the instance variable `@name` rather than initializing a new local variable and the value of `@name` would be changed to the uppercased version of the string. The code can be made fine as follows:
+
+```ruby
+class Person
+  ...
+
+  def change_info
+    self.name = name.upcase
+  end
+end
+```
+
+7.
+```ruby
+class Vehicle
+  @@wheels = 4
+  
+  def self.wheels
+    @@wheels
+  end 
+end
+
+p Vehicle.wheels
+
+class Motorcycle < Vehicle
+  @@wheels = 2
+end
+
+p Motorcycle.wheels
+p Vehicle.wheels
+
+class Car < Vehicle; end
+
+p Vehicle.wheels
+p Motorcycle.wheels
+p Car.wheels
+```
+
+What does the code above output, and why? What does this demonstrate about class variables, and why we should avoid using class variables when working with inheritance?
+
+**Answer:**
+
+The above code outputs `4`, `2`, `2`, `2`, `2`, `2`.
+
+In the code above the class `Vehicle` initializes a class variable `@@wheels` to the integer `4`. It has one class method `self.wheels` which returns the class variable `@@wheels`. Another class `Motorcycle` is defined which inhertits from the class `Vehicle`. Here the class variable `@@wheels` is reassigned to the integer `2`. What this does is change the value of the class variable. Another class `Car` is defined which inherits from the class `Vehicle` as well. Now, the class variable, `@@wheels` is available to the class `Vehicle` as well as all its subclasses and class variable `@@wheels` now points to integer `2` which is what is returned when trying to reference the class variable from any class.
+
+What this demonstartes is that when working with inheritance class variables must not be used or used with caution, as any of the subclasses can change the value of the class variable and that will effect the value for all classes. This can create confusion and undesirable results.
+
+8.
+```ruby
+class Animal
+  attr_accessor :name
+  
+  def initialize(name)
+    @name = name
+  end
+end
+
+class GoodDog < Animal
+  def initialize(color)
+    super
+    @color = color
+  end
+end
+
+bruno = GoodDog.new("brown")
+p bruno
+```
+What is output and why? What does this demonstrate about `super`?
+
+**Answer:**
+
+The above code outputs and returns the object referenced by `bruno` which is an object of the `GoodDog` class with two instance variables `@name` and `@color` both have the value `'brown'`.
+
+On line 16 the a new object is instantiated by calling the class method `new` on the class `GoodDog` and passing the string `'brown'` as an argument, and this object is assigned to the local variable `bruno`. After the method call, the constructor method of the class `initialize` is automatically called and the parameter `color` now references the string `'brown'` and is available for use within the method as a local variable. Within the method, the method `super` is called which looks up the method lookup path for a method with the same name which happens to be the `initialize` method of the superclass `Animal`. Since, `super` is called without any arguments, all arguments are passed to the method of the superclass. Because of this the instance variable `@name` points to the string `'brown'`. After this the instance variable `@color` is assigned to the object being referenced by the local variable `color` which is the string `'brown'`. So, now the instance variable `@color` points to the same string `'brown'`.
+
+On line 17 the method `p` is called and `bruno` is passed as an argument which outputs and returns the `GoodDog` object being referenced by the local variable `bruno`. 
+
+What this demonstartes about the method `super` is that `super` looks for and calls the method with the same name in which it is called in the method lookup chain. Also, when `super` is called without any arguments, all the arguments of the method in which it is used is passed up the method lookup chain. The method `super` then returns the return value of the method up the lookup chain which was called by it.
+
+9.
+```ruby
+class Animal
+  def initialize
+  end
+end
+
+class Bear < Animal
+  def initialize(color)
+    super
+    @color = color
+  end
+end
+
+bear = Bear.new("black")
+```
+What is output and why? What does this demonstrate about `super`?
+
+**Answer:**
+
+The above code raises an error `ArgumentError`.
+
+On line 13 a new object is instantiated by calling the class method `new` on the class `Bear` and the string `'black'` is passed in as an argument and this object is then assigned to the local variable `bear`. After this method call, the constructor method `initialize` of the class `Bear` is called.
+
+After this method call, the parameter `color` references the string `'black'` and is available for use within the method body as a local variable. Within the method, the method is `super` is called. Since `super` is called without any arguments, it looks up the method lookup chain for a method with the same name as `initialize` and by default passes all the arguments to it. Since, the method `initialize` in the superclass `Animal` has no parameter, it can receive no arguments and thus raises an `ArgumentError`.
+
+What this demonstrates is that `super` when called without any arguments, passes all the arguments. 
+
+This code can be made to work by adding blank parantheses `()` to the method call `super` like `super()`. This will make sure that no arguments is passed to the method called by `super`.
+
