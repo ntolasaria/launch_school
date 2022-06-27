@@ -251,6 +251,7 @@ puts GoodDog.total_number_of_dogs     # => 2
 
 Since `initialize` gets called every time we instantiate a new object of the class with the `new` method, the class variable is incremented by 1 everytime an object is instantiated.
 
+*Class methods are sometimes confusingly called a "singleton method" (the term is used in other contexts as well). Good to know, not required to be used though.*
 
 ## Method Access Control
 Method access control is generally implemented through the use of *access modifiers*. The purpose of access modifiers is to allow or restrict access to a particular thing (being the methods in a class).

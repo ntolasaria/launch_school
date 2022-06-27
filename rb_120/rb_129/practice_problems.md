@@ -338,3 +338,170 @@ What this demonstrates is that `super` when called without any arguments, passes
 
 This code can be made to work by adding blank parantheses `()` to the method call `super` like `super()`. This will make sure that no arguments is passed to the method called by `super`.
 
+10.
+```ruby
+module Walkable
+  def walk
+    "I'm walking."
+  end 
+end
+
+module Swimmable
+  def swim
+    "I'm swimming."
+  end 
+end
+
+module Climbable
+  def climb
+    "I'm climbing."
+  end 
+end
+
+module Danceable
+  def dance
+    "I'm dancing."
+  end 
+end
+
+class Animal
+  include Walkable
+  def speak
+    "I'm an animal, and I speak!"
+  end 
+end
+
+module GoodAnimals
+  include Climbable
+
+  class GoodDog < Animal
+    include Swimmable
+    include Danceable
+  end
+
+  class GoodCat < Animal; end
+end
+
+good_dog = GoodAnimals::GoodDog.new
+p good_dog.walk
+```
+What is the method lookup path used when invoking `#walk` on `good_dog`?
+
+**Answer:**
+
+Method lookup path for method `walk` on `good_dog`.
+
+The method lookup path for `good_dog` can be accessed by calling the class method `ancestors` on the class of `good_dog` which is `GoodAnimals::GoodDog`. It can also be called like `good_dog.class.ancestors`.
+
+GoodAnimals::GoodDog
+Danceable
+Swimmable
+Animal
+Walkable
+Object
+Kernel
+BasicObject
+
+The method lookup path first looks in the class of the object on which the method is called. It then proceeds to look into the included modules in the order such that the module added last in looked in first. Then it looks into the superclass and then the modules of the superclass in the same order as before.
+
+In this case it looks in the class `GoodAnimals::GoodDog` then the included modules in the order `Daneable`, `Swimmable` then the superclass `Animal`, then the module mixed in to the the superclass `Walkable` and then the default `Object`, `Kernel` and lastly `BasicObject`.
+
+11.
+```ruby
+class Animal
+  def eat
+    puts "I eat."
+  end
+end
+
+class Fish < Animal
+  def eat
+    puts "I eat plankton."
+  end
+end
+
+class Dog < Animal
+  def eat
+     puts "I eat kibble."
+  end
+end
+
+def feed_animal(animal)
+  animal.eat
+end
+
+array_of_animals = [Animal.new, Fish.new, Dog.new]
+
+array_of_animals.each do |animal|
+  feed_animal(animal)
+end
+```
+What is output and why? How does this code demonstrate polymorphism?
+
+**Answer:**
+
+The above code outputs `"I eat."`, `"I eat plankton."` and `"I eat kibble."` in the same order.
+
+In the above code the local variable `array_of_animals` is initialized to an array with three elements each belonging to the class `Animal`, `Fish` and `Dog` respectively.
+
+The method `each` is called on the array being referenced by `array_of_animals` and the `do..end` block following it is passed as an argument with one parameter `animal`. Within the block the method `feed_animal` is invoked and the local variable `animal` is passed as an argument. After the method call the instance method `eat` is called on the object being referenced by the local variable `animal`.
+
+What this essentially does is call the instance variable `eat` for each of the objects belonging to the classes `Animal`, `Fish` and `Dog`. When the instance method `eat` is called for the objects belonging to the different, the method lookup path for every object is looked up and the instance method encountered first in the method lookup path is executed.
+
+In this case, for the object of `Animal` class, the instance method `eat` belonging to the class `Animal` is executed and `"I eat."` is output. For the object of the class `Fish`, the instance method `eat` belonging to the class `Fish` is executed and `"I eat plankton."` is output. Lastly, for the object of class `Dog` the instance method `eat` belonging to the class `Dog` is executed and `"I eat kibble."` is output.
+
+Here, it can be seen that a method `eat`, which takes in no arguments can be called on objects belonging to different classes and have each of them respond differently. This demonstrates polymorphism and specifically in this case, polymorphism by inheritance. Here whet matters is that all the objects must have a method `eat` in their method lookup and that it should take no arguments.
+
+12.
+```ruby
+class Person
+  attr_accessor :name, :pets
+  
+  def initialize(name)
+    @name = name
+    @pets = []
+  end
+end
+
+class Pet
+  def jump
+    puts "I'm jumping!"
+  end
+end
+
+class Cat < Pet; end
+
+class Bulldog < Pet; end
+
+bob = Person.new("Robert")
+
+kitty = Cat.new
+bud = Bulldog.new
+
+bob.pets << kitty
+bob.pets << bud
+
+bob.pets.jump
+```
+We raise an error in the code above. Why? What do `kitty` and `bud` represent in relation to our `Person` object?
+
+**Answer:**
+
+The last line of the above code raises a `NoMethodError`. 
+
+In the above code a class `Person` is defined with a constructor method two instance variables `@name` and `@pets`. A class `Pet` is defined with one instance method `jump`. Two classes `Cat` and `Bulldog` are defined both of which are sub-classes of the class `Pet`. 
+
+A local variable `bob` is initialized to the return value of the class method `new` called on the class `Person` with the string `"Robert"` passed is as an argument. This instantiates a new object of the class `Person`, the instance variable `@name` is assigned to the string `"Robert"`. Two objects belonging to classes `Cat` and `Bulldog` are instantiated and assigned to the local variable `kitty` and `bud` respectively. The method `<<` is called on the return value of the setter method `pets` of the object `bob` and the arguments `kitty` and then `bud` are passed to it. What this does is add the objects being referenced by `kitty` and `bud` to the array referenced by the instance variable `@pets` of the object `bob`. 
+
+On the last line the method `jump` is called on the setter method `pets` being called on `bob`. what this does is call the method `jump` on the array referenced by the instance variable `@pets` of `bob`. Since, the method `jump` exists for objects of the class `Pet` and its sub-classes and is not available for arrays, a `NoMethodError` is raised.
+
+This can be made fine by calling the method `jump` on the individual objects in the array referenced by `@pets` rather than calling on the array itself. One way to do it is as follows:
+
+```ruby
+bob.pets.each { |pet| pet.jump }
+```
+
+This outputs the string `"I'm jumping!"` twice.
+
+In this code the the relation between objects referenced by `kitty` and `bud` and the object of the `Person` class is that they are collaborator objects.
+
