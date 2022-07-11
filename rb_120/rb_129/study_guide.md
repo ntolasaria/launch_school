@@ -1077,7 +1077,7 @@ dream_team[5] = Person.new("JJ", 72)
 puts dream_team.inspect
 ```
 
-## Working with collaborator objects
+## Working with collaborator objects (READ no object is an island on Medium)
 
 Classes group common behaviour and objects encapsulate state. Object's states are saved in an object's instance variables. Instance methods operate on those instance variables. The instance variables can hold objects belonging to classes such as `String`, `Integer` etc., also collections like `Array`, `Hash`, etc. or even an object of a custom class we've created. Objects that are stored as state within another object are called "collaborator objects". 
 
