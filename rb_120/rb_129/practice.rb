@@ -1,43 +1,19 @@
-module Walkable
-  def walk
-    "#{name} #{gait} forward"
-  end 
-end
+class House
+  include Comparable
 
-class Person
-  include Walkable
+  attr_reader :price
   
-  attr_reader :name
-  
-  def initialize(name)
-    @name = name
+  def initialize(price)
+    @price = price
   end
-  
-  private
-  
-  def gait
-    "strolls"
-  end 
-end
 
-class Cat
-  include Walkable
-  
-  attr_reader :name
-  
-  def initialize(name)
-    @name = name
-  end
-  
-  private
-  
-  def gait
-    "saunters"
+  def <=>(other)
+    price <=> other.price
   end
 end
 
-mike = Person.new("Mike")
-p mike.walk
-
-kitty = Cat.new("Kitty")
-p kitty.walk
+home1 = House.new(100_000)
+home2 = House.new(150_000)
+puts "Home 1 is cheaper" if home1 < home2 # => Home 1 is cheaper
+puts "Home 2 is more expensive" if home2 > home1 # => Home 2 is more
+# expensive
