@@ -1,19 +1,39 @@
-class House
-  include Comparable
+class Student
+  def initialize(name)
+    @name = name
+    @scores = []
+  end
 
-  attr_reader :price
+  def update_scores(score)
+    if score.to_s.to_i == score && score >= 0
+      @scores << score
+    else
+      puts "Please enter a valid score"
+    end
+  end
+
+  def display_grade
+    "The grade is #{grade}."
+  end
+
+  private
+
+  def grade
+    case (@scores.reduce(:+) / @scores.size)
+    when (90..100)  then 'A'
+    when (80..89)   then 'B'
+    else                 'C'
+    end
+  end
   
-  def initialize(price)
-    @price = price
-  end
-
-  def <=>(other)
-    price <=> other.price
-  end
 end
 
-home1 = House.new(100_000)
-home2 = House.new(150_000)
-puts "Home 1 is cheaper" if home1 < home2 # => Home 1 is cheaper
-puts "Home 2 is more expensive" if home2 > home1 # => Home 2 is more
-# expensive
+tim = Student.new("Tim")
+tim.update_scores(90)
+tim.update_scores(95)
+# tim.update_scores(-10)
+
+puts tim.display_grade
+
+
+

@@ -204,7 +204,7 @@ class SevenUpDownGame
 
   def player_broke?
     if player.broke?
-      puts "It's seems you are broke!!!"
+      puts "It seems you are broke!!!"
       puts "Sorry..."
       true
     end
@@ -246,8 +246,8 @@ class DiceTest
   end
 end
   
-# SevenUpDownGame.new.play
+SevenUpDownGame.new.play
 
-DiceTest.new.start(1000000)
+# DiceTest.new.start(1000000)
 
 

@@ -469,7 +469,7 @@ In theory the methods above can be used polymorphically as they are both named `
 
 ### Encapsulation
 
-Encapsulation lets us hide the internal representation of an object from the outside and only expose methods and properties that users of the object need. Method access control can be used to expose those properties and methods through the public interface of a class: it's public methods.
+Encapsulation lets us hide the internal representation of an object from the outside and only expose methods and properties that users of the object need. Method access control can be used to expose those properties and methods through the public interf a class: it's public methods.
 
 Example:
 

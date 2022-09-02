@@ -294,6 +294,13 @@ p song.artist
 
 The first line outputs the object of class `Song` and shows the instance variable `@title` with value `"Superstition"`.
 
-The second line outputs the return value of the 
+The second line outputs the return value of the setter method `name` for the instance variable `@name`. The setter method returns the argument that was passed which in this case is the string `"Stevie Wonder"`. 
+
+Within the setter method the instance variable `@artist` is assigned to the uppercased version of the argument which is the string object `"Stevie Wonder"`, hence the instance variable `@artist` references the string `"STEVIE WONDER"`.
+
+The third line outputs the return value of the getter method `artist` which returns the value referenced by `@artist` which is `"STEVIE WONDER"` which is output.
+
+If we inspect the object refernced by `song` after the call to `song.artist` we would get the object of the class `Song` showing the two instance variables `@title` and `@artist` with their respective values.
+
 
 
