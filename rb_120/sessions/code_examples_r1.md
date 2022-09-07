@@ -126,7 +126,7 @@ class Pet; end
 
 class Mammal < Pet; end
 
-class Fish < Animal
+class Fish < Pet
   include Swimmable
 end
 

@@ -19,7 +19,7 @@ class FixedArray
   def to_s
     to_a.to_s
   end
-end
+ends
 
 fixed_array = FixedArray.new(5)
 puts fixed_array[3] == nil
