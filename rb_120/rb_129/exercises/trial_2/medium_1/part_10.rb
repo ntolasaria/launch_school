@@ -1,8 +1,10 @@
+# Include Card and Deck classes from the last two exercises.
+
 class Card
   include Comparable
   attr_reader :rank, :suit
-  
-  FACE_CARDS = { 'Jack' => 11, 'Queen' => 12, 'King' => 13, 'Ace' => 14 }
+
+  FACE_VALUES = { 'Jack' => 11, 'Queen' => 12, 'King' => 13, 'Ace' => 14}
 
   def initialize(rank, suit)
     @rank = rank
@@ -10,7 +12,7 @@ class Card
   end
 
   def value
-    FACE_CARDS.fetch(rank, rank)
+    FACE_VALUES.fetch(rank, rank)
   end
 
   def <=>(other)
@@ -27,30 +29,31 @@ class Deck
   SUITS = %w(Hearts Clubs Diamonds Spades).freeze
 
   def initialize
-    generate_and_shuffle
+    @cards = []
+    reset
   end
 
-  def generate_and_shuffle
-    @deck = SUITS.product(RANKS).map do |suit, rank|
+  def reset
+    @cards = SUITS.product(RANKS).map do |suit, rank|
       Card.new(rank, suit)
     end
-    @deck.shuffle!
+    @cards.shuffle!
   end
 
   def draw
-    generate_and_shuffle if @deck.empty?
-    @deck.pop
+    reset if @cards.empty?
+    @cards.pop
   end
 end
 
-# Include Card and Deck classes from the last two exercises.
-
 class PokerHand
   def initialize(deck)
-    @hand = (1..5).map { deck.draw }
-    @rank_counts = Hash.new(0)
-    @hand.each do |card|
-      @rank_counts[card.rank] += 1
+    @hand = []
+    @rank_count = Hash.new(0)
+    5.times do
+      card = deck.draw
+      @rank_count[card.rank] += 1
+      @hand << card
     end
   end
 
@@ -75,12 +78,13 @@ class PokerHand
 
   private
 
-  def n_of_a_kind(n)
-    @rank_counts.count { |_, count| count == n } == 1
+  def n_of_a_kind?(n)
+    @rank_count.count { |_, counts| counts == n } == 1
   end
 
   def royal_flush?
-    straight_flush? && @hand.min.value == 10
+    straight_flush? &&
+    @hand.min.value == 10
   end
 
   def straight_flush?
@@ -88,7 +92,7 @@ class PokerHand
   end
 
   def four_of_a_kind?
-    n_of_a_kind(4)
+    n_of_a_kind?(4)
   end
 
   def full_house?
@@ -101,20 +105,20 @@ class PokerHand
   end
 
   def straight?
-    @rank_counts.size == 5 &&
+    @rank_count.all? { |_, counts| counts == 1} &&
     @hand.max.value - @hand.min.value == 4
   end
 
   def three_of_a_kind?
-    n_of_a_kind(3)
+    n_of_a_kind?(3)
   end
 
   def two_pair?
-    @rank_counts.count { |_, counts| counts == 2 } == 2
+    @rank_count.count { |_, counts| counts == 2 } == 2
   end
 
   def pair?
-    n_of_a_kind(2)
+    n_of_a_kind?(2)
   end
 end
 
@@ -227,3 +231,4 @@ hand = PokerHand.new([
   Card.new(3,      'Diamonds')
 ])
 puts hand.evaluate == 'High card'
+

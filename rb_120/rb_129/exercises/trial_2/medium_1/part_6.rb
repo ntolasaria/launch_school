@@ -2,57 +2,73 @@ class GuessingGame
   NUMBER_RANGE = (1..100)
   NO_OF_GUESSES = 7
 
-  def initialize
+  def reset
+    system 'clear'
     @number = rand(NUMBER_RANGE)
+    @remaining_guesses = NO_OF_GUESSES
+    @user_input = nil
   end
 
   def play
-    # display_remaining_guesses
-    system 'clear'
-    NO_OF_GUESSES.downto(1) do |remaining_guesses|
-      puts "You have #{remaining_guesses} guesses remaining."
+    reset
+    loop do
+      display_remaining_guesses
       ask_for_user_input
-      break if user_wins?
       display_result
+      break if user_won? || guesses_over?
     end
-
     display_final_result
+  end
+
+  def display_remaining_guesses
+    if @remaining_guesses == 1
+      puts "You have 1 guess remaining."
+    else
+      puts "You have #{@remaining_guesses} guesses remaining."
+    end
   end
 
   def ask_for_user_input
     print "Enter a number between #{NUMBER_RANGE.min} and #{NUMBER_RANGE.max}: "
-
     loop do
       @user_input = gets.chomp.to_i
       break if NUMBER_RANGE.include?(@user_input)
       print "Invalid guess. Enter a number between #{NUMBER_RANGE.min} and #{NUMBER_RANGE.max}: "
     end
+    @remaining_guesses -= 1
   end
 
   def display_result
     if @user_input < @number
       puts "Your guess is too low."
-    else
+    elsif @user_input > @number
       puts "Your guess is too high."
+    else
+      puts "That's the number!"
     end
     puts
   end
 
+  def user_won?
+    @user_input == @number
+  end
+
+  def guesses_over?
+    @remaining_guesses == 0
+  end
+
   def display_final_result
-    if user_wins?
-      puts "That's the number!"
-      puts
+    puts
+    if user_won?
       puts "You won!"
     else
       puts "You have no more guesses. You lost!"
-      puts "The number was #{@number}"
+      puts "The number was: #{@number}"
     end
   end
 
-  def user_wins?
-    @user_input == @number
-  end
 end
+
 
 game = GuessingGame.new
 game.play

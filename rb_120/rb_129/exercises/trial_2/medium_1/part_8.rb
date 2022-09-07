@@ -1,8 +1,8 @@
 class Card
   include Comparable
   attr_reader :rank, :suit
-  
-  FACE_CARDS = { 'Jack' => 11, 'Queen' => 12, 'King' => 13, 'Ace' => 14 }
+
+  FACE_VALUES = { 'Jack' => 11, 'Queen' => 12, 'King' => 13, 'Ace' => 14}
 
   def initialize(rank, suit)
     @rank = rank
@@ -10,7 +10,7 @@ class Card
   end
 
   def value
-    FACE_CARDS.fetch(rank, rank)
+    FACE_VALUES.fetch(rank, rank)
   end
 
   def <=>(other)

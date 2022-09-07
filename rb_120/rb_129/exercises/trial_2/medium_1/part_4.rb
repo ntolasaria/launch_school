@@ -1,61 +1,46 @@
+# P1	P2	P3	Comments
+# All positions are initially empty
+# 1			Add 1 to the queue
+# 1	2		Add 2 to the queue
+# 2		Remove oldest item from the queue (1)
+# 2	3	Add 3 to the queue
+# 4	2	3	Add 4 to the queue, queue is now full
+# 4		3	Remove oldest item from the queue (2)
+# 4	5	3	Add 5 to the queue, queue is full again
+# 4	5	6	Add 6 to the queue, replaces oldest element (3)
+# 7	5	6	Add 7 to the queue, replaces oldest element (4)
+# 7		6	Remove oldest item from the queue (5)
+# 7			Remove oldest item from the queue (6)
+# Remove oldest item from the queue (7)
+# Remove non-existent item from the queue (nil)
 require 'pry-byebug'
-
-# 1   nil   nil
-# 1    2    nil
-#      2    nil
-#      2     3
-# 4    2     3
-# 4   nil    3
-# 4    5     3
-# 4    5     6
-# 7    5     6
-# 7   nil    6
-# 7   nil   nil
-
-# class CircularQueue
-#   def initialize(size)
-#     @buffer = [nil] * size
-#     @add_index = 0
-#     @remove_index = 0
-#   end
-
-#   def enqueue(value)
-#     current_value = @buffer[@add_index]
-#     @buffer[@add_index] = value
-
-#     @add_index = increment_index(@add_index)
-#     @remove_index = @add_index unless current_value.nil?
-#   end
-
-#   def dequeue
-#     value = @buffer[@remove_index]
-#     @buffer[@remove_index] = nil
-#     @remove_index = increment_index(@remove_index) unless value.nil?
-#     value
-#   end
-
-#   private
-
-#   def increment_index(index)
-#     (index + 1) % @buffer.size 
-#   end
-# end
-
-# Using #push and @shift
 
 class CircularQueue
   def initialize(size)
     @size = size
-    @buffer = []
+    @buffer = [nil] * size
+    @next_position = 0
+    @remove_position = 0
   end
 
   def enqueue(value)
-    dequeue if @buffer.size == @size
-    @buffer.push(value)
+    old_value = @buffer[@next_position]
+    @buffer[@next_position] = value
+    @next_position = increment_position(@next_position)
+    @remove_position = @next_position unless old_value.nil?
   end
 
   def dequeue
-    @buffer.shift
+    value = @buffer[@remove_position]
+    @buffer[@remove_position] = nil
+    @remove_position = increment_position(@remove_position) unless value.nil?
+    value
+  end
+
+  private
+
+  def increment_position(position)
+    (position + 1) % @size
   end
 end
 

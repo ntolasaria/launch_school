@@ -9,15 +9,15 @@ class FixedArray
 
   def []=(index, value)
     self[index]
-    @array[index] =  value
-  end
-
-  def to_s
-    to_a.to_s
+    @array[index] = value
   end
 
   def to_a
     @array.clone
+  end
+
+  def to_s
+    to_a.to_s
   end
 end
 
