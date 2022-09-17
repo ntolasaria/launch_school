@@ -73,4 +73,3 @@ time_it { factorial_ls.take(count) }
 
 # puts "Factorial with `reduce`:"
 # time_it { factorial_with_reduce.take(count) }
-
