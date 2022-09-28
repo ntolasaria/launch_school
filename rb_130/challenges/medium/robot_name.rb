@@ -23,4 +23,3 @@ class Robot
     3.times { @name << rand(0..9).to_s }
   end
 end
-

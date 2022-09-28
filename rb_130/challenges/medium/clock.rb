@@ -11,7 +11,6 @@
 
 # `+` - 
 # `to_s` - string representation
-require 'pry-byebug'
 
 class Clock
   attr_reader :hours, :minutes
@@ -62,4 +61,3 @@ class Clock
     self.class.new(new_hours, new_minutes)
   end
 end
-
