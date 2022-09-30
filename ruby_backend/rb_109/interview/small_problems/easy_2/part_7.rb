@@ -1,1 +1,0 @@
-puts (1..99).to_a.reject { |n| n.odd? }
