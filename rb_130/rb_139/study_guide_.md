@@ -11,7 +11,7 @@
   
 - A closure is a general programming concept that allows a programmer to save a "chunk of code" and execute it at a later time.
 - It's called a closure because it binds its surrounding artifacts (ie, names like variables and methods) and builds an enclosure around everything so that they can be referenced when the closure is later executed.
-- It can also be though of as a method you can pass around and execute.
+- It can also be thought of as a method you can pass around and execute.
   
 Ruby implements cloures through:
 - instantiating an object from the `Proc` class
