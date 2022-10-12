@@ -562,7 +562,19 @@ A few popular assertions are as follows:
 | `assert_includes(collecion, obj)` | Fails unless `collection` includes `obj`. |
 
 
+#### Code Coverage
 
+Code coverage gives an idea of how much of our program code is tested by a test suite. Code coverage is based on the testing of all of the code both public and private methods. 
+
+Its important to note that code coverage doesn't imply that every edge case is considered or that even the program is running correctly. It only shows that we have tests in place for every method. Even though not foolproof it is one way to gauge code quality.
+
+A simple tool for the is the gem `simplecov`. At the top of the test file add this:
+
+```ruby
+require 'simplecov'
+SimpleCov.start
+```
+Once the test file is run, a directory called `coverage` will be created in the file system. The html file can be opened up for details.
 
 
 ## Core Tools/Packaging Code
