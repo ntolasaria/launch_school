@@ -1,16 +1,12 @@
-def proc_method
-  Proc.new { |n| n ** 2}
+class Parent
+  private
+
+  def a_method
+    puts "private method from Parent!"
+  end
 end
 
-def method_a(proc)
-  p proc.call(5)
+class Child < Parent
 end
 
-def method_b(&block)
-  p block.call(6)
-  p yield(9)
-end
-
-method_a(proc_method)
-# p method_b(&proc_method)
-method_b(&proc_method)
+Child.new.a_method

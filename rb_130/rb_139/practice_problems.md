@@ -761,9 +761,22 @@ Regression testing is testing that changes being made in the code do not adversl
 
 # CORE TOOLS
 
-48, What are the purposes of core tools?
+#### 48, What are the purposes of core tools?
 
-49, What are RubyGems and why are they useful?
+**Answer:**
+
+Ruby core tools provide us with the tools to bundle, package, build, distribute, upgrade etc. our project / app.
+
+It provides various tools like
+- Ruby version managers - provides multiple ruby and gem versions in one system
+- bundler gem - bundle all dependencies with correct versions 
+- rake - automate commonly done tasks like running tests, installations, listing filenames etc.
+
+#### 49, What are RubyGems and why are they useful?
+
+**Answer:**
+
+RubyGems are packages of code that you can download, install and use in your Ruby programs or from the command line. They can be downloaded with a simple `gem install` command. 
 
 50, What are Version Managers and why are they useful?
 
