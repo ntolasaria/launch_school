@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>study_guide.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="study-guide-for-rb139-assessment">Study guide for RB139 Assessment</h1>
+<h2 id="blocks">Blocks</h2>
+<h4 id="closures-binding-and-scope">Closures, binding, and scope</h4>
+<h3 id="closures">Closures:</h3>
+<ul>
+<li>A closure is a general programming concept that allows a programmer to save a &quot;chunk of code&quot; and execute it at a later time.</li>
+<li>It's called a closure because it binds its surrounding artifacts (ie, names like variables and methods) and builds an enclosure around everything so that they can be referenced when the closure is later executed.</li>
+<li>It can also be though of as a method you can pass around and execute.</li>
+</ul>
+<p>Ruby implements cloures through:</p>
+<ul>
+<li>instantiating an object from the <code>Proc</code> class</li>
+<li>using lambdas</li>
+<li>using blocks</li>
+</ul>
+<p>It is different to just creating a method and calling that later. It can be passed into existing methods. It retains references to its surrounding artifacts - its <strong>binding</strong>.</p>
+<h3 id="binding">Binding</h3>
+<p>Closures retains references to its surrounding artifacts, thats is variables, objects etc. This is called its binding.</p>
+<p>Example:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">call_me</span><span class="hljs-params">(some_code)</span></span>
+  some_code.call
+<span class="hljs-keyword">end</span>
+
+name = <span class="hljs-string">"Robert"</span>
+chunk_of_code = Proc.new { puts <span class="hljs-string">"hi <span class="hljs-subst">#{name}</span>"</span> }
+name = <span class="hljs-string">"Griffin III"</span>          <span class="hljs-comment"># re-assign name after Proc initialization</span>
+
+call_me(chunk_of_code)
+</div></code></pre>
+<p>The output is</p>
+<pre class="hljs"><code><div>hi Griffin III
+=&gt; nil
+</div></code></pre>
+<p>The <code>Proc</code> is aware of the new value even though the variable was reassigned after the Proc was defined. This implies that the Proc keeps track of its surrounding context and drags it around wherever the chunk of code is passed to. In Ruby this is called its binding pr surrounding enviornment / context. A closure must keep track of its binding in order to have all the information it needs in order to be executed later. This includes local variables, method references, constants and other artifacts in the code - whatever it needs to execute correctly, it will drag all of it around. That is why the above code works the way it does seemingly violating the variable scoping rules we learned earlier. All variables that need to accessed in the closure must be defined / initialized before the closure is created.</p>
+<p>Binding and closures is why &quot;inner scopes can access outer scopes&quot;.</p>
+<h3 id="scope">Scope</h3>
+<h4 id="how-blocks-work-and-when-we-want-to-use-them">How blocks work, and when we want to use them.</h4>
+<h3 id="blocks">Blocks:</h3>
+<p>Blocks are defined by either <code>{ ... }</code> or <code>do ... end</code>.</p>
+<p>Example:</p>
+<pre class="hljs"><code><div>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>].each <span class="hljs-keyword">do</span> <span class="hljs-params">|num|</span>
+  puts num
+<span class="hljs-keyword">end</span>
+</div></code></pre>
+<p>Here the <code>each</code> method is called on the <code>Array</code> object and the <code>do ... end</code> part which is the block is passed as an argument.</p>
+<h4 id="blocks-and-variable-scope">Blocks and variable scope</h4>
+<p>Local variable scope with blocks:</p>
+<pre class="hljs"><code><div>level_1 = <span class="hljs-string">"outer-most variable"</span>
+
+[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>].each <span class="hljs-keyword">do</span> <span class="hljs-params">|n|</span>             <span class="hljs-comment"># block creates new scope</span>
+  level_2 = <span class="hljs-string">"inner variable"</span>
+
+  [<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'c'</span>].each <span class="hljs-keyword">do</span> <span class="hljs-params">|n2|</span>  <span class="hljs-comment"># nested block creates nested scope</span>
+    level_3 = <span class="hljs-string">"inner_most variable"</span>
+
+    <span class="hljs-comment"># all three level_x variables are accessible here</span>
+  <span class="hljs-keyword">end</span>
+    
+  <span class="hljs-comment"># level_1 - accessible</span>
+  <span class="hljs-comment"># level_2 - accessible</span>
+  <span class="hljs-comment"># level_3 - not accessible</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># level_1 - accessible</span>
+<span class="hljs-comment"># level_2 - not accessible</span>
+<span class="hljs-comment"># level_3 - not accessible</span>
+</div></code></pre>
+<p>This is only for local variables and not methods. This can be confusing.</p>
+<h4 id="write-methods-that-use-blocks-and-procs">Write methods that use blocks and procs</h4>
+<p>In Ruby, every method we have ever written can take a block as an implicit argument.</p>
+<p>Example:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello</span></span>
+  <span class="hljs-string">"hello!"</span>
+<span class="hljs-keyword">end</span>
+
+hello(<span class="hljs-string">"hi"</span>)             <span class="hljs-comment"># =&gt; ArgumentError</span>
+hello { puts <span class="hljs-string">'hi'</span> }     <span class="hljs-comment"># =&gt; "hello!"</span>
+</div></code></pre>
+<p>Calling <code>hello</code> with the wrong number of arguments raises an error, however calling it with a block does not raise an error and the method is invoked.</p>
+<h3 id="yielding">Yielding</h3>
+<p>One way to invoke the passed in block argument from within the method is by using <code>yield</code> keyword.</p>
+<p>Example:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">echo_with_yield</span><span class="hljs-params">(str)</span></span>
+  <span class="hljs-keyword">yield</span>
+  str
+<span class="hljs-keyword">end</span>
+
+echo_with_yield { puts <span class="hljs-string">"world"</span> }                      <span class="hljs-comment"># =&gt; ArgumentError</span>
+echo_with_yield(<span class="hljs-string">"hello!"</span>) { puts <span class="hljs-string">"world"</span> }            <span class="hljs-comment"># world</span>
+                                                      <span class="hljs-comment"># =&gt; "hello!"</span>
+echo_with_yield(<span class="hljs-string">"hello"</span>, <span class="hljs-string">"world!"</span>) { puts <span class="hljs-string">"world"</span> }   <span class="hljs-comment"># ArgumentError</span>
+</div></code></pre>
+<p>The number of arguments with the method call must match the method definition exactly. The <code>yield</code> keyword executes the block that is passed in.'</p>
+<p>Now, if the method is called as follows:</p>
+<pre class="hljs"><code><div>echo_with_yield(<span class="hljs-string">"hello!"</span>)         <span class="hljs-comment"># LocalJumpError: no block given (yield)</span>
+</div></code></pre>
+<p>This is because <code>yield</code> is used within the method definition but no block has been given at the time of method invocation.</p>
+<p>This can be addressed we can wrap the <code>yield</code> call in a conditional. Only call <code>yield</code> if a block is passed and call if no block is passed. Then the method can be called with or without the block. This can be done with the <code>Kernel#block_given?</code> method.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">echo_with_yield</span><span class="hljs-params">(str)</span></span>
+  <span class="hljs-keyword">yield</span> <span class="hljs-keyword">if</span> block_given?
+  str
+<span class="hljs-keyword">end</span>
+
+echo_with_yield(<span class="hljs-string">"hello!"</span>)                       <span class="hljs-comment"># "hello!"</span>
+echo_with_yield(<span class="hljs-string">"hello!"</span>) { puts <span class="hljs-string">"world"</span> }      <span class="hljs-comment"># world</span>
+                                                <span class="hljs-comment"># =&gt; "hello!"</span>
+</div></code></pre>
+<p>Sequnce of code execution when yielding to a block:</p>
+<pre class="hljs"><code><div><span class="hljs-number">1</span> <span class="hljs-params">|# method implementation
+2 |</span><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">say</span><span class="hljs-params">(words)</span></span>
+<span class="hljs-number">3</span> <span class="hljs-params">|  <span class="hljs-keyword">yield</span> <span class="hljs-keyword">if</span> block_given?
+4 |</span>  puts <span class="hljs-string">"&gt;"</span> +  words
+<span class="hljs-number">5</span> <span class="hljs-params">|<span class="hljs-keyword">end</span>
+6 |</span>
+<span class="hljs-number">7</span> <span class="hljs-params">|# method invocation
+8 |</span>say(<span class="hljs-string">"hi there"</span>) <span class="hljs-keyword">do</span>
+<span class="hljs-number">9</span> <span class="hljs-params">|  system 'clear'
+10|</span><span class="hljs-keyword">end</span>                       <span class="hljs-comment"># clears screen first, then outputs "&gt; hi there"</span>
+</div></code></pre>
+<ul>
+<li>execution starts at line 8. <code>say</code> is invoked with two arguments - a string and a block</li>
+<li>execution goes to line 2, local variable <code>words</code> is assigned to the string <code>&quot;hi there&quot;</code>. The block is passed implicitly without being assigned to a variable.</li>
+<li>execution continues to line 3, which yields to the block as the method <code>block_given?</code> returns <code>true</code></li>
+<li>the block, line 9 is excuted which clears the screen.</li>
+<li>after the block is done executing, execution continues in the method implementation on line 4. Executing line 4 results in the <code>&quot;&gt;hi there&quot;</code> being output.</li>
+<li>the method ends, and <code>nil</code> is returned as that is what is returned by <code>puts</code> being the last line of the method.</li>
+</ul>
+<p>The trace is as follows:
+line 8 -&gt; line 2 -&gt; line 3 -&gt; line 9 -&gt; line 4 -&gt; line 5</p>
+<p>Notice the jump after line 3. Execution jumps to the block and comes back to finish the rest of the method. This is similar to calling a method, except here a block is called. Sometimes block can be thought of as an unnamed method.</p>
+<p><strong>Yielding with an argument</strong></p>
+<p>Example:</p>
+<pre class="hljs"><code><div><span class="hljs-number">3</span>.times <span class="hljs-keyword">do</span> <span class="hljs-params">|num|</span>
+  puts num
+<span class="hljs-keyword">end</span>
+</div></code></pre>
+<p><code>3</code> is the calling object.
+<code>.times</code> is the method being called.
+<code>do ... end</code> is the block. The <code>num</code> variable between two <code>|</code>s is the block parameter. Within the block, <code>num</code> is a block local variable. This is a special type of local variable where the scope is constrained to the block.</p>
+<p>Block parameter should have a unique name, otherwise variable shadowing might take place.</p>
+<p>Example of a custom method that takes a block:</p>
+<pre class="hljs"><code><div><span class="hljs-number">1</span> <span class="hljs-params">| # method implemnetation
+2 |</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">increment</span><span class="hljs-params">(number)</span></span>
+<span class="hljs-number">3</span> <span class="hljs-params">|   <span class="hljs-keyword">if</span> block_given?
+4 |</span>     <span class="hljs-keyword">yield</span>(number + <span class="hljs-number">1</span>)
+<span class="hljs-number">5</span> <span class="hljs-params">|   <span class="hljs-keyword">end</span>
+6 |</span>   number + <span class="hljs-number">1</span>
+<span class="hljs-number">7</span> <span class="hljs-params">| <span class="hljs-keyword">end</span>
+8 |</span>
+<span class="hljs-number">9</span> <span class="hljs-params">| # method invocation
+10|</span> increment(<span class="hljs-number">5</span>) <span class="hljs-keyword">do</span> <span class="hljs-params">|num|</span>
+<span class="hljs-number">11</span><span class="hljs-params">|   puts num
+12|</span> <span class="hljs-keyword">end</span>
+</div></code></pre>
+<p>Trace of the code execution:</p>
+<ul>
+<li>execution starts at method invocation on line 10.</li>
+<li>moves to method implementation on line 2. <code>number</code> is assigned to <code>5</code>, and the block is implicitly passed.</li>
+<li>continues to line 3, which is a conditional</li>
+<li>conditional is true, moves to line 4</li>
+<li>On line 4 execution is yielded to the block (or the block is called), <code>number + 1</code> is passed to the block, which means the block is called with <code>6</code> as the block argument.</li>
+<li>execution jumps to line 10, where <code>num</code> is assigned to <code>6</code>.</li>
+<li><code>num</code> is available as block local variable. Continues to line 11, where the object referenced by <code>num</code> is output.</li>
+<li>continues to line 12, where the end of block is reached.</li>
+<li>execution jumps back to method implementation, where line 4 is just executed.</li>
+<li>continues to line 5, the end of the <code>if</code>.</li>
+<li>continues to line 6, where the value <code>number + 1</code> is returned to line 10.</li>
+<li>the program ends (the return value of the <code>#increment</code> is not used)</li>
+</ul>
+<p>Sequence is as follows:</p>
+<p>Line 10 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 10 -&gt; 11 -&gt; 12 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; 10</p>
+<p>So, it can be seen that calling a block is almost like calling another method. In this case, we are also passing an argument to the block. So, if we pass in the wrong number of arguments we would expect Ruby to raise an <code>Argument Error</code>. Lets, see an example:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test</span></span>
+  <span class="hljs-keyword">yield</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)
+<span class="hljs-keyword">end</span>
+
+test { <span class="hljs-params">|num|</span> puts num }         <span class="hljs-comment"># 1</span>
+</div></code></pre>
+<p>Surprisingly, <code>1</code> is output. The extra block argument is ignored. Now, lets see by passing in fewer arguments</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test</span></span>
+  <span class="hljs-keyword">yield</span>(<span class="hljs-number">1</span>)
+<span class="hljs-keyword">end</span>
+
+test <span class="hljs-keyword">do</span> <span class="hljs-params">|num1, num2|</span>
+  puts <span class="hljs-string">"<span class="hljs-subst">#{num1}</span> <span class="hljs-subst">#{num2}</span>"</span>        <span class="hljs-comment"># 1</span>
+<span class="hljs-keyword">end</span>
+</div></code></pre>
+<p>This also outputs <code>1</code>. But here, <code>num2</code> block variable is <code>nil</code> so the string interpolation converts that to an empty string which is why <code>1</code> is output with an extra space.</p>
+<p><strong>Arity</strong>
+The rule regarding the number of arguments that you must pass to a block, <code>proc</code> or <code>lambda</code> in Ruby is called its arity. In Ruby, blocks and <code>proc</code>s have lenient arity which is why an expception is not raised whern you pass in too many or too few arguments to a block. Methods and <code>lambda</code>s on the hand have strict arity, which means you must pass the exact number of arguments that the method or <code>lambda</code> expects. In short, methods enforce argument count while blocks do not.</p>
+<p><strong>Return value of yielding</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">compare</span><span class="hljs-params">(str)</span></span>
+  puts <span class="hljs-string">"Before: <span class="hljs-subst">#{str}</span>"</span>
+  after = <span class="hljs-keyword">yield</span>(str)
+  puts <span class="hljs-string">"After: <span class="hljs-subst">#{after}</span>"</span>
+<span class="hljs-keyword">end</span>
+
+compare(<span class="hljs-string">'hi'</span>) { <span class="hljs-params">|word|</span> word.upcase }
+
+</div></code></pre>
+<p>This outputs <code>&quot;Before: hi&quot;</code> and <code>&quot;After: HI&quot;</code>. It can be seen that like methods, blocks have a return value which is also the return value of the last statement executed in the block. This return value is assgined to the local variable <code>after</code> above.</p>
+<p><strong>When to use blocks in your own methods</strong></p>
+<p>There two roles involved with any method. Method implementor and method caller. Sometimes, the implementor is not 100% certain how the method will be called. He can leave some of the decision to the caller at the time of invocation by way of using blocks.</p>
+<ol>
+<li>Defer some implementation code to method invocation decision.</li>
+</ol>
+<p>The compare method above can be implemented without the use of blocks. An example with similar functionality is as follows:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">compare</span><span class="hljs-params">(str, flag)</span></span>
+  after = <span class="hljs-keyword">case</span> flag
+          <span class="hljs-keyword">when</span> <span class="hljs-symbol">:upcase</span>
+            str.upcase
+          <span class="hljs-keyword">when</span> <span class="hljs-symbol">:capitalize</span>
+            str.capitalize
+            <span class="hljs-comment"># there can be many clauses here....</span>
+          <span class="hljs-keyword">end</span>
+
+  puts <span class="hljs-string">"Before: <span class="hljs-subst">#{str}</span>"</span>
+  puts <span class="hljs-string">"After: <span class="hljs-subst">#{after}</span>"</span>
+<span class="hljs-keyword">end</span>
+
+compare(<span class="hljs-string">"hello"</span>, <span class="hljs-symbol">:upcase</span>)
+
+<span class="hljs-comment"># Before: hello</span>
+<span class="hljs-comment"># After: HELLO</span>
+<span class="hljs-comment"># =&gt; nil</span>
+</div></code></pre>
+<p>But this is not as flexible as allowing method callers to refine the method implementaion without actually modifiying the method implementation for every one else. By using blocks, the method implementor can defer the decision of which flags to support and let the method caller decide at the time of invocation.</p>
+<p>Many of the core library's most useful methods are built in this way. Like <code>Array#each</code>, <code>Array#select</code>, <code>Array#map</code>.</p>
+<p>If you encounter a scenario where you're calling a method from multiple places with one little tweak in each casem it may be a good idea to try implementing the method in a generic way by yielding to a block.</p>
+<ol start="2">
+<li>Methods that need to perfom some &quot;before&quot; and &quot;after&quot; actions - sandwich code.</li>
+</ol>
+<p>Sandwich code is a good use cade for methods using blocks. Sometimes, a generic method is needed which performs some before and after action. The method implementor doesn't care before and after what. Example:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">time_it</span></span>
+  time_before = Time.now
+  <span class="hljs-keyword">yield</span>                               <span class="hljs-comment"># execute the implicit block</span>
+  time_after = Time.now
+
+  puts <span class="hljs-string">"It took <span class="hljs-subst">#{time_after - time_before}</span> seconds."</span>
+<span class="hljs-keyword">end</span>
+
+time_it { sleep(<span class="hljs-number">3</span>) }
+
+time_it { <span class="hljs-string">"hello world"</span> }
+</div></code></pre>
+<h4 id="understand-that-methods-and-blocks-can-return-chunks-of-code-closures">Understand that methods and blocks can return chunks of code (closures)</h4>
+<p><strong>Using Closures</strong></p>
+<p>Closures are formed by blocks, <code>Proc</code> objects an <code>lambda</code>s. They retain a memory of their surrounding scope and can use and even update variables in that scope when they are executed, even if the closure is called from somewhere else. Example:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">for_each_in</span><span class="hljs-params">(arr)</span></span>
+  arr.each { <span class="hljs-params">|element|</span> <span class="hljs-keyword">yield</span>(element) }
+<span class="hljs-keyword">end</span>
+
+arr = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]
+result = [<span class="hljs-number">0</span>]
+
+for_each_in(arr) <span class="hljs-keyword">do</span> <span class="hljs-params">|number|</span>
+  total = result[-<span class="hljs-number">1</span>] + number
+  result.push(total)
+<span class="hljs-keyword">end</span>
+
+p result   <span class="hljs-comment"># =&gt; [0, 1, 3, 6, 10, 15]</span>
+</div></code></pre>
+<p>Even though the block passed to <code>for_each_in</code> is invoked inside the method, the access to the <code>results</code> array is retained.</p>
+<p>Also, closures can be returned by a method. Blocks cannot be returned however, <code>Proc</code>s and <code>lambda</code>s can.</p>
+<p>Example:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sequence</span></span>
+  counter = <span class="hljs-number">0</span>
+  Proc.new { counter += <span class="hljs-number">1</span> }
+<span class="hljs-keyword">end</span>
+
+s1 = sequence
+p s1.call       <span class="hljs-comment"># =&gt; 1</span>
+p s1.call       <span class="hljs-comment"># =&gt; 2</span>
+p s1.call       <span class="hljs-comment"># =&gt; 3</span>
+puts
+
+s2 = sequence
+p s2.call      <span class="hljs-comment"># =&gt; 1</span>
+p s2.call      <span class="hljs-comment"># =&gt; 2</span>
+puts
+
+p s1.call      <span class="hljs-comment"># =&gt; 4</span>
+</div></code></pre>
+<p>Here, the method <code>sequence</code> returns <code>Proc</code> object that forms a closure with local variable <code>counter</code>. This returned <code>Proc</code> can be called repeatedly. Each time it is called, it increments its own private copy of the <code>counter</code> variable. Thus returning <code>1</code>, <code>2</code> and <code>3</code> on the first, second and third calls respectively.</p>
+<p>We can also create multiple <code>Proc</code>s from <code>sequence</code> and each will have its own independent copy of <code>counter</code>. Thus when the method <code>sequence</code> is called for the second time and the return value is assigned to <code>s2</code>, the <code>counter</code> associated with <code>s2</code> is separate and independent of the <code>counter</code> in <code>s1</code>.</p>
+<h4 id="methods-with-an-explicit-block-parameter">Methods with an explicit block parameter</h4>
+<p>Every method can take an implicit block argument. It might ignore the implicit block but yet it takes it.</p>
+<p>Methods can also be made to take an explicit block. Explicit block is a block that gets treated as a named object, that is it gets assigned to a method parameter so that it can be managed like any other object. It can be reassigned, passed to other methods and invoked many times. In order to define an explicit block, a parameter must be added to the method definition where the name begins with the <code>&amp;</code> character.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test</span><span class="hljs-params">(&amp;block)</span></span>
+  puts <span class="hljs-string">"What;s &amp;block? <span class="hljs-subst">#{block}</span>"</span> 
+<span class="hljs-keyword">end</span>
+</div></code></pre>
+<p><code>&amp;block</code> is a special paramater that converts the block argument to a <code>Proc</code> object. Notice we drop the <code>&amp;</code> when referring to the parameter inside the method. This what happens when the method is invoked:</p>
+<pre class="hljs"><code><div>test { sleep(<span class="hljs-number">1</span>) }
+
+<span class="hljs-comment"># What's &amp;block? #&lt;Proc:0x007f98e32b83c8@(irb):59&gt;</span>
+<span class="hljs-comment"># =&gt; nil</span>
+</div></code></pre>
+<p><code>block</code> local variable is now a <code>Proc</code> object. It can be named whatever, just as long as it is defined with a leading <code>&amp;</code>.</p>
+<p>Using a block with an explicit parameter provides added flexibility. It can also be passed around to other methods.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test2</span><span class="hljs-params">(block)</span></span>
+  puts <span class="hljs-string">"hello"</span>
+  block.call(<span class="hljs-string">"&gt;&gt;&gt;"</span>)
+  puts <span class="hljs-string">"good-bye"</span>
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test</span><span class="hljs-params">(&amp;block)</span></span>
+  puts <span class="hljs-string">"1"</span>
+  test2(block)
+  puts <span class="hljs-string">"2"</span>
+<span class="hljs-keyword">end</span>
+
+test { <span class="hljs-params">|prefix|</span> puts prefix + <span class="hljs-string">"xyz"</span> }
+<span class="hljs-comment"># 1</span>
+<span class="hljs-comment"># hello</span>
+<span class="hljs-comment"># &gt;&gt;&gt;xyz</span>
+<span class="hljs-comment"># good-bye</span>
+<span class="hljs-comment"># 2</span>
+</div></code></pre>
+<p>We only have to use <code>&amp;</code> for the <code>block</code> parameter in <code>#test</code>. Since <code>block</code> is already a <code>Proc</code> object when we call <code>test2</code>, no conversion is needed.</p>
+<p>The string <code>&quot;&gt;&gt;&gt;&quot;</code> is passed as an argument to the block which is assigned to the block parameter.</p>
+<p>Arguments can be passed to the explicit block by using them as arguments to <code>call</code>.</p>
+<h4 id="arguments-and-return-values-with-blocks">Arguments and return values with blocks</h4>
+<h4 id="when-can-you-pass-a-block-to-a-method">When can you pass a block to a method</h4>
+<h4 id="symbol">&amp;:symbol</h4>
+<p>The following code:</p>
+<pre class="hljs"><code><div>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].map <span class="hljs-keyword">do</span> <span class="hljs-params">|num|</span>
+  num.to_s
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># =&gt; ["1", "2", "3", "4", "5"]</span>
+</div></code></pre>
+<p>can be rewritten in shorter way like:</p>
+<pre class="hljs"><code><div>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>].map(&amp;<span class="hljs-symbol">:to_s</span>)     <span class="hljs-comment"># =&gt; ["1", "2", "3", "4", "5"]</span>
+</div></code></pre>
+<p>This shortcut however, cannot be used on methods that take an argument.</p>
+<p>Basicaly <code>(&amp;:to_s)</code> gets converted to <code>{ |n| n.to_s }</code>.</p>
+<p>The above code iterates through every element and calls the method <code>to_s</code> on it, then saves the result in a new array.</p>
+<p>When <code>&amp;</code> is applied, Ruby tries to convert the object to a block. That's easy if the object is a Proc as Ruby narturally converts a Proc to a block. However, if the object is not a Proc, we have to first convert it to a Proc. In that we case <code>#to_proc</code> must be called on the object which returns a Proc. Then the resulting Proc can be converted into a block. In the example of <code>&amp;:to_s</code>, Ruby is being told to convert the Symbol <code>to_s</code> to a block. To do that, it first calls <code>Symbol#to_proc</code> to convert the symbol to a Proc, and it then converts the Proc to a block.</p>
+<p>Basically what is happening is as follows:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">my_method</span></span>
+  <span class="hljs-keyword">yield</span>(<span class="hljs-number">2</span>)
+<span class="hljs-keyword">end</span>
+
+<span class="hljs-comment"># turns the symbol into a Proc, then `&amp;` turns the Proc into a block</span>
+my_method(&amp;<span class="hljs-symbol">:to_s</span>)                 <span class="hljs-comment"># =&gt; "2"</span>
+</div></code></pre>
+<p>The above code can be broken into 2 steps as follows:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">my_method</span></span>
+  <span class="hljs-keyword">yield</span>(<span class="hljs-number">2</span>)
+<span class="hljs-keyword">end</span>
+
+a_proc = <span class="hljs-symbol">:to_s</span>.to_proc      <span class="hljs-comment"># explicitly call to_proc on the symbol</span>
+my_method(&amp;a_proc)          <span class="hljs-comment"># convert Proc into block, then pass the block in the method which returns "2"</span>
+</div></code></pre>
+<h4 id="arity-of-blocks-and-methods">Arity of blocks and methods</h4>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test</span></span>
+  <span class="hljs-keyword">yield</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)
+<span class="hljs-keyword">end</span>
+
+test { <span class="hljs-params">|num|</span> puts num }         <span class="hljs-comment"># 1</span>
+</div></code></pre>
+<p>Surprisingly, <code>1</code> is output. The extra block argument is ignored. Now, lets see by passing in fewer arguments</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test</span></span>
+  <span class="hljs-keyword">yield</span>(<span class="hljs-number">1</span>)
+<span class="hljs-keyword">end</span>
+
+test <span class="hljs-keyword">do</span> <span class="hljs-params">|num1, num2|</span>
+  puts <span class="hljs-string">"<span class="hljs-subst">#{num1}</span> <span class="hljs-subst">#{num2}</span>"</span>        <span class="hljs-comment"># 1</span>
+<span class="hljs-keyword">end</span>
+</div></code></pre>
+<p>This also outputs <code>1</code>. But here, <code>num2</code> block variable is <code>nil</code> so the string interpolation converts that to an empty string which is why <code>1</code> is output with an extra space.</p>
+<p><strong>Arity</strong>
+The rule regarding the number of arguments that you must pass to a block, <code>proc</code> or <code>lambda</code> in Ruby is called its arity. In Ruby, blocks and <code>proc</code>s have lenient arity which is why an expception is not raised whern you pass in too many or too few arguments to a block. Methods and <code>lambda</code>s on the hand have strict arity, which means you must pass the exact number of arguments that the method or <code>lambda</code> expects. In short, methods enforce argument count while blocks do not.</p>
+<h2 id="testing-with-minitest">Testing With Minitest</h2>
+<h4 id="testing-terminology">Testing terminology</h4>
+<p><strong>Test Suite:</strong> this represents all the tests for a project / application.</p>
+<p><strong>Test:</strong> this describes a situation or context in which tests are run. Example, this test is about making sure you get an error message after trying to log in with the wrong password. A test can contain multiple assertions.</p>
+<p><strong>Assertion:</strong> this is the actual verfication step to confirm that the data returned by the program is actually what is expected.</p>
+<h4 id="minitest-vs-rspec">Minitest vs. RSpec</h4>
+<p><strong>Minitest:</strong></p>
+<p>Minitest is Ruby's default testing library and is part of Ruby's standard library. It's basically a bundled gem. It is shipped with the default Ruby installation, but is maintained outside the Ruby core team and can be uninstalled if necessary.</p>
+<p>Minitest can be used with Ruby code as well as DSL (Domain specific language).</p>
+<p>From a functional standpoint, Minitest can do everything RSpec can in a much simpler and straightforward way syntax. RSpec is what we call a DSL, its a DSL for writing tests.</p>
+<h4 id="seat-approach">SEAT approach</h4>
+<p>There are 4 steps to writing a test:</p>
+<p><strong>S</strong>: <em>setup</em> the necessary objects
+<strong>E</strong>: <em>execute</em> the code against the objects we are testing
+<strong>A</strong>: <em>assert</em> the results of the execution
+<strong>T</strong>: <em>tear</em> down and clean up any lingering artifacts</p>
+<p>The variables defined in the <code>setup</code> method for use in the tests must be instance variables and local variables as the tests are basically instance methods.</p>
+<p>The <code>setup</code> method will be called before running every test and the <code>teardown</code> method will be called after running every test.</p>
+<p><code>teardown</code> is usually needed for cleaning up files, logging some information or closing database connections.</p>
+<p>For the simplest tests not all steps are required. However, <code>EA</code> are a bare minimum, even if the <code>E</code> is just a simple object instantiation.</p>
+<h4 id="assertions">Assertions</h4>
+<p>A few popular assertions are as follows:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>Assertion</strong></th>
+<th style="text-align:left"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>assert(test)</code></td>
+<td style="text-align:left">Fails unless <code>test</code> is truthy.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>assert_equal(exp, act)</code></td>
+<td style="text-align:left">Fails unless <code>exp == act</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>assert_nil(obj)</code></td>
+<td style="text-align:left">Fails unless <code>obj</code> is <code>nil</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>assert_raises(*exp) { ... }</code></td>
+<td style="text-align:left">Fails unless block raises one of <code>*exp</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>assert_instance_of(cls, obj)</code></td>
+<td style="text-align:left">Fails unles <code>obj</code> is an instance of <code>cls</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>assert_includes(collecion, obj)</code></td>
+<td style="text-align:left">Fails unless <code>collection</code> includes <code>obj</code>.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="code-coverage">Code Coverage</h4>
+<p>Code coverage gives an idea of how much of our program code is tested by a test suite. Code coverage is based on the testing of all of the code both public and private methods.</p>
+<p>Its important to note that code coverage doesn't imply that every edge case is considered or that even the program is running correctly. It only shows that we have tests in place for every method. Even though not foolproof it is one way to gauge code quality.</p>
+<p>A simple tool for the is the gem <code>simplecov</code>. At the top of the test file add this:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">require</span> <span class="hljs-string">'simplecov'</span>
+SimpleCov.start
+</div></code></pre>
+<p>Once the test file is run, a directory called <code>coverage</code> will be created in the file system. The html file can be opened up for details.</p>
+<h2 id="core-toolspackaging-code">Core Tools/Packaging Code</h2>
+<h4 id="purpose-of-core-tools">Purpose of core tools</h4>
+<h4 id="gemfiles">Gemfiles</h4>
+
+</body>
+</html>

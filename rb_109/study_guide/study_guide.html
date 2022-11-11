@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>study_guide.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="part-1-study-guide-for-test">Part 1: Study Guide for Test</h1>
+<p>Assessment RB109 will test your knowledge of courses LS100 and RB101, which has a huge surface area in that it covers the Ruby programming language broadly. It will not cover Object Oriented Programming.</p>
+<h2 id="specific-topics-of-interest">Specific Topics of Interest</h2>
+<p>You should be able to clearly explain the following topics:</p>
+<ol>
+<li><strong>local variable scope, especially how local variables interact with method invocations with blocks and method definitions</strong></li>
+</ol>
+<p>Points to note :</p>
+<ul>
+<li>outer scope variables can be by accessed by inner scope (created by blocks - {..} or do..end)</li>
+<li>inner scope variables cannot be accessed in outer scope(variables initialized in the inner scope)</li>
+<li>peer scopes do not conflict (variable initialized in one block cannot be accessed in another peer block)</li>
+<li>nested blocks follow the same rules of inner and outer scoped variables based on the level of the nested block.</li>
+<li>variable shadowing
+example -</li>
+</ul>
+<pre class="hljs"><code><div>n = <span class="hljs-number">10</span>
+[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>].each <span class="hljs-keyword">do</span> <span class="hljs-params">|n|</span>
+  puts n
+<span class="hljs-keyword">end</span>
+</div></code></pre>
+<p>Since, the block parameter has the same name as a localvariable outside the block, being variable <code>n</code>,variable shadowing takes place and prevents access tothe local variable within the block.
+The <code>puts n</code> will use the block parameter and disregardthe outer scoped local variable. Variable shadowingalso prevents changes from being made to the outerscoped variable <code>n</code>.</p>
+<ul>
+<li>a method definition can't access local variables in another scope.</li>
+<li>a method definition can access objects passed in as an argument. The object passed in gets assigned to the method parameter and is thus made available to the method body as a local variable.</li>
+<li>if local variable and method share the same name,
+Ruby first searches for the local variable and if it is not found then Ruby tries to find a method with the given name. Ambiguity can be avoided by adding a set of empty argument parentheses with the method invocation.</li>
+<li>scoping rules for method invocation with a block remain in full effect even if working inside a method definition.</li>
+<li>CONSTANTS have different scoping rules. They behave like globals. CONSTANTS initialized within a block will be avaiable outside the scope of the block.</li>
+</ul>
+<ol start="2">
+<li><strong>mutating vs non-mutating methods, pass-by-reference vs pass-by-value</strong></li>
+</ol>
+<p>Points to note</p>
+<p><em><strong>pass-by-reference vs pass-by-value :</strong></em></p>
+<ul>
+<li>Ruby behaves like pass-by-value at times, likere-assigning the object within the method doesn'taffect the object outside the method. Example :</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">change_name</span><span class="hljs-params">(name)</span></span>
+  name = <span class="hljs-string">'bob'</span>      <span class="hljs-comment"># does this reassignment changethe   object outside the method?</span>
+<span class="hljs-keyword">end</span>
+name = <span class="hljs-string">'jim'</span>
+change_name(name)
+puts name           <span class="hljs-comment"># =&gt; jim</span>
+</div></code></pre>
+<ul>
+<li>Ruby behaves like pass-by-reference at times. Example :</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">cap</span><span class="hljs-params">(str)</span></span>
+  str.capitalize!   <span class="hljs-comment"># does this affect theobjecoutsidethe method?</span>
+<span class="hljs-keyword">end</span>
+
+name = <span class="hljs-string">"jim"</span>
+cap(name)
+puts name           <span class="hljs-comment"># =&gt; Jim</span>
+</div></code></pre>
+<p>The above code implies that Ruby is &quot;pass byreference&quot;as operations wthin the method affectedthe originalobject. This would not happen if themethod <code>capitalize</code>was used instead of<code>capitalize!</code>.</p>
+<ul>
+<li>Basically, Ruby exhibits a combination of both. <strong>&quot;When an operation within the method mutates the caller, it will, it will affect the original object&quot;</strong></li>
+</ul>
+<p><em><strong>mutating vs non-mutating methods</strong></em></p>
+<pre class="hljs"><code><div>a = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+<span class="hljs-comment"># Example of a method definition that mutates its argument permanently</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mutate</span><span class="hljs-params">(array)</span></span>
+  array.pop
+<span class="hljs-keyword">end</span>
+p <span class="hljs-string">"Before mutate method: <span class="hljs-subst">#{a}</span>"</span> <span class="hljs-comment"># =&gt; [1, 2, 3] </span>
+mutate(a)
+p <span class="hljs-string">"After mutate method: <span class="hljs-subst">#{a}</span>"</span> <span class="hljs-comment"># =&gt; [1, 2]</span>
+</div></code></pre>
+<p>The above code permanently modified the array that local variable <code>a</code> references by passing it to the mutate method, even though <code>a</code> is outside the method definition's scope. This is because the <code>pop</code> method mutates the caller (the array referenced by <code>array</code>). <code>a</code> is still pointing to the same array, but in this case, the array has changed, more precisely the number of elements in the array has chnaged.</p>
+<p>The same code with a non-mutating method like <code>last</code> would not mutate the caller and hence would not change the array being referenced by <code>a</code>.</p>
+<ol start="3">
+<li><strong>working with collections (Array, Hash, String), and popular collection methods (each, map, select, etc).</strong> Review the two lessons on these topics thoroughly.
+<strong>study RB 101 - lesson_4 part 2, 7, 8, 9.</strong></li>
+</ol>
+<p>Points to note -</p>
+<p>Collections - String, Array, Hash</p>
+<ul>
+<li>Collections are made up of individual elements. To work with them, its need to be known how they are structured and how to reference and assign the individual elements within them.</li>
+</ul>
+<p><strong>String</strong></p>
+<ul>
+<li>Strings are not true collections. Collections contain multiple objects, while strings contain only a single object. The individual characters are not objects, nut are just part of the object that contains the string value.</li>
+<li>Strings act like collections since you can access and assign each character individually. However, when you access a single character of the string with something like <code>str[2]</code>, the return value is a brand new string - each time you call `str[2], it returns a new string. Example :</li>
+</ul>
+<pre class="hljs"><code><div>char1 = str[<span class="hljs-number">2</span>]                     <span class="hljs-comment"># =&gt; "c"</span>
+char2 = str[<span class="hljs-number">2</span>]                     <span class="hljs-comment"># =&gt; "c"</span>
+char1.object_id == char2.object_id <span class="hljs-comment"># =&gt; false</span>
+
+</div></code></pre>
+<p>If <code>str</code> were a real collection, the <code>char1</code> and <code>char2</code> objects would have the same <code>object_id</code>.</p>
+<ul>
+<li>Refencing an out-of-bound index returns <code>nil</code>. Example :</li>
+</ul>
+<pre class="hljs"><code><div>str = <span class="hljs-string">'abcde'</span>
+str[<span class="hljs-number">5</span>] <span class="hljs-comment"># =&gt; nil</span>
+
+</div></code></pre>
+<p><strong>Array</strong></p>
+<ul>
+<li>Arrays are ordered, zero indexed collections.</li>
+<li>Arrays are lists of elements that are ordered by index, where each element can be any abject. Arrays use an integer based index to maintain the order of its elements. A specific element cab be referenced using its index.</li>
+<li>Referencing an out of bound index, returns <code>nil</code> just like in strings. <code>#fetch</code> method can be used which returns an error if the index is out of bounds.</li>
+<li>Arrays can be refenced using negative indices as well. <code>-1</code> represents the last value of an array and goes left ways from there.</li>
+</ul>
+<p><strong>Hash</strong></p>
+<ul>
+<li>Hashes are collections that instead of using an integer based index, uses key-value pairs, where the key or the value can be any type or Ruby object.</li>
+<li>The keys must always be unique, the values however can be duplicated. If there are same named keys during initiliazation , the value coming later in the intialization is overwritten to the respective key value.</li>
+<li><code>#keys</code>, <code>#values</code> are methods which can access just the keys and values of a hash respectively. These methods return an array of the keys, values respectively.</li>
+<li>Similar to Strings and Arrays, <code>#[]</code> for hash also returns <code>nil</code> when the key specified is invalid. <code>#fetch</code> method can be used to distinguish which returns an error if the key is invalid.</li>
+</ul>
+<p><strong>Collection Methods (each, map, select)</strong></p>
+<p><code>each</code></p>
+<ul>
+<li>For Arrays - <code>each</code> is a method called on an array that takes a block, either <code>do..end</code> or <code>{..}</code>, the code within the block is executed for each iteration. On every iteration the corresponding element of the array is assigned to the block parameter. Hence, it has only one parameter. The <code>each</code> method returns the original array.</li>
+<li>For Hash - <code>each</code> works in a similar way to Arrays, however two arguments are sent to the block representing the key and the value per iteration. The original collection / hash is returned by the method.</li>
+</ul>
+<p><code>select</code></p>
+<p>-For Array - <code>select</code> method evaluates the return value of the block. The block returns a value on each iteration, which then gets evaluated by <code>select</code>. Similar to a real method, the return value of the block is the return value of the last expression within the block. When evaluating the block's return value, <code>select</code> only looks at its truthiness. Everything in Ruby is considered truthy expect for <code>false</code> and <code>nil</code>. If the return value of the block is truthy, then the element during that iteration will be selected. If the return value is <code>false</code> or <code>nil</code> then the element will not be selected. When an element is selected, its places in a new collection. When the <code>select</code> method is done iterating, it returns a new collection containing all of the selected elements. If the block returns falsey for every iteration, an empty array is returned.</p>
+<p><code>map</code></p>
+<ul>
+<li>For Array - <code>map</code> method is used for transformation. <code>map</code> uses the return value of the block to perform transformation. It returns a new collection made up of elements which are the return value of the block for every iteration.</li>
+</ul>
+<p><code>Array</code> and <code>Hash</code> both have an <code>each</code> method which is specific to them.</p>
+<p>The <code>select</code> and <code>map</code> methods are defined in the module <strong>Enumerable</strong> and are made available to <code>Array</code> and <code>Hash</code> classes.</p>
+<p><strong>Do practice problems - lesson 4 -&gt; part 10</strong></p>
+<ol start="4">
+<li><strong>variables as pointers</strong></li>
+</ol>
+<ul>
+<li>Variables don't actually contain a value, instead they contain a pointer to a specific area in memory that contains the value.</li>
+<li>Some operations mutate the address space, while others simply make the variable point to a different address space.</li>
+<li>If a method is called that mutates the caller, it will change the value in that object's address space. In case of reassignment, the variable will point to a different address space.</li>
+</ul>
+<p>Examples :</p>
+<pre class="hljs"><code><div>a = <span class="hljs-string">"hi there"</span>
+b = a
+a  <span class="hljs-string">"not here"</span>
+
+</div></code></pre>
+<p><code>b</code> points to the string <code>&quot;hi there&quot;</code> in the above code. The line <code>a = &quot;not here&quot;</code> reassigned the variable <code>a</code> to a completely different address in memory, its not pointing to an entirely new string. This is what the <code>=</code> operator does. Infact, different spaces can in hold the same value but they are still different places in memory, that is they are different objects. Even, if the last line was <code>a = &quot;hi there&quot;</code>, the result would be the same, <code>a</code> and <code>b</code> in that case would still point to different addresses in memory, they would just happen to have the same value.</p>
+<pre class="hljs"><code><div>a = <span class="hljs-string">"hi there"</span>
+b = a
+a &lt;&lt; <span class="hljs-string">", Bob"</span>
+
+</div></code></pre>
+<p>Variables <code>a</code> and <code>b</code> both point to the string <code>&quot;hi there, Bob&quot;</code>.</p>
+<p>Here, the line <code>a &lt;&lt; &quot;, Bob&quot;</code> did not result in reassigning <code>a</code> to a new string. Rather, it mutated the caller and modified the existing string, which is also pointed to by the variable <code>b</code>. This explains why <code>b</code> reflects the changes to <code>a</code> - they're both pointing to the same thing.</p>
+<ol start="5">
+<li><strong>puts vs return</strong></li>
+</ol>
+<ul>
+<li>An <strong>expression</strong> is anything that can be evaluated, pretty much everything written in Ruby is an expression. An expression in Ruby always returns something, even if that's an error message or <code>nil</code>.</li>
+<li><code>puts</code> method prints something on the screen, However, <code>puts</code> does not return what is printed to the screen. Expressions do something, but they also return something. the value rerurned is not necessarily the action that was performed. <code>puts</code> method always returns <code>nil</code>.</li>
+<li>Every method in Ruby returns the last evaluated result of the last line that is executed.</li>
+<li>To explicitly return a value,the <code>return</code> keyword can be used. When <code>return</code> is added in a method, it just returns the return value of the expression following it without executing the next lines. Example :</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_three</span><span class="hljs-params">(number)</span></span>
+  <span class="hljs-keyword">return</span> number + <span class="hljs-number">3</span>
+  number + <span class="hljs-number">4</span>
+<span class="hljs-keyword">end</span>
+
+returned_value = add_three(<span class="hljs-number">4</span>)
+puts returned_value 
+
+</div></code></pre>
+<p>The above code outputs <code>7</code> and returns <code>nil</code>. When <code>return</code> is used, it just returns the result of <code>number + 3</code>, which is 7 without executing the next line. <code>return</code> is not required, it is just used to explicitly return something from a method.</p>
+<ol start="6">
+<li><strong>false vs nil and the idea of &quot;truthiness&quot;</strong></li>
+</ol>
+<ul>
+<li>
+<p>In Ruby, booleans are represented by <code>true</code> and <code>false</code> objects. Boolean objects, like everything else in Ruby has real classes behind them and methods can be called on <code>true</code> and <code>false</code>. <code>true</code> belongs to <code>TrueClass</code> and <code>false</code> belongs to <code>FalseClass</code>.</p>
+</li>
+<li>
+<p>Truthiness differs from <code>true</code> in that Ruby considers more than the <code>true</code> object to be truthy. In fact, Ruby considers everything to be truthy other than <code>false</code> and <code>nil</code>.</p>
+</li>
+<li>
+<p>This means that we can use any expression in a conditional, or with logical operators, and as longs as it doesn't evaluate to <code>false</code> or <code>nil</code>, it is considered truthy. Examples :</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>num = <span class="hljs-number">5</span>
+<span class="hljs-keyword">if</span> num
+  puts <span class="hljs-string">"valid number"</span>
+<span class="hljs-keyword">else</span>
+  puts <span class="hljs-string">"error!"</span>
+<span class="hljs-keyword">end</span>
+
+</div></code></pre>
+<p>The code outputs <code>&quot;valid number&quot;</code>. The reason is because Ruby considers <code>num</code> which points to an integer to be truthy because it is neither <code>false</code> or <code>nil</code>. It does not howver mean that the <code>num</code> variable from above is equal to <code>true</code>. Explained as follows :</p>
+<pre class="hljs"><code><div>num = <span class="hljs-number">5</span>
+num == <span class="hljs-literal">true</span>   <span class="hljs-comment"># =&gt; false</span>
+
+</div></code></pre>
+<ul>
+<li><code>&amp;&amp;</code> - and operator - will return <code>true</code> only if both expressions being evaluated are true. Any number of expressions can be chained with <code>&amp;&amp;</code>, and it will be evaluated left to right. If any expression is <code>false</code>, the entire <code>&amp;&amp;</code> chain will return <code>false</code>.</li>
+<li><code>||</code> - or operator - will return <code>true</code> if either one of the evaluated objects is <code>true</code>. Only way to return <code>false</code> is if all expressions are <code>false</code>.</li>
+<li>Short Circuiting : the <code>&amp;&amp;</code> and <code>||</code> operators exhibit a behaviour called short circuiting, which means it will stop evaluating expressions once it can guarantee the return value. Explained as follows :</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-symbol">irb:</span><span class="hljs-number">001</span>&gt; <span class="hljs-literal">false</span> &amp;&amp; <span class="hljs-number">3</span>/<span class="hljs-number">0</span> 
+=&gt; false
+</div></code></pre>
+<p>The above code doesn't generate a <code>ZeroDivisionError</code> because the <code>&amp;&amp;</code> operator didn't even evaluate the second expression, since the first expression is <code>false</code>, it can short circuit and return <code>false</code>.</p>
+<pre class="hljs"><code><div><span class="hljs-symbol">irb:</span><span class="hljs-number">001</span>&gt; <span class="hljs-literal">false</span> <span class="hljs-params">||</span> <span class="hljs-number">3</span>/<span class="hljs-number">0</span>
+<span class="hljs-symbol">ZeroDivisionError:</span> divided by <span class="hljs-number">0</span>
+</div></code></pre>
+<p>Here the error is generated.</p>
+<p>The <code>||</code> will short circuit when it encounters the first <code>true</code> expression.</p>
+<pre class="hljs"><code><div><span class="hljs-symbol">irb:</span><span class="hljs-number">001</span>&gt; <span class="hljs-literal">true</span> <span class="hljs-params">||</span> <span class="hljs-number">3</span>/<span class="hljs-number">0</span>
+=&gt; true
+</div></code></pre>
+<p>The above code doesn't generate a <code>ZeroDivisionError</code> because <code>||</code> didn't evaluate the second expression, it short circuited after encountering <code>true</code>.</p>
+<p><strong>In Ruby everything is considered &quot;truthy&quot; except for <code>false</code> and <code>nil</code>.</strong></p>
+<ol start="7">
+<li><strong>method definition and method invocation</strong></li>
+</ol>
+<ul>
+<li>Often there is a piece of code that needs to e executed many times in a program. Instead of writing that piece of code over and over, the piece of code can be extracted to one place. In Ruby, it is called a method.</li>
+<li>First we use it, a method must be defined with the reserved word <code>def</code>, after which we give the method name. At the end of the method definition, the word <code>end</code> must be used to denote its completion. Example :</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">say</span></span>
+  <span class="hljs-comment"># method body goes here</span>
+<span class="hljs-keyword">end</span>
+
+</div></code></pre>
+<ul>
+<li>A method is called (or invoked) by typing its name and passing in arguments. Example :</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">say</span><span class="hljs-params">(words)</span></span>
+  puts words
+<span class="hljs-keyword">end</span>
+
+say(<span class="hljs-string">"hello"</span>)
+say(<span class="hljs-string">"hi"</span>)
+say(<span class="hljs-string">"how are you"</span>)
+say(<span class="hljs-string">"I'm fine"</span>)
+
+</div></code></pre>
+<ul>
+<li>The method <code>say</code> is called by typing it's name and passing in arguments. In the method definition <code>(words)</code> after <code>say</code> is the parameter. Parameters are used when there is data outside of a method definition's scope but needs to be accessed within the method definition. If the method definition does not need access to any outside data, parameters need not be defined.</li>
+<li>Arguments are pieces of information that are sent to a method invocation to be modified or used to return a specific result. When arguments are passed to a method, for instance in the above example the method <code>say</code>, they are assigned to the method parameter <code>words</code> and are available as a local variable in the scope of the method definition. That is, this local variable in the method definition scope cannot be referenced outside the method definition.</li>
+<li>When <code>say(&quot;hello&quot;)</code> is evaluated, the string <code>&quot;hello&quot;</code> is passed as argument in place of the <code>words</code> parameter. The code within the method definition is executed with <code>words</code> local variable pointing to the string object <code>&quot;hello&quot;</code>.</li>
+<li>method invocation <code>say(&quot;hello&quot;)</code> can also be written as <code>say &quot;hello&quot;</code>.</li>
+<li>Methods can be invoked with a block. Example of method invocation with a block :</li>
+</ul>
+<pre class="hljs"><code><div>[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>].each <span class="hljs-keyword">do</span> <span class="hljs-params">|num|</span>
+  puts num
+<span class="hljs-keyword">end</span>
+
+</div></code></pre>
+<ul>
+<li>
+<p>methods can be called in two ways. <code>some_method(obj)</code> is one way. <code>obj</code> is the argument being passed to the method <code>some_method</code>. Sometimes, methods are called with an explicit caller like <code>a_caller.some_method(obj)</code> which is basically <code>some_method</code> modifying <code>a_caller</code>.</p>
+</li>
+<li>
+<p>The term method invocation is also used to refer to calling a method.</p>
+</li>
+</ul>
+<ol start="8">
+<li><strong>implicit return value of method invocations and blocks</strong></li>
+</ol>
+<p>Some observations -</p>
+<ul>
+<li><code>break</code> returns <code>nil</code> when executed. Example :</li>
+</ul>
+<pre class="hljs"><code><div>loop <span class="hljs-keyword">do</span> 
+  p <span class="hljs-string">"something"</span>
+  <span class="hljs-keyword">break</span>
+<span class="hljs-keyword">end</span>
+
+</div></code></pre>
+<p>The above code returns outputs <code>&quot;something&quot;</code> and returns <code>nil</code>, because the last line is executed is <code>break</code> which returns <code>nil</code>.</p>
+<ul>
+<li>In a method if the <code>if</code> statement is not truthy for all the conditions therein, it returns <code>nil</code>, else the return value of the method is the return value of the last line of the branch of <code>if</code> statement that is truthy and is executed. Example :</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">some_method</span><span class="hljs-params">(val)</span></span>
+  <span class="hljs-keyword">if</span> val
+    p <span class="hljs-string">"executed"</span>
+  <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span>
+
+some_method(<span class="hljs-literal">false</span>)
+
+</div></code></pre>
+<p>The above code returns <code>nil</code> and outputs nothing. Since the <code>if</code> statement evaluates to false and is not executed it returns <code>nil</code> and hence the method returns <code>nil</code>.</p>
+<ul>
+<li>method returns the return value of the last statement executed if there is not explicit <code>return</code>. In case the keyword <code>return</code> is used, the method returns the expression following <code>return</code>, the lines after that are ignored.</li>
+</ul>
+<ol start="9">
+<li><strong>how the Array#sort method works</strong></li>
+</ol>
+<ul>
+<li>Sorting - Sorting is setting the order of the items in a collection according to a certain criterion.</li>
+<li>Ruby provides <code>sort</code> and <code>sort_by</code> methods to achieve this.</li>
+<li>Example of implementation of <code>sort</code> method :</li>
+</ul>
+<pre class="hljs"><code><div>[<span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>.sort]  <span class="hljs-comment"># =&gt; [1, 2, 3, 4, 5]</span>
+
+</div></code></pre>
+<p>The return value is a <strong>new array</strong> with the integers ordered sequentially according to their value.</p>
+<ul>
+<li>Sorting is carried out by comparing the items in a collection with each other and ordering them based on the result of that comparison. For strings it works as follows :</li>
+</ul>
+<pre class="hljs"><code><div>[<span class="hljs-string">'c'</span>, <span class="hljs-string">'a'</span>, <span class="hljs-string">'e'</span>, <span class="hljs-string">'b'</span>, <span class="hljs-string">'d'</span>]sort <span class="hljs-comment"># =&gt; ['a', 'b', 'c', 'd', 'e']</span>
+</div></code></pre>
+<p><code>sort</code> method above returns a new array of characters ordered alphabetically.</p>
+<ul>
+<li><code>sort</code> method uses the <code>&lt;=&gt;</code> method (also referred to as the 'spaceship' operator) to determine the order of elements.</li>
+<li><code>&lt;=&gt;</code> method performs comparison between two objects of the same type and returns <code>-1</code> , <code>0</code>, or <code>1</code> depending on whether the first object is less than, equal to or greater than the second object. If the two objects cannot be compared then <code>nil</code> is returned. Examples :</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-number">2</span> &lt;=&gt; <span class="hljs-number">1</span> <span class="hljs-comment"># =&gt; 1</span>
+<span class="hljs-number">1</span> &lt;=&gt; <span class="hljs-number">2</span> <span class="hljs-comment"># =&gt; -1</span>
+<span class="hljs-number">2</span> &lt;=&gt; <span class="hljs-number">2</span> <span class="hljs-comment"># =&gt; 0</span>
+<span class="hljs-string">'b'</span> &lt;=&gt; <span class="hljs-string">'a'</span> <span class="hljs-comment"># =&gt; 1</span>
+<span class="hljs-string">'a'</span> &lt;=&gt; <span class="hljs-string">'b'</span> <span class="hljs-comment"># =&gt; -1</span>
+<span class="hljs-string">'b'</span> &lt;=&gt; <span class="hljs-string">'b'</span> <span class="hljs-comment"># =&gt; 0</span>
+<span class="hljs-number">1</span> &lt;=&gt; <span class="hljs-string">'a'</span> <span class="hljs-comment"># =&gt; nil</span>
+</div></code></pre>
+<ul>
+<li>Its important to understand how comparison is implemented for different objects types like <code>String</code> and <code>Integer</code>. For <code>String</code> order is determined by a character's position in the ASCII table. For instance :</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-string">'A'</span> &lt;=&gt; <span class="hljs-string">'a'</span> <span class="hljs-comment"># =&gt; -1 </span>
+<span class="hljs-string">'!'</span> &lt;=&gt; <span class="hljs-string">'A'</span> <span class="hljs-comment"># =&gt; -1 </span>
+<span class="hljs-comment"># ASCII value can be determined as follows :</span>
+<span class="hljs-string">'b'</span>.ord <span class="hljs-comment"># =&gt; 98</span>
+<span class="hljs-string">'}'</span>.ord <span class="hljs-comment"># =&gt; 125</span>
+<span class="hljs-comment"># Hence</span>
+<span class="hljs-string">'b'</span> &lt;=&gt; <span class="hljs-string">'}'</span> <span class="hljs-comment"># =&gt; -1</span>
+</div></code></pre>
+<p>Some basic rules to remember</p>
+<ul>
+<li>
+<p>Uppercase letters come before lowercase letters</p>
+</li>
+<li>
+<p>Digits and most punctuation come before letters</p>
+</li>
+<li>
+<p>There is an extended ASCII table containing accented and other characters - this comes after the main ASCII table.</p>
+</li>
+<li>
+<p><code>sort</code> method can be called with a block. The block needs two arguments passed to it which are the two items to be compared and the return value of the block has to be <code>-1</code>, <code>0</code>, <code>1</code> or <code>nil</code>. Examples of usage :</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>[<span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>].sort <span class="hljs-keyword">do</span> <span class="hljs-params">|a, b|</span>
+  a &lt;=&gt; b
+<span class="hljs-keyword">end</span>
+<span class="hljs-comment"># =&gt; [1, 2, 3, 4, 5]</span>
+
+<span class="hljs-comment"># This can be reversed as well </span>
+
+[<span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>].sort <span class="hljs-keyword">do</span> <span class="hljs-params">|a, b|</span>
+  b &lt;=&gt; a
+<span class="hljs-keyword">end</span>
+<span class="hljs-comment"># =&gt; [5, 4, 3, 2, 1]</span>
+</div></code></pre>
+<p>Additional code can be written in the block, as long as the block returns <code>-1</code>, <code>0</code>, <code>1</code> or <code>nil</code>.</p>
+<pre class="hljs"><code><div>[<span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>].sort <span class="hljs-keyword">do</span> <span class="hljs-params">|a, b|</span>
+  puts <span class="hljs-string">"a is <span class="hljs-subst">#{a}</span> and b is <span class="hljs-subst">#{b}</span>"</span>
+  a &lt;=&gt; b
+<span class="hljs-keyword">end</span>
+<span class="hljs-comment"># a is 2 and b is 5</span>
+<span class="hljs-comment"># a is 5 and b is 3</span>
+<span class="hljs-comment"># a is 2 and b is 3</span>
+<span class="hljs-comment"># a is 5 and b is 4</span>
+<span class="hljs-comment"># a is 3 and b is 4</span>
+<span class="hljs-comment"># a is 5 and b is 1</span>
+<span class="hljs-comment"># a is 4 and b is 1</span>
+<span class="hljs-comment"># a is 3 and b is 1</span>
+<span class="hljs-comment"># a is 2 and b is 1</span>
+<span class="hljs-comment"># =&gt; [1, 2, 3, 4, 5]</span>
+</div></code></pre>
+<ul>
+<li>
+<p>When two objects cant be compared <code>nil</code> is returned and an error is thrown.</p>
+</li>
+<li>
+<p><code>sort_by</code> method is similar to <code>sort</code> but is usually called with a block. The code in the block determines how the items are compared. Example :</p>
+</li>
+</ul>
+<pre class="hljs"><code><div>[<span class="hljs-string">'cot'</span>, <span class="hljs-string">'bed'</span>, <span class="hljs-string">'mat'</span>].sort_by <span class="hljs-keyword">do</span> <span class="hljs-params">|word|</span>
+  word[<span class="hljs-number">1</span>]
+<span class="hljs-keyword">end</span>
+<span class="hljs-comment"># =&gt; ["mat", "bed", "cot"]</span>
+</div></code></pre>
+<p>Here the elements are being sorted based on the character at index <code>1</code>, that is the second character of each string. Basically, the characters <code>o</code>, <code>e</code> and <code>a</code> are compared and the strings are ordered according to the result of the comparison of those characters. The other characters in the string are ignored entirely.</p>
+<ul>
+<li>Usually <code>Hash</code> doesn't need to be sorted, however if required <code>sort_by</code> can be called on it to do so. When calling <code>sort_by</code> on a hash, two arguments need to be passed - the key and the value. The last argument evaluated in the block should be the thing by which the sorting will take place. Example :</li>
+</ul>
+<pre class="hljs"><code><div>people = { <span class="hljs-symbol">Kate:</span> <span class="hljs-number">27</span>, <span class="hljs-symbol">john:</span> <span class="hljs-number">25</span>, <span class="hljs-symbol">Mike:</span> <span class="hljs-number">18</span> }
+
+people.sort_by <span class="hljs-keyword">do</span> <span class="hljs-params">|_, age|</span>
+  age
+<span class="hljs-keyword">end</span>
+<span class="hljs-comment"># =&gt; [[:Mike, 18], [:john, 25], [:Kate, 27]]</span>
+</div></code></pre>
+<p><code>sort_by</code> always returns an array, even when called on a hash, so as seen above the result is a new array with the key-value pairs as objects in the nested arrays. It can be converted back to a hash by calling <code>Array#to_h</code> on it.</p>
+<p>It can also be sorted by name. In this case the names are symbols. In Ruby symbols are compared using the method <code>Symbol#&lt;=&gt;</code> after <code>to_s</code> is called on them, so effectively it is comparing strings. However in this case one of the names, <code>:john</code> is not capitalized which will make the comparison incorrect. So in order to deal with the problem the method <code>Symbol#capitalize</code> can be used on each name within the block so when the keys are compared they are all capitalized.</p>
+<pre class="hljs"><code><div>people.sort_by <span class="hljs-keyword">do</span> <span class="hljs-params">|name, _|</span>
+  name.capitalize
+<span class="hljs-keyword">end</span>
+<span class="hljs-comment"># =&gt; [[:john, 25], [:Kate, 27], [:Mike, 18]]</span>
+</div></code></pre>
+<p><code>Array#sort</code> and <code>Array#sort_by</code> have equivalent destructive methods <code>Array#sort!</code> and <code>Array#sort_by!</code>. With these methods the same collection is sorted and a new collection is not returned.</p>
+
+</body>
+</html>

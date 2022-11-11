@@ -714,7 +714,7 @@ game.start_game([Batsman.new, Bowler.new, Fielder.new])
 </div></code></pre>
 <p>In theory the methods above can be used polymorphically as they are both named <code>draw</code> and take no arguments. However, for a circle it probably means to draw a circle and for blinds it means to open or close blinds. So even, though they can be used polymorphically, this is not polymorphism as it is unlikely to make sense or help in the code. Unless you are calling the methods in a polymorphic manner (with intent), you don't have polymorphism.</p>
 <h3 id="encapsulation">Encapsulation</h3>
-<p>Encapsulation lets us hide the internal representation of an object from the outside and only expose methods and properties that users of the object need. Method access control can be used to expose those properties and methods through the public interface of a class: it's public methods.</p>
+<p>Encapsulation lets us hide the internal representation of an object from the outside and only expose methods and properties that users of the object need. Method access control can be used to expose those properties and methods through the public interf a class: it's public methods.</p>
 <p>Example:</p>
 <pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Dog</span></span>
   <span class="hljs-keyword">attr_reader</span> <span class="hljs-symbol">:nickname</span>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>regex.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="introduction-to-regex">Introduction to REGEX</h1>
+<p>Any pattern with <code>/</code> <code>/</code>.</p>
+<p><code>/cat/</code> matches <code>cat</code>, <code>scat</code>, <code>catalog</code> etc. wherever the characters <code>c</code> , <code>a</code> and <code>t</code> are in continuation.</p>
+<p>Can be used for special characters as well</p>
+<p>like - <code>.,'/\-+?&amp;%${}[]()</code> etc.
+However, many of these have special meaning in regex, they are called meta characteres and hence must be used with escape character <code>\</code></p>
+<p>Example -</p>
+<p><code>/?/</code> doesn't match with <code>'What's up?</code> as <code>?</code> is a meta character</p>
+<p>However, <code>/\?/</code> does match with <code>'What's up?'</code>.</p>
+<p>Regex is case sensitive</p>
+<h2 id="concatenation">Concatenation</h2>
+<p>Everything is considered a pattern in regex, for example <code>cat</code> is a pattern made out of concatenation of three patterns <code>c</code>, <code>a</code>, and <code>t</code>. This is the fundamental of regex and it matches any string that contains <code>c</code> followed by and <code>a</code> followed by a <code>t</code></p>
+<p>Patterns are the building blocks of regex, not characters</p>
+<p>Regex can get really complicated, should be refactored and made simpler. It must be used not because it is known but because the problem really requires it.</p>
+<h2 id="alternation">Alternation</h2>
+<p>Its a way to constuct a regex that matches one of the several sub patterns separated by pipe <code>|</code> characters and then surround the entire expression in parantheses.</p>
+<p>Example</p>
+<p><code>/(cat|dog|rabit)/</code> - looks for <code>cat</code> or <code>dog</code> or <code>rabbit</code>. Even though <code>()</code> and <code>|</code> are meta characters they don't require escaping as we are not performing a literal match but are instead using the meta meaning of those characters.</p>
+<p>If we escape the characters like -</p>
+<p><code>/\(cat\|dog\)/</code> -&gt; looks for <code>(cat|dog)</code> and doesn't treat them as an alternation operation.</p>
+<h2 id="control-character-escapes">Control Character Escapes</h2>
+<p>Control character escpaes are used in strings to represent characters that don't have a visual representation.</p>
+<p><code>\n</code> -&gt; line feed / new line
+<code>\r</code> -&gt; carriage return
+<code>\t</code> -&gt; tab
+.... and several more</p>
+<p>Not everything that looks like a control character escape is a genuine control character escape.</p>
+<h2 id="ignoring-case">Ignoring Case</h2>
+<p>Appending <code>i</code> to the close <code>/</code> of a regex makes the entire regex ignore case.</p>
+<p><code>/launch/</code> -&gt; looks for the string in the case mentioned
+<code>/launch/i</code> -&gt; looks for the string ignoring the case of the pattern.</p>
+<h1 id="character-classes">Character Classes</h1>
+<p>Patterns that let you specify a set of characters that you want to match.</p>
+<h2 id="set-of-characters">Set of Characters</h2>
+<p>List of characters between square brackets, e.g. <code>/[abc]/</code>. This matches a single occurrence of any of the characters between the brackets.</p>
+<p>This is also case sensitive, e.g. <code>/[Hh]oover/</code> matches <code>Hoover</code> or <code>hoover</code> but not <code>HOOVER</code>.</p>
+<p><code>/[abc][12]/</code> matches any characters where the first character is an <code>a</code>, <code>b</code> or <code>c</code> and the second is a <code>1</code> or <code>2</code>.</p>
+<p>Meta characters fall to handful inside a character class : <code>^</code> <code>\</code> <code>-</code> <code>[</code> <code>]</code>.</p>
+<h2 id="range-of-characters">Range of Characters</h2>
+<p><code>/[a-z]/</code> matches any lowercase alphabetic character</p>
+<p><code>/[j-p]/</code> limits to letters <code>j</code> through <code>p</code></p>
+<p><code>/[0-9]/</code> matches any decimal digit</p>
+<p><code>/[0-9A-Fa-f]/</code> matches any hexadecimal digit, including upper and lowercase variants.</p>
+<p>Never combine lowercase and uppercase alphabetic characters in a single range, like <code>/[A-z]/</code> instead use <code>/[A-Za-z]/</code>.</p>
+<h2 id="negated-classes">Negated Classes</h2>
+<p>The first character between the brackets is a caret <code>^</code>. The negated class matches all characters not identified in the range.</p>
+<p><code>/[^aeiou]/</code> matches any character apart from <code>a</code>, <code>e</code>, <code>i</code>, <code>o</code>, <code>u</code>.</p>
+<h1 id="character-class-shortcuts">Character Class Shortcuts</h1>
+<h2 id="any-character">Any Character</h2>
+<p><code>/./</code> - The <code>.</code> - a meta character matches all characters apart from the new line character. It should not be put within <code>[]</code>, that would make it a literal, matching it to all the <code>.</code> instances.</p>
+<h2 id="whitespace">Whitespace</h2>
+<p><code>\s</code>     - whitespace characters, includes - space <code>(' ')</code>, tab <code>('\t')</code>, vertical tab <code>('\v')</code>, carriage return <code>('\r')</code>, line feed <code>('\n')</code> and form feed <code>('\f')</code>. Thus <code>/\s/</code> is equivalent to <code>/[\t\v\r\n\f]/</code>.</p>
+<p><code>\S</code>    - non whitespace characters. Thus <code>/\S/</code> is equivalent to <code>/[^\t\v\r\n\f]/</code>.</p>
+<p>Can be used in or out of <code>[]</code></p>
+<h2 id="digits-and-hex-digits">Digits and Hex Digits</h2>
+<p>Shortcut	Meaning</p>
+<p><code>\d</code>  Any decimal digit (0-9)
+<code>\D</code>	Any character but a decimal digit
+<code>\h</code>	Any hexadecimal digit (0-9, A-F, a-f) (Ruby)
+<code>\H</code>	Any character but a hexadecimal digit (Ruby)</p>
+<p>Can be used in or out of <code>[]</code></p>
+<h2 id="word-characters">Word Characters</h2>
+<p><code>\w</code> matches word characters whereas <code>\W</code> matches non-word characters.</p>
+<p>Word characters include all alphabetic characters <code>(a-z, A-Z)</code>, all decimal digits <code>(0-9)</code> and underscore <code>_</code>.</p>
+<h1 id="anchors">Anchors</h1>
+<p>Anchors don't match any characters, thet ensure that a regex matches a string at a specific place: the beginning or end of a line, or on a word or non-word boundary.</p>
+<h2 id="start--end-of-line">Start / End of Line</h2>
+<p><code>^</code> and <code>$</code>  meta characters are anchors that fix a regex to the :</p>
+<p><code>^</code> - beginning of a line
+<code>$</code> - ending of a line</p>
+<h3 id="lines-vs-strings">Lines vs Strings</h3>
+<pre class="hljs"><code><div>TEXT1 = <span class="hljs-string">"red fish\nblue fish"</span>
+puts <span class="hljs-string">"matched red"</span> <span class="hljs-keyword">if</span> TEXT1.match(<span class="hljs-regexp">/^red/</span>)
+puts <span class="hljs-string">"matched blue"</span> <span class="hljs-keyword">if</span> TEXT1.match(<span class="hljs-regexp">/^blue/</span>)
+</div></code></pre>
+<p>Output:</p>
+<p><code>matched red</code>
+<code>matched blue</code></p>
+<p>Both conditions evaluate to true since <code>^</code> anchors regex to the beginning of each line in the string, not the beginning of the string. For Ruby, each new line occurs after a <code>\n</code> character. If no more <code>\n</code> characters are available, the last line runs through to the end of the string.</p>
+<p>For <code>$</code></p>
+<pre class="hljs"><code><div>TEXT2 = <span class="hljs-string">"red fish\nred shirt"</span>
+puts <span class="hljs-string">"matched fish"</span> <span class="hljs-keyword">if</span> TEXT2.match(<span class="hljs-regexp">/fish$/</span>)
+puts <span class="hljs-string">"matched shirt"</span> <span class="hljs-keyword">if</span> TEXT2.match(<span class="hljs-regexp">/shirt$/</span>)
+</div></code></pre>
+<p>Output:</p>
+<p><code>matched fish</code>
+<code>matched shirt</code></p>
+<p>Much like before. Even though the first line in the string ends with a <code>\n</code>, <code>fish</code> is still said to occur at the end of the line. <code>$</code> doesn't care if there is a <code>\n</code> character at the end provided there in no more than one.</p>
+<h2 id="start--end-of-string">Start / End of String</h2>
+<p>When not required to match multi line strings. Match is required at the beginning or end of the string, not the line. For this <code>\A</code>, <code>\Z</code> and <code>\z</code> anchors should be used. (There is not <code>\a</code> anchor).</p>
+<p>The <code>\A</code> matches a reges at the beginning of the string, while <code>\Z</code> and <code>\z</code> match at the end of the string.</p>
+<p><code>\z</code> - always matches at the end of the string
+<code>\Z</code> - matches up to, but not inlcuding, a newline character at the end of the string.</p>
+<p>Use <code>\z</code> until you really need <code>\Z</code>.</p>
+<pre class="hljs"><code><div>TEXT3 = <span class="hljs-string">"red fish\nblue fish"</span>
+TEXT4 = <span class="hljs-string">"red fish\nred shirt"</span>
+puts <span class="hljs-string">"matched red"</span> <span class="hljs-keyword">if</span> TEXT3.match(<span class="hljs-regexp">/\Ared/</span>)
+puts <span class="hljs-string">"matched blue"</span> <span class="hljs-keyword">if</span> TEXT3.match(<span class="hljs-regexp">/\Ablue/</span>)
+puts <span class="hljs-string">"matched fish"</span> <span class="hljs-keyword">if</span> TEXT4.match(<span class="hljs-regexp">/fish\z/</span>)
+puts <span class="hljs-string">"matched shirt"</span> <span class="hljs-keyword">if</span> TEXT4.match(<span class="hljs-regexp">/shirt\z/</span>)
+</div></code></pre>
+<p>Output:</p>
+<p><code>matches red</code>
+<code>matched shirt</code></p>
+<p>This can be seen in contrast with the previous examples where both the cases evaluated to be true, i.e., matched.</p>
+<h2 id="word-boundaries">Word Boundaries</h2>
+<p><code>\b</code>  - word boundary
+- words are sequence of word characters <code>\w</code>
+- Word boundary occurs:
+- between any pair of characters, one of which is a word character and one which is not
+- at the beginning of a string if the first character is a word character
+- at the end of a string if the last character is a word character</p>
+<p><code>\B</code>  - non word boundary
+- non words are sequence of non-word characters <code>\W</code>
+- Non-word boundary occurs:
+- between any pair of characters, both of which are word characters or both of which are not word chracters.
+- at the beginning of a string if the first character is a non word character.
+- at the end of a string if the last character is a non-word character.</p>
+<p>Example</p>
+<p><code>Eat some food.</code></p>
+<p>Here word boundaries occur before the <code>E</code>, <code>s</code> and <code>f</code> at the start of the three words, and after the <code>t</code>, <code>e</code> and <code>d</code> at their ends.</p>
+<p>Non-word boundaries occur elsewhere, such as between <code>o</code> and <code>m</code> in <code>some</code>, and following the <code>.</code> at the end of the sentence etc.</p>
+<p>Note:
+<code>\b</code> and <code>\B</code> do not work as word boundaries inside of character classes (between square brackets). In fact, <code>\b</code> means something else entirely when inside square brackets: it matches a backspace character.</p>
+<h2 id="quantifiers">Quantifiers</h2>
+<p>Regex engines provide a variety of quantifiers that can be used to match occurrences of sequences.</p>
+<h3 id=""><code>*</code></h3>
+<p><code>*</code> - zero or more
+- it matches zero or more occurences of the pattern to its left</p>
+<p>Zero or more, truly means zero or more as in <code>/x*/</code> matches every string, even an empty string, or a string that contains no <code>x</code>s anywhere. In Rubular it matches between every character. Between every character beacuse it is free to say that there zero <code>x</code>s between every character, so it's a match.</p>
+<p>The quantifier always applies to one pattern (to the left of the quantifier). Grouping parentheses can be used to define a pattern to which you want to apply <code>*</code>. For instance in <code>/1(234)*5/</code>, the regex engine treats <code>(234)</code> as a single pattern, so the regex matches anywhere zero or more occurences of <code>234</code> separate <code>1</code> and <code>5</code>.</p>
+<h3 id=""><code>+</code></h3>
+<p><code>+</code> - one or more
+- similar to the <code>*</code> quantifier but instead of matching zero or more occurences of something, it matches one or more occurences of that thing.</p>
+<p>For example, <code>/x+/</code> matches any sequence of one or more <code>x</code>s, it never matches the empty string between characters like <code>*</code>.</p>
+<h3 id=""><code>?</code></h3>
+<p><code>?</code> - zero or one
+- matches either one occurence or none at all
+- applies to pattern to its left</p>
+<p>Example, you need to test whether whether a string contains the words <code>cot</code> or <code>coot</code>, but don't want to match against <code>ct</code> or <code>cooot</code>. In such case use :</p>
+<p><code>/coo?t/</code> -&gt; matches a <code>c</code> followed by an <code>o</code> followed by an optional <code>o</code> followed y a <code>t</code>.</p>
+<p><code>?</code> has the same behaviour subtlety as <code>*</code>, it matches zero occurences. Thus, <code>/h?/</code> matches each of these strings :</p>
+<p><code>his</code>, <code>is</code> and <code>ish</code>.</p>
+<h3 id="ranges"><code>{}</code> Ranges</h3>
+<p>The quantifiers <code>*</code>, <code>+</code> and <code>?</code> match repeated sequences. However sometimes you need to specify the repeat count more precisely. It's possible to do this with the other quantifiers but it's very tedious and messy. The range quantifier <code>{}</code> helps in this regard.</p>
+<p>The range quantifier consists of a pair of curly braces <code>{}</code> with one or two numbers and an optional comma between the braces:</p>
+<ul>
+<li><code>p{m}</code> matches precisely <code>m</code> occurences of the pattern <code>p</code></li>
+<li><code>p{m,}</code> matches <code>m</code> or more occurences of <code>p</code></li>
+<li><code>p{m,n}</code> matches <code>m</code> or occurences of <code>p</code>, but not more than <code>n</code></li>
+</ul>
+<p>For example, to match an exact 10 digit number for say a phone number, the regex <code>/\b\d{10}\b/</code> can be used.</p>
+<p>To match numbers that atleast three digits in length, the regex <code>/\b\d{3,}\b/</code> can be used.</p>
+<p>To match words of 5-8 letters, the regex <code>/\b[a-z]{5,8}\b/i</code> can be used.</p>
+<h2 id="greediness">Greediness</h2>
+<p>The quanitifiers dicussed above are greedy in the sense they match the longest possible string they can.</p>
+<p><code>/a[abc]*c/</code> against <code>xabcbcbacy</code> matches <code>abcbcbac</code>. However if shorter matches than the final match string are required, we can request a lazy match by adding a <code>?</code> after the main quantifier. For example in this case <code>/a[abc]*?c/</code> matches <code>abc</code> and <code>ac</code> in <code>xabcbcbacy</code></p>
+
+</body>
+</html>
